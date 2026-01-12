@@ -155,8 +155,8 @@ export const MobileDrawer: React.FC<{
               onClick={() => handleItemClick(item.id)}
               className={`w-full flex items-center px-4 py-4 transition-colors ${
                 activeView === item.id
-                  ? 'bg-orange-600/20 text-orange-500 border-l-4 border-orange-500'
-                  : 'text-slate-300 hover:bg-slate-800 border-l-4 border-transparent'
+                  ? 'bg-orange-600/10 text-orange-500 border-r-4 border-orange-600 font-semibold'
+                  : 'text-slate-300 hover:bg-slate-800 border-r-4 border-transparent'
               }`}
             >
               <span className="text-2xl mr-4">{item.icon}</span>
@@ -174,8 +174,8 @@ export const MobileDrawer: React.FC<{
               onClick={() => handleItemClick(item.id)}
               className={`w-full flex items-center px-4 py-4 transition-colors ${
                 activeView === item.id
-                  ? 'bg-orange-600/20 text-orange-500 border-l-4 border-orange-500'
-                  : 'text-slate-300 hover:bg-slate-800 border-l-4 border-transparent'
+                  ? 'bg-orange-600/10 text-orange-500 border-r-4 border-orange-600 font-semibold'
+                  : 'text-slate-300 hover:bg-slate-800 border-r-4 border-transparent'
               }`}
             >
               <span className="text-2xl mr-4">{item.icon}</span>

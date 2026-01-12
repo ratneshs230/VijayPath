@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppProvider, useApp } from './src/context/AppContext';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
@@ -25,10 +25,30 @@ enum View {
   INFLUENCERS = 'INFLUENCERS'
 }
 
+// Valid view values for hash navigation
+const VALID_VIEWS = Object.values(View);
+
 // Main app content (shown when authenticated)
 const AppContent: React.FC = () => {
   const [activeView, setActiveView] = useState<View>(View.DASHBOARD);
   const { isLoading, user, logout } = useApp();
+
+  // Listen to hash changes for navigation from other components
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash && VALID_VIEWS.includes(hash as View)) {
+        setActiveView(hash as View);
+      }
+    };
+
+    // Check initial hash on mount
+    handleHashChange();
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   const renderView = () => {
     switch (activeView) {
@@ -49,7 +69,7 @@ const AppContent: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-orange-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
           <p className="text-gray-600 font-medium">Loading campaign data...</p>
           <p className="text-gray-400 text-sm mt-1">Setting up real-time sync</p>
         </div>

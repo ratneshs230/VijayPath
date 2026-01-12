@@ -238,7 +238,7 @@ const MohallaSetup: React.FC = () => {
 
       {/* Add/Edit Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
+        <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
           <div className="bg-slate-800 rounded-2xl w-full max-w-md my-auto max-h-[95vh] sm:max-h-[90vh] flex flex-col shadow-2xl">
             {/* Sticky Header */}
             <div className="px-4 sm:px-6 py-4 border-b border-slate-700 flex justify-between items-center flex-shrink-0">

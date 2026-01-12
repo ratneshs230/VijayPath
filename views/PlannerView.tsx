@@ -155,7 +155,7 @@ const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, onSave, task, in
           </button>
           <button
             onClick={handleSave}
-            className="flex-1 px-4 py-3 min-h-[44px] bg-slate-900 text-white text-sm font-bold rounded-xl hover:bg-slate-800 active:bg-slate-700 transition shadow-lg disabled:opacity-50"
+            className="flex-1 px-4 py-3 min-h-[44px] bg-orange-600 text-white text-sm font-bold rounded-xl hover:bg-orange-700 active:bg-orange-800 transition shadow-lg disabled:opacity-50"
             disabled={isSaving}
           >
             {isSaving ? 'Saving...' : task ? 'Update Activity' : 'Schedule'}
