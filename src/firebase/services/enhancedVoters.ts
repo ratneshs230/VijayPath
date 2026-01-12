@@ -176,21 +176,26 @@ export const updateEnhancedVoter = async (
 
   // Handle household change
   if (oldHouseholdId && voter.householdId && oldHouseholdId !== voter.householdId) {
-    // Decrement old household
+    // Determine the gender to use for old household (use oldGender if available, otherwise current)
+    const genderForOldHousehold = oldGender || voter.gender;
+    // Determine the gender to use for new household (use new gender if provided, otherwise old)
+    const genderForNewHousehold = voter.gender || oldGender;
+
+    // Decrement old household using the OLD gender
     const oldHouseholdRef = doc(householdsRef, oldHouseholdId);
     batch.update(oldHouseholdRef, {
       totalVoters: increment(-1),
-      maleVoters: voter.gender === 'Male' ? increment(-1) : increment(0),
-      femaleVoters: voter.gender === 'Female' ? increment(-1) : increment(0),
+      maleVoters: genderForOldHousehold === 'Male' ? increment(-1) : increment(0),
+      femaleVoters: genderForOldHousehold === 'Female' ? increment(-1) : increment(0),
       updatedAt: serverTimestamp()
     });
 
-    // Increment new household
+    // Increment new household using the NEW gender
     const newHouseholdRef = doc(householdsRef, voter.householdId);
     batch.update(newHouseholdRef, {
       totalVoters: increment(1),
-      maleVoters: voter.gender === 'Male' ? increment(1) : increment(0),
-      femaleVoters: voter.gender === 'Female' ? increment(1) : increment(0),
+      maleVoters: genderForNewHousehold === 'Male' ? increment(1) : increment(0),
+      femaleVoters: genderForNewHousehold === 'Female' ? increment(1) : increment(0),
       updatedAt: serverTimestamp()
     });
   }

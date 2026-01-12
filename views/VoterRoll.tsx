@@ -275,12 +275,7 @@ const VoterRoll: React.FC = () => {
     }
 
     try {
-      // Delete all voters in this household first
-      const householdVoters = enhancedVoters.filter(v => v.householdId === household.id);
-      for (const voter of householdVoters) {
-        await deleteEnhancedVoter(voter.id, voter);
-      }
-      // Then delete the household
+      // Delete household (cascade deletes all voters in the household)
       await deleteHousehold(household.id, household.mohallaId);
     } catch (error) {
       console.error('Error deleting household:', error);

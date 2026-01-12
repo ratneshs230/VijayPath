@@ -198,17 +198,25 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
 
     setIsLoading(true);
-    let loadedCount = 0;
-    const totalSubscriptions = 8; // 4 original + 4 new hierarchical (mohallas, households, influencers, enhancedVoters)
 
-    const checkAllLoaded = () => {
-      loadedCount++;
-      if (loadedCount >= totalSubscriptions) {
+    // Track which subscriptions have returned their first data using a Set
+    // This prevents the race condition where the same subscription firing multiple times
+    // could prematurely trigger loading complete
+    const loadedSubscriptions = new Set<string>();
+    const requiredSubscriptions = [
+      'voters', 'resources', 'events', 'tasks',
+      'mohallas', 'households', 'influencers', 'enhancedVoters'
+    ];
+
+    const markLoaded = (subscriptionName: string) => {
+      loadedSubscriptions.add(subscriptionName);
+      // Only set loading to false when ALL subscriptions have returned first data
+      if (loadedSubscriptions.size >= requiredSubscriptions.length) {
         setIsLoading(false);
       }
     };
 
-    // Seed initial data if needed
+    // Seed initial data if needed (only runs once per collection if empty)
     const seedData = async () => {
       try {
         await seedVoters(INITIAL_VOTERS);
@@ -226,49 +234,49 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     // Subscribe to voters
     const unsubVoters = subscribeToVoters((data) => {
       setVoters(data);
-      checkAllLoaded();
+      markLoaded('voters');
     });
 
     // Subscribe to resources
     const unsubResources = subscribeToResources((data) => {
       setResources(data);
-      checkAllLoaded();
+      markLoaded('resources');
     });
 
     // Subscribe to events
     const unsubEvents = subscribeToEvents((data) => {
       setEvents(data);
-      checkAllLoaded();
+      markLoaded('events');
     });
 
     // Subscribe to tasks
     const unsubTasks = subscribeToTasks((data) => {
       setTasks(data);
-      checkAllLoaded();
+      markLoaded('tasks');
     }, selectedDate);
 
-    // NEW: Subscribe to mohallas
+    // Subscribe to mohallas
     const unsubMohallas = subscribeToMohallas((data) => {
       setMohallas(data);
-      checkAllLoaded();
+      markLoaded('mohallas');
     });
 
-    // NEW: Subscribe to households
+    // Subscribe to households
     const unsubHouseholds = subscribeToHouseholds((data) => {
       setHouseholds(data);
-      checkAllLoaded();
+      markLoaded('households');
     });
 
-    // NEW: Subscribe to influencers
+    // Subscribe to influencers
     const unsubInfluencers = subscribeToInfluencers((data) => {
       setInfluencers(data);
-      checkAllLoaded();
+      markLoaded('influencers');
     });
 
-    // NEW: Subscribe to enhanced voters
+    // Subscribe to enhanced voters
     const unsubEnhancedVoters = subscribeToEnhancedVoters((data) => {
       setEnhancedVoters(data);
-      checkAllLoaded();
+      markLoaded('enhancedVoters');
     });
 
     return () => {
@@ -398,12 +406,25 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     await deleteEnhancedVoterService(id, voter);
   }, []);
 
-  // Computed stats
+  // Computed stats - using EnhancedVoters for accurate voter classification
   const stats = React.useMemo(() => {
-    const totalVoters = voters.length;
-    const favorableVoters = voters.filter(v => v.status === VoterStatus.FAVORABLE).length;
-    const diceyVoters = voters.filter(v => v.status === VoterStatus.DICEY).length;
-    const unfavorableVoters = voters.filter(v => v.status === VoterStatus.UNFAVORABLE).length;
+    // Use enhancedVoters for accurate stats (voterType field)
+    // Fall back to legacy voters only if enhancedVoters is empty
+    const totalVoters = enhancedVoters.length > 0 ? enhancedVoters.length : voters.length;
+
+    // Calculate voter sentiment based on voterType from EnhancedVoter
+    // Confirmed + Likely = Favorable, Swing = Dicey, Opposition + Unknown = Unfavorable
+    const favorableVoters = enhancedVoters.length > 0
+      ? enhancedVoters.filter(v => v.voterType === 'Confirmed' || v.voterType === 'Likely').length
+      : voters.filter(v => v.status === VoterStatus.FAVORABLE).length;
+
+    const diceyVoters = enhancedVoters.length > 0
+      ? enhancedVoters.filter(v => v.voterType === 'Swing' || v.voterType === 'Unknown').length
+      : voters.filter(v => v.status === VoterStatus.DICEY).length;
+
+    const unfavorableVoters = enhancedVoters.length > 0
+      ? enhancedVoters.filter(v => v.voterType === 'Opposition').length
+      : voters.filter(v => v.status === VoterStatus.UNFAVORABLE).length;
 
     const budgetResources = resources.filter(r => r.type === 'BUDGET');
     const totalBudget = budgetResources.reduce((sum, r) => sum + r.quantity, 0);
@@ -421,7 +442,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       totalBudget,
       spentBudget,
       daysToElection,
-      // NEW: Hierarchical stats
+      // Hierarchical stats
       totalMohallas: mohallas.length,
       totalHouseholds: households.length,
       totalInfluencers: influencers.length,

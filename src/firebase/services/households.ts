@@ -126,19 +126,40 @@ export const updateHousehold = async (id: string, household: Partial<Household>)
   });
 };
 
-// Delete a household (also decrements mohalla household count)
+// Delete a household (cascades to delete voters, also decrements mohalla counts)
 export const deleteHousehold = async (id: string, mohallaId?: string): Promise<void> => {
+  // First, query for all voters in this household to delete them
+  const enhancedVotersRef = collection(db, COLLECTIONS.ENHANCED_VOTERS);
+  const votersQuery = query(enhancedVotersRef, where('householdId', '==', id));
+  const votersSnapshot = await getDocs(votersQuery);
+
+  // Count voters by gender for mohalla update
+  let maleCount = 0;
+  let femaleCount = 0;
+  votersSnapshot.docs.forEach(doc => {
+    const gender = doc.data().gender;
+    if (gender === 'Male') maleCount++;
+    else if (gender === 'Female') femaleCount++;
+  });
+  const totalVoterCount = votersSnapshot.size;
+
   const batch = writeBatch(db);
+
+  // Delete all voters in this household
+  votersSnapshot.docs.forEach(voterDoc => {
+    batch.delete(voterDoc.ref);
+  });
 
   // Delete household
   const householdRef = doc(db, COLLECTIONS.HOUSEHOLDS, id);
   batch.delete(householdRef);
 
-  // Decrement mohalla household count
+  // Decrement mohalla counts (households and voters)
   if (mohallaId) {
     const mohallaRef = doc(db, COLLECTIONS.MOHALLAS, mohallaId);
     batch.update(mohallaRef, {
       totalHouseholds: increment(-1),
+      totalVoters: increment(-totalVoterCount),
       updatedAt: serverTimestamp()
     });
   }
