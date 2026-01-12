@@ -212,7 +212,12 @@ export const useInfluencers = (options?: UseInfluencersOptions) => {
       }
 
       if (inf.lastContactedAt) {
-        const contactDate = inf.lastContactedAt.toDate();
+        // Handle both Firestore Timestamp and Date objects safely
+        const contactDate = typeof inf.lastContactedAt.toDate === 'function'
+          ? inf.lastContactedAt.toDate()
+          : inf.lastContactedAt instanceof Date
+            ? inf.lastContactedAt
+            : new Date(inf.lastContactedAt);
         if (contactDate >= oneWeekAgo) {
           recentlyContacted++;
         }

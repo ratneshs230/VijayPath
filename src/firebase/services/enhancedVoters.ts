@@ -11,7 +11,9 @@ import {
   where,
   serverTimestamp,
   writeBatch,
-  increment
+  increment,
+  DocumentSnapshot,
+  QueryDocumentSnapshot
 } from 'firebase/firestore';
 import { db } from '../config';
 import { COLLECTIONS } from '../collections';
@@ -22,7 +24,7 @@ const householdsRef = collection(db, COLLECTIONS.HOUSEHOLDS);
 const mohallasRef = collection(db, COLLECTIONS.MOHALLAS);
 
 // Convert Firestore document to EnhancedVoter type
-const docToEnhancedVoter = (doc: any): EnhancedVoter => {
+const docToEnhancedVoter = (doc: DocumentSnapshot | QueryDocumentSnapshot): EnhancedVoter => {
   const data = doc.data();
   return {
     id: doc.id,

@@ -143,15 +143,15 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
 
           {/* Gender - Large Buttons */}
           <div className="flex gap-2">
-            {[
+            {([
               { value: 'Male', icon: '👨', label: 'M' },
               { value: 'Female', icon: '👩', label: 'F' },
               { value: 'Other', icon: '⚧', label: 'O' }
-            ].map(g => (
+            ] as const).map(g => (
               <button
                 key={g.value}
                 type="button"
-                onClick={() => setFormData({ ...formData, gender: g.value as any })}
+                onClick={() => setFormData({ ...formData, gender: g.value })}
                 className={`flex-1 py-3 rounded-xl text-lg font-bold transition-all flex items-center justify-center gap-2 ${
                   formData.gender === g.value
                     ? 'bg-orange-600 text-white'

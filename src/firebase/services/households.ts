@@ -12,7 +12,9 @@ import {
   where,
   serverTimestamp,
   increment,
-  writeBatch
+  writeBatch,
+  DocumentSnapshot,
+  QueryDocumentSnapshot
 } from 'firebase/firestore';
 import { db } from '../config';
 import { COLLECTIONS } from '../collections';
@@ -21,7 +23,7 @@ import { Household, FamilySentiment } from '../../../types';
 const householdsRef = collection(db, COLLECTIONS.HOUSEHOLDS);
 
 // Convert Firestore document to Household type
-const docToHousehold = (doc: any): Household => {
+const docToHousehold = (doc: DocumentSnapshot | QueryDocumentSnapshot): Household => {
   const data = doc.data();
   return {
     id: doc.id,
@@ -205,7 +207,7 @@ export const updateFamilySentiment = async (
   notes?: string
 ): Promise<void> => {
   const docRef = doc(db, COLLECTIONS.HOUSEHOLDS, householdId);
-  const updateData: any = {
+  const updateData: Partial<Household> & { updatedAt: ReturnType<typeof serverTimestamp> } = {
     familySentiment: sentiment,
     updatedAt: serverTimestamp()
   };

@@ -119,10 +119,13 @@ export const calculateSingleFamilyMetrics = (
     householdVoters.some(v => v.isSwing && v.likelyTurnout !== 'Low' && v.isPresent);
 
   // Priority score for targeting: swing opportunity + influence - opposition presence
-  const priorityScore = (swingVoterCount * 2) +
+  // Clamped to minimum 0 to prevent negative scores
+  const priorityScore = Math.max(0,
+    (swingVoterCount * 2) +
     (household.familyInfluenceLevel * 0.5) +
     (diceyVoterCount > 0 ? 1 : 0) -
-    (oppositionVoterCount * 0.5);
+    (oppositionVoterCount * 0.5)
+  );
 
   return {
     householdId: household.id,

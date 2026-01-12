@@ -151,12 +151,17 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
       }
 
       // Update household with sentiment
-      await onUpdateHousehold(selectedHouseholdId, {
+      // Only update headName if we find a 'Self' voter, otherwise preserve existing
+      const headVoter = householdVoters.find(v => v.relationToHead === 'Self');
+      const updateData: Parameters<typeof onUpdateHousehold>[1] = {
         familySentiment: sentiment,
         familyInfluenceLevel: influenceLevel,
-        historicalRivalryNotes: notes || undefined,
-        headName: householdVoters.find(v => v.relationToHead === 'Self')?.name
-      });
+        historicalRivalryNotes: notes || undefined
+      };
+      if (headVoter?.name) {
+        updateData.headName = headVoter.name;
+      }
+      await onUpdateHousehold(selectedHouseholdId, updateData);
 
       // Mark as surveyed
       await onMarkSurveyed(selectedHouseholdId);
