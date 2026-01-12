@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VijayPath 2026 - User Manual | उपयोगकर्ता मार्गदर्शिका</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f97316;
+            --primary-dark: #ea580c;
+            --secondary: #1e293b;
+            --accent: #10b981;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #22c55e;
+            --warning: #eab308;
+            --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--secondary) 0%, #0f172a 100%);
+            color: white;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .header-main {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            width: 250px;
+            font-family: inherit;
+        }
+
+        .search-box input::placeholder { color: rgba(255,255,255,0.5); }
+        .search-box input:focus { outline: none; background: rgba(255,255,255,0.2); }
+
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover { background: var(--primary-dark); }
+
+        .btn-ghost {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 3px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .toc {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .toc h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin-bottom: 0.3rem;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0.8rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .toc-link:hover {
+            background: var(--bg);
+            color: var(--primary);
+        }
+
+        .toc-link.active {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--primary);
+            border-left-color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            min-width: 0;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+            cursor: pointer;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .section-title h2 {
+            font-size: 1.4rem;
+            color: var(--secondary);
+        }
+
+        .section-title span {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .collapse-icon {
+            margin-left: auto;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .section.collapsed .collapse-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section.collapsed .section-body {
+            display: none;
+        }
+
+        /* Content styles */
+        .section-body h3 {
+            font-size: 1.15rem;
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+            padding-left: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .section-body h4 {
+            font-size: 1rem;
+            color: var(--text);
+            margin: 1.2rem 0 0.8rem;
+        }
+
+        .section-body p {
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .section-body ul, .section-body ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .section-body li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Info boxes */
+        .info-box {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .info-box-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .info-box.tip {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .info-box.warning {
+            background: rgba(234, 179, 8, 0.1);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+        }
+
+        .info-box.important {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.8rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg);
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        tr:hover td {
+            background: var(--bg);
+        }
+
+        /* Code/Screenshot boxes */
+        .screenshot-box {
+            background: var(--secondary);
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            font-family: monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        /* Steps */
+        .steps {
+            counter-reset: step;
+            margin: 1.5rem 0;
+        }
+
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--bg);
+            border-radius: 12px;
+        }
+
+        .step::before {
+            counter-increment: step;
+            content: counter(step);
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            margin: 0 0 0.3rem;
+            color: var(--secondary);
+        }
+
+        .step-content p {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .tag-green { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
+        .tag-yellow { background: rgba(234, 179, 8, 0.15); color: #ca8a04; }
+        .tag-red { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
+        .tag-blue { background: rgba(59, 130, 246, 0.15); color: #2563eb; }
+        .tag-gray { background: rgba(100, 116, 139, 0.15); color: #475569; }
+
+        /* Back to top */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.5);
+        }
+
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 5rem;
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Search results */
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+
+        .search-results.active { display: block; }
+
+        .search-result-item {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .search-result-item:hover { background: var(--bg); }
+
+        .search-result-item strong { color: var(--primary); }
+
+        /* Mobile responsive */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: -300px;
+                top: 0;
+                bottom: 0;
+                width: 280px;
+                background: var(--card-bg);
+                z-index: 200;
+                padding: 1rem;
+                transition: left 0.3s;
+                box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+            }
+
+            .sidebar.open { left: 0; }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .search-box input { width: 150px; }
+        }
+
+        @media (max-width: 640px) {
+            .header-main { padding: 1rem; }
+            .logo-text h1 { font-size: 1.2rem; }
+            .search-box { display: none; }
+            .section { padding: 1.5rem; }
+        }
+
+        /* Print styles */
+        @media print {
+            .header, .sidebar, .back-to-top, .print-btn { display: none !important; }
+            .container { display: block; }
+            .section { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+        }
+
+        /* Highlight animation */
+        .highlight {
+            animation: highlight 2s ease;
+        }
+
+        @keyframes highlight {
+            0%, 100% { background: transparent; }
+            30% { background: rgba(249, 115, 22, 0.2); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-main">
+            <div class="logo">
+                <div class="logo-icon">🗳️</div>
+                <div class="logo-text">
+                    <h1>VijayPath 2026</h1>
+                    <span>उपयोगकर्ता मार्गदर्शिका</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="खोजें...">
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+                <button class="btn btn-ghost" onclick="window.print()">🖨️ प्रिंट</button>
+                <button class="btn btn-primary" onclick="window.open('https://vijaypath.vercel.app', '_blank')">ऐप खोलें →</button>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="toc">
+                <h3>📑 विषय सूची</h3>
+                <ul class="toc-list" id="tocList">
+                    <li class="toc-item"><a href="#intro" class="toc-link">1. परिचय</a></li>
+                    <li class="toc-item"><a href="#benefits" class="toc-link">2. फायदे</a></li>
+                    <li class="toc-item"><a href="#getting-started" class="toc-link">3. शुरुआत कैसे करें</a></li>
+                    <li class="toc-item"><a href="#dashboard" class="toc-link">4. डैशबोर्ड</a></li>
+                    <li class="toc-item"><a href="#mohalla" class="toc-link">5. मोहल्ला सेटअप</a></li>
+                    <li class="toc-item"><a href="#voter-roll" class="toc-link">6. वोटर रोल</a></li>
+                    <li class="toc-item"><a href="#analytics" class="toc-link">7. एनालिटिक्स</a></li>
+                    <li class="toc-item"><a href="#resources" class="toc-link">8. संसाधन प्रबंधन</a></li>
+                    <li class="toc-item"><a href="#events" class="toc-link">9. इवेंट मैनेजमेंट</a></li>
+                    <li class="toc-item"><a href="#planner" class="toc-link">10. प्लानर</a></li>
+                    <li class="toc-item"><a href="#influencers" class="toc-link">11. प्रभावशाली व्यक्ति</a></li>
+                    <li class="toc-item"><a href="#strategy" class="toc-link">12. चुनाव रणनीति</a></li>
+                    <li class="toc-item"><a href="#faq" class="toc-link">13. सवाल-जवाब</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+
+            <!-- Section 1: Introduction -->
+            <section class="section" id="intro">
+                <div class="section-header">
+                    <div class="section-icon">🎯</div>
+                    <div class="section-title">
+                        <h2>1. परिचय - यह सॉफ्टवेयर क्या है?</h2>
+                        <span>VijayPath 2026 का परिचय और उद्देश्य</span>
+                    </div>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <p><strong>विजयपथ 2026</strong> एक खास सॉफ्टवेयर है जो <strong>ग्राम प्रधान चुनाव</strong> जीतने में आपकी मदद करता है।</p>
+
+                    <div class="info-box tip">
+                        <span class="info-box-icon">💡</span>
+                        <div>
+                            <strong>सरल भाषा में समझें:</strong><br>
+                            जैसे एक अच्छा खिलाड़ी मैच से पहले पूरी तैयारी करता है - अपनी टीम जानता है, विरोधी टीम जानता है, मैदान जानता है - वैसे ही यह सॉफ्टवेयर आपको चुनाव की पूरी तैयारी करने में मदद करता है।
+                        </div>
+                    </div>
+
+                    <h3>यह सॉफ्टवेयर आपको बताएगा:</h3>
+                    <ul>
+                        <li>🏠 गांव में कितने परिवार हैं और कौन आपके साथ है</li>
+                        <li>🗳️ कितने वोटर आपको वोट देंगे</li>
+                        <li>📊 जीतने के कितने चांस हैं</li>
+                        <li>⚠️ किन मोहल्लों पर ज्यादा ध्यान देना है</li>
+                        <li>👥 कौन से लोग बीच में हैं (जिन्हें मनाया जा सकता है)</li>
+                        <li>📅 रोज़ क्या काम करना है</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section 2: Benefits -->
+            <section class="section" id="benefits">
+                <div class="section-header">
+                    <div class="section-icon">✅</div>
+                    <div class="section-title">
+                        <h2>2. इस सॉफ्टवेयर से क्या फायदा होगा?</h2>
+                        <span>पुराने तरीके vs नया तरीका</span>
+                    </div>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <h3>पहले कैसे होता था (पुराना तरीका):</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr><th>समस्या</th><th>परेशानी</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>कागज़ पर लिस्ट</td><td>खो जाती है, फट जाती है</td></tr>
+                                <tr><td>याददाश्त पर भरोसा</td><td>सब कुछ याद नहीं रहता</td></tr>
+                                <tr><td>अंदाज़े से काम</td><td>पता नहीं कौन साथ है कौन नहीं</td></tr>
+                                <tr><td>समय की बर्बादी</td><td>गलत जगह मेहनत लग जाती है</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>अब कैसे होगा (विजयपथ के साथ):</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr><th>फायदा</th><th>कैसे?</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>📱 सब कुछ फोन/कंप्यूटर में</td><td>कभी नहीं खोएगा</td></tr>
+                                <tr><td>📊 सही जानकारी</td><td>हर परिवार का रिकॉर्ड</td></tr>
+                                <tr><td>🎯 सही जगह मेहनत</td><td>पता चलेगा कहां फोकस करना है</td></tr>
+                                <tr><td>⏰ समय की बचत</td><td>काम आसान और तेज़</td></tr>
+                                <tr><td>📈 जीतने के चांस बढ़ेंगे</td><td>डेटा से सही फैसले</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="info-box important">
+                        <span class="info-box-icon">🏆</span>
+                        <div>
+                            <strong>एक उदाहरण:</strong><br>
+                            <strong>बिना सॉफ्टवेयर:</strong> "रामू काका का परिवार... हां वो तो हमारे साथ होंगे... शायद... पता नहीं..."<br><br>
+                            <strong>विजयपथ के साथ:</strong> "रामू काका का परिवार - 6 वोटर हैं, 4 पक्के समर्थक, 2 अभी तय नहीं किए। पिछले हफ्ते मिले थे। उनकी बहू को सरकारी योजना की जानकारी चाहिए।"
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Getting Started -->
+            <section class="section" id="getting-started">
+                <div class="section-header">
+                    <div class="section-icon">🚀</div>
+                    <div class="section-title">
+                        <h2>3. शुरुआत कैसे करें?</h2>
+                        <span>पहली बार ऐप खोलना और सेटअप</span>
+                    </div>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-content">
+                                <h4>ऐप खोलें</h4>
+                                <p>अपने फोन या कंप्यूटर पर इंटरनेट ब्राउज़र खोलें और ऐप का लिंक डालें</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-content">
+                                <h4>लॉगिन करें</h4>
+                                <p>अपना मोबाइल नंबर या ईमेल और पासवर्ड डालकर "Login" बटन दबाएं</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-content">
+                                <h4>मोहल्ले बनाएं (बहुत ज़रूरी)</h4>
+                                <p>गांव के सभी हिस्सों/टोलों के नाम डालें - जैसे: पूरब टोला, हरिजन बस्ती, यादव मोहल्ला</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-content">
+                                <h4>परिवारों का डेटा डालें</h4>
+                                <p>हर मोहल्ले में परिवार जोड़ें और परिवार में वोटरों के नाम जोड़ें</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-box tip">
+                        <span class="info-box-icon">💡</span>
+                        <div>
+                            <strong>डेमो डेटा देखें (सीखने के लिए):</strong><br>
+                            अगर आप पहले देखना चाहते हैं कि ऐप कैसे काम करती है, तो डैशबोर्ड पर <strong>"Load Demo Data"</strong> बटन दबाएं। नकली डेटा लोड हो जाएगा। सब समझ लें, फिर <strong>"Clear Demo Data"</strong> करके अपना असली डेटा डालें।
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Dashboard -->
+            <section class="section" id="dashboard">
+                <div class="section-header">
+                    <div class="section-icon">📊</div>
+                    <div class="section-title">
+                        <h2>4. डैशबोर्ड - आपका चुनाव कमांड सेंटर</h2>
+                        <span>एक नज़र में पूरी चुनाव की स्थिति</span>
+                    </div>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <p>डैशबोर्ड वह पेज है जहां आप <strong>एक नज़र में</strong> पूरी चुनाव की स्थिति देख सकते हैं। जैसे गाड़ी में डैशबोर्ड पेट्रोल, स्पीड, इंजन सब दिखाता है - वैसे ही यह आपके चुनाव की पूरी तस्वीर दिखाता है।</p>
+
+                    <h3>🔝 सबसे ऊपर - 4 मुख्य बॉक्स</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr><th>बॉक्स</th><th>क्या दिखाता है</th><th>आपके लिए मतलब</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>🗳️ कुल वोटर</td><td>गांव में कितने वोटर हैं</td><td>आपका टारगेट वोट</td></tr>
+                                <tr><td>🏠 परिवार ट्रैक</td><td>कितने परिवारों का डेटा है</td><td>कितना सर्वे हुआ</td></tr>
+                                <tr><td>📊 सपोर्ट स्कोर</td><td>कितने प्रतिशत आपके साथ</td><td>जीतने का अंदाज़ा</td></tr>
+                                <tr><td>⏳ चुनाव में दिन</td><td>कितने दिन बचे हैं</td><td>तैयारी का समय</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>🏆 विन मीटर (जीत का मीटर)</h3>
+                    <p>यह सबसे ज़रूरी हिस्सा है - यह बताता है कि <strong>आप जीतेंगे या नहीं</strong>।</p>
+
+                    <div class="screenshot-box">जीतने की संभावना: 72%
+████████░░░░░░░░
+
+स्थिति: आरामदायक (Comfortable)
+
+अगर आज वोटिंग हो: 1,250 वोट
+कुल वोटर: 2,100</div>
+
+                    <h4>रंगों का मतलब:</h4>
+                    <ul>
+                        <li><span class="tag tag-green">🟢 हरा (75%+)</span> = बहुत अच्छा, जीत पक्की</li>
+                        <li><span class="tag tag-green">🟩 हल्का हरा (60-75%)</span> = अच्छा, थोड़ा और काम करो</li>
+                        <li><span class="tag tag-yellow">🟡 पीला (45-60%)</span> = मुकाबला है, मेहनत करो</li>
+                        <li><span class="tag tag-red">🔴 लाल (45% से कम)</span> = ख़तरा, बहुत मेहनत चाहिए</li>
+                    </ul>
+
+                    <h3>🗳️ वोटर वर्गीकरण</h3>
+                    <p>हर वोटर को 5 कैटेगरी में बांटा जाता है:</p>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr><th>कैटेगरी</th><th>मतलब</th><th>क्या करें</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><span class="tag tag-green">पक्का (Confirmed)</span></td><td>100% आपको वोट देगा</td><td>धन्यवाद करें, जुड़े रहें</td></tr>
+                                <tr><td><span class="tag tag-green">संभावित (Likely)</span></td><td>शायद आपको वोट देगा</td><td>रिश्ता मज़बूत करें</td></tr>
+                                <tr><td><span class="tag tag-yellow">अनिश्चित (Swing)</span></td><td>तय नहीं किया</td><td><strong>इन पर फोकस करें!</strong></td></tr>
+                                <tr><td><span class="tag tag-red">विरोधी (Opposition)</span></td><td>दूसरे को वोट देगा</td><td>समय बर्बाद न करें</td></tr>
+                                <tr><td><span class="tag tag-gray">अज्ञात (Unknown)</span></td><td>पता नहीं</td><td>जल्दी पता करें</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="info-box warning">
+                        <span class="info-box-icon">⚡</span>
+                        <div>
+                            <strong>सबसे ज़रूरी बात:</strong> 🟡 <strong>अनिश्चित (Swing) वोटर पर सबसे ज्यादा ध्यान दें</strong> - इन्हें मनाया जा सकता है!
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5: Mohalla Setup -->
+            <section class="section" id="mohalla">
+                <div class="section-header">
+                    <div class="section-icon">🗺️</div>
+                    <div class="section-title">
+                        <h2>5. मोहल्ला सेटअप - गांव के हिस्से बनाना</h2>
+                        <span>गांव को मोहल्लों में बांटना</span>
+                    </div>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <p><strong>मोहल्ला</strong> = गांव का एक हिस्सा/टोला। जैसे: पूरब टोला, पश्चिम टोला, हरिजन बस्ती, ठाकुर पुरवा</p>
+
+                    <div class="info-box important">
+                        <span class="info-box-icon">❗</span>
+                        <div><strong>यह सबसे पहले करना ज़रूरी है!</strong> बिना मोहल्ला बनाए आप परिवार नहीं जोड़ सकते!</div>
+                    </div>
+
+                    <h3>मोहल्ला कैसे बनाएं:</h3>
+                    <div class="steps">
+                        <div class="step"><div class="step-content"><h4>Mohalla Setup पेज खोलें</h4><p>बाईं तरफ मेनू में "Mohalla Setup" पर क्लिक करें</p></div></div>
+                        <div class="step"><div class="step-content"><h4>"+ Add Mohalla" बटन दबाएं</h4><p>एक बॉक्स खुलेगा</p></div></div>
+                        <div class="step"><div class="step-content"><h4>जानकारी भरें</h4><p>मोहल्ला का नाम (जैसे: पूरब टोला), दूसरे नाम (अगर हों), क्रम संख्या</p></div></div>
+                        <div class="step"><div class="step-content"><h4>सेव करें</h4><p>"मोहल्ला जोड़ें" बटन दबाएं</p></div></div>
+                    </div>
+
+                    <div class="info-box tip">
+                        <span class="info-box-icon">💡</span>
+                        <div><strong>सुझाव:</strong> सभी मोहल्ले पहले बना लें, फिर परिवार जोड़ें। दूसरे नाम ज़रूर डालें - लोग अलग-अलग नामों से बुलाते हैं।</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 6: Voter Roll -->
+            <section class="section" id="voter-roll">
+                <div class="section-header">
+                    <div class="section-icon">👨‍👩‍👧‍👦</div>
+                    <div class="section-title">
+                        <h2>6. वोटर रोल - परिवार और वोटर का डेटा</h2>
+                        <span>हर परिवार और वोटर की जानकारी</span>
+                    </div>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <p>वोटर रोल वह जगह है जहां आप <strong>हर परिवार और हर वोटर की जानकारी</strong> रखते हैं। यह पूरे सॉफ्टवेयर का दिल है।</p>
+
+                    <h3>डेटा की संरचना:</h3>
+                    <div class="screenshot-box">गांव
+├── मोहल्ला 1 (पूरब टोला)
+│   ├── परिवार 1 (रामू यादव)
+│   │   ├── वोटर: रामू यादव (मुखिया)
+│   │   ├── वोटर: सीता देवी (पत्नी)
+│   │   └── वोटर: सुरेश यादव (बेटा)
+│   └── परिवार 2 (श्याम सिंह)
+├── मोहल्ला 2 (हरिजन बस्ती)
+└── ...</div>
+
+                    <h3>परिवार में क्या भरना है:</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>जानकारी</th><th>उदाहरण</th><th>क्यों ज़रूरी</th></tr></thead>
+                            <tbody>
+                                <tr><td>मुखिया का नाम</td><td>रामू यादव</td><td>पहचान</td></tr>
+                                <tr><td>जाति/श्रेणी</td><td>यादव, OBC</td><td>जाति समीकरण</td></tr>
+                                <tr><td>मकान प्रकार</td><td>पक्का/कच्चा</td><td>आर्थिक स्थिति</td></tr>
+                                <tr><td>परिवार की स्थिति</td><td>अनुकूल/अनिश्चित/विरोधी</td><td>चुनावी रणनीति</td></tr>
+                                <tr><td>प्रभाव स्तर</td><td>1-5 स्टार</td><td>कितना असर</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>वोटर में क्या भरना है:</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>जानकारी</th><th>विकल्प</th></tr></thead>
+                            <tbody>
+                                <tr><td>नाम, लिंग, उम्र</td><td>बेसिक जानकारी</td></tr>
+                                <tr><td>रिश्ता</td><td>मुखिया, पत्नी, बेटा, बहू...</td></tr>
+                                <tr><td><strong>वोटर प्रकार</strong></td><td><span class="tag tag-green">पक्का</span> <span class="tag tag-green">संभावित</span> <span class="tag tag-yellow">अनिश्चित</span> <span class="tag tag-red">विरोधी</span></td></tr>
+                                <tr><td>स्थिति</td><td>🏠 मौजूद / ✈️ बाहर / 🩺 बुज़ुर्ग-बीमार</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="info-box warning">
+                        <span class="info-box-icon">⚡</span>
+                        <div><strong>सबसे ज़रूरी:</strong> वोटर प्रकार ज़रूर भरें! यह बताता है कौन आपके साथ है और कौन नहीं।</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 7: Analytics -->
+            <section class="section" id="analytics">
+                <div class="section-header">
+                    <div class="section-icon">📈</div>
+                    <div class="section-title">
+                        <h2>7. एनालिटिक्स - चुनाव विश्लेषण</h2>
+                        <span>डेटा से रणनीति बनाना</span>
+                    </div>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <p>एनालिटिक्स आपके डेटा को <strong>बुद्धिमान जानकारी</strong> में बदलता है। यह बताता है कि जीतने के लिए क्या करना चाहिए।</p>
+
+                    <h3>चार टैब हैं:</h3>
+
+                    <h4>Tab 1: स्विंग एनालिसिस</h4>
+                    <p>दिखाता है कि कितने वोटर अभी तय नहीं कर पाए हैं (Swing Voters) - <strong>ये सबसे ज़रूरी हैं!</strong></p>
+                    <ul>
+                        <li>कौन से मोहल्ले में ज्यादा स्विंग वोटर हैं</li>
+                        <li>कौन से परिवारों में स्विंग वोटर हैं</li>
+                        <li>इन पर 70% मेहनत लगाएं</li>
+                    </ul>
+
+                    <h4>Tab 2: परिवार विश्लेषण</h4>
+                    <p>परिवार-स्तर की जानकारी:</p>
+                    <ul>
+                        <li>प्रभावशाली परिवार कौन से हैं</li>
+                        <li>कौन से परिवारों में मिली-जुली राय है</li>
+                    </ul>
+
+                    <h4>Tab 3: एक्शन लिस्ट</h4>
+                    <p><strong>आज क्या करें:</strong></p>
+                    <ul>
+                        <li>🎯 इस हफ्ते के टॉप टारगेट परिवार</li>
+                        <li>🚗 ट्रांसपोर्ट चाहिए (बुज़ुर्ग/बीमार)</li>
+                        <li>⚠️ खतरे की जगहें</li>
+                    </ul>
+
+                    <h4>Tab 4: जनसांख्यिकी</h4>
+                    <p>वोटर कौन-कौन से हैं - उम्र, लिंग, जाति, आर्थिक स्थिति</p>
+                </div>
+            </section>
+
+            <!-- Section 8: Resources -->
+            <section class="section" id="resources">
+                <div class="section-header">
+                    <div class="section-icon">📦</div>
+                    <div class="section-title">
+                        <h2>8. संसाधन प्रबंधन - वॉलंटियर, गाड़ी, बजट</h2>
+                        <span>चुनाव के साधनों का हिसाब</span>
+                    </div>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <p>चुनाव लड़ने के लिए आपको चाहिए:</p>
+                    <ul>
+                        <li><strong>👥 लोग (Manpower)</strong> - वॉलंटियर, कार्यकर्ता</li>
+                        <li><strong>🚗 गाड़ियां (Vehicles)</strong> - जीप, बाइक, ऑटो</li>
+                        <li><strong>💰 पैसे (Budget)</strong> - चुनाव खर्च</li>
+                    </ul>
+
+                    <h3>संसाधन कैसे जोड़ें:</h3>
+                    <div class="steps">
+                        <div class="step"><div class="step-content"><h4>"+ नया संसाधन जोड़ें" दबाएं</h4></div></div>
+                        <div class="step"><div class="step-content"><h4>नाम और प्रकार चुनें</h4><p>जैसे: "वार्ड 1 वॉलंटियर टीम" - प्रकार: लोग</p></div></div>
+                        <div class="step"><div class="step-content"><h4>कुल संख्या भरें</h4><p>कितने वॉलंटियर हैं या कितना बजट है</p></div></div>
+                        <div class="step"><div class="step-content"><h4>सेव करें</h4></div></div>
+                    </div>
+
+                    <div class="info-box tip">
+                        <span class="info-box-icon">💡</span>
+                        <div><strong>फायदा:</strong> पता रहेगा कितने लोग उपलब्ध हैं, कितना बजट बचा है, कौन सी गाड़ी खाली है।</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 9: Events -->
+            <section class="section" id="events">
+                <div class="section-header">
+                    <div class="section-icon">📅</div>
+                    <div class="section-title">
+                        <h2>9. इवेंट मैनेजमेंट - रैली और मीटिंग</h2>
+                        <span>चुनाव प्रचार के कार्यक्रम</span>
+                    </div>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <h3>इवेंट के प्रकार:</h3>
+                    <ul>
+                        <li>📢 <strong>रैली</strong> - बड़ी सभा, भाषण</li>
+                        <li>🤝 <strong>मीटिंग</strong> - छोटी बैठक, नेताओं से मिलना</li>
+                        <li>🏠 <strong>घर-घर प्रचार</strong> - फेरी, डोर-टू-डोर</li>
+                        <li>📱 <strong>डिजिटल</strong> - फेसबुक लाइव, व्हाट्सएप</li>
+                    </ul>
+
+                    <h3>इवेंट कैसे बनाएं:</h3>
+                    <div class="steps">
+                        <div class="step"><div class="step-content"><h4>"+ नया इवेंट बनाएं" दबाएं</h4></div></div>
+                        <div class="step"><div class="step-content"><h4>जानकारी भरें</h4><p>नाम, प्रकार, तारीख, समय, जगह</p></div></div>
+                        <div class="step"><div class="step-content"><h4>संसाधन जोड़ें</h4><p>कितने वॉलंटियर, कौन सी गाड़ी, कितना बजट</p></div></div>
+                        <div class="step"><div class="step-content"><h4>सेव करें</h4></div></div>
+                    </div>
+
+                    <h4>स्टेटस का मतलब:</h4>
+                    <ul>
+                        <li><span class="tag tag-yellow">योजनाबद्ध</span> - भविष्य में होगा</li>
+                        <li><span class="tag tag-green">चल रहा है</span> - अभी हो रहा है</li>
+                        <li><span class="tag tag-gray">पूरा हुआ</span> - हो चुका</li>
+                        <li><span class="tag tag-red">रद्द</span> - नहीं होगा</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section 10: Planner -->
+            <section class="section" id="planner">
+                <div class="section-header">
+                    <div class="section-icon">⏰</div>
+                    <div class="section-title">
+                        <h2>10. प्लानर - रोज़ाना का कार्यक्रम</h2>
+                        <span>दैनिक समय-सारणी</span>
+                    </div>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <p>प्लानर आपका <strong>दैनिक समय-सारणी</strong> है। यह बताता है कि दिन में कब क्या करना है।</p>
+
+                    <h3>तीन ट्रैक (Tracks):</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>ट्रैक</th><th>मतलब</th><th>उदाहरण</th></tr></thead>
+                            <tbody>
+                                <tr><td>👤 उम्मीदवार</td><td>आप क्या करेंगे</td><td>फेरी, सभा, मीटिंग</td></tr>
+                                <tr><td>🚩 फील्ड टीम</td><td>कार्यकर्ता क्या करेंगे</td><td>पोस्टर, बैनर, तैयारी</td></tr>
+                                <tr><td>📱 डिजिटल</td><td>सोशल मीडिया</td><td>लाइव, पोस्ट, वीडियो</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>गतिविधि कैसे जोड़ें:</h3>
+                    <div class="steps">
+                        <div class="step"><div class="step-content"><h4>खाली स्लॉट पर क्लिक करें</h4><p>जैसे 10:00 बजे के "उम्मीदवार" कॉलम में</p></div></div>
+                        <div class="step"><div class="step-content"><h4>जानकारी भरें</h4><p>शीर्षक, समय, ट्रैक, प्राथमिकता</p></div></div>
+                        <div class="step"><div class="step-content"><h4>सेव करें</h4></div></div>
+                    </div>
+
+                    <h4>प्राथमिकता रंग:</h4>
+                    <ul>
+                        <li><span class="tag tag-red">High (लाल)</span> - बहुत ज़रूरी, छोड़ना नहीं है</li>
+                        <li><span class="tag tag-yellow">Medium (पीला)</span> - ज़रूरी है, करना चाहिए</li>
+                        <li><span class="tag tag-green">Low (हरा)</span> - कर लिया तो अच्छा</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section 11: Influencers -->
+            <section class="section" id="influencers">
+                <div class="section-header">
+                    <div class="section-icon">👑</div>
+                    <div class="section-title">
+                        <h2>11. प्रभावशाली व्यक्ति - इन्फ्लुएंसर ट्रैकिंग</h2>
+                        <span>जिनकी बात दूसरे मानते हैं</span>
+                    </div>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <p><strong>इन्फ्लुएंसर</strong> = ऐसे लोग जिनकी बात दूसरे मानते हैं</p>
+
+                    <h3>इन्फ्लुएंसर के प्रकार:</h3>
+                    <ul>
+                        <li>👴 परिवार के मुखिया</li>
+                        <li>🙏 धार्मिक नेता (पंडित, मौलवी)</li>
+                        <li>🏛️ पूर्व प्रधान</li>
+                        <li>🏗️ ठेकेदार</li>
+                        <li>👩‍🏫 शिक्षक</li>
+                        <li>👩‍👩‍👧‍👦 SHG लीडर</li>
+                        <li>👨‍👦‍👦 जाति नेता</li>
+                    </ul>
+
+                    <div class="info-box important">
+                        <span class="info-box-icon">🏆</span>
+                        <div><strong>एक इन्फ्लुएंसर को मनाना = कई वोट पाना!</strong><br>
+                        अगर गांव के पंडित जी आपके साथ हैं, तो उनकी बात मानने वाले 50 परिवार भी आपके साथ आ सकते हैं।</div>
+                    </div>
+
+                    <h3>इन्फ्लुएंसर की स्थिति:</h3>
+                    <ul>
+                        <li><span class="tag tag-green">🟢 समर्थक</span> - आपके साथ हैं</li>
+                        <li><span class="tag tag-gray">⚪ तटस्थ</span> - अभी तय नहीं किया - <strong>इन पर फोकस करें!</strong></li>
+                        <li><span class="tag tag-red">🔴 विरोधी</span> - दूसरे के साथ हैं</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section 12: Strategy -->
+            <section class="section" id="strategy">
+                <div class="section-header">
+                    <div class="section-icon">🎯</div>
+                    <div class="section-title">
+                        <h2>12. चुनाव जीतने की रणनीति</h2>
+                        <span>तीन अवस्थाएं और 10 सुनहरे नियम</span>
+                    </div>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <h3>चुनाव की 3 अवस्थाएं:</h3>
+
+                    <h4>Phase 1: शुरुआती दौर (100+ दिन बाकी)</h4>
+                    <ul>
+                        <li>✅ सभी मोहल्ले सेट करें</li>
+                        <li>✅ हर परिवार का सर्वे करें</li>
+                        <li>✅ इन्फ्लुएंसर की पहचान करें</li>
+                    </ul>
+
+                    <h4>Phase 2: प्रचार दौर (30-100 दिन बाकी)</h4>
+                    <ul>
+                        <li>✅ स्विंग वोटर पर फोकस</li>
+                        <li>✅ तटस्थ इन्फ्लुएंसर को मनाएं</li>
+                        <li>✅ रैलियां, मीटिंग, फेरी करें</li>
+                    </ul>
+
+                    <h4>Phase 3: अंतिम दौर (30 दिन से कम)</h4>
+                    <ul>
+                        <li>✅ ट्रांसपोर्ट लिस्ट तैयार</li>
+                        <li>✅ पक्के वोटरों से संपर्क मज़बूत</li>
+                        <li>✅ वोटिंग डे की तैयारी</li>
+                    </ul>
+
+                    <h3>🏆 जीतने के 10 सुनहरे नियम:</h3>
+                    <ol>
+                        <li><strong>डेटा सच्चा भरें</strong> - झूठी जानकारी से आप खुद को धोखा देंगे</li>
+                        <li><strong>स्विंग वोटर = सोने की खान</strong> - इन पर 70% मेहनत लगाएं</li>
+                        <li><strong>इन्फ्लुएंसर = शॉर्टकट</strong> - एक इन्फ्लुएंसर = 20-50 वोट</li>
+                        <li><strong>कमज़ोर जगह पर ज्यादा मेहनत</strong> - जहां 30% है वहां 50% संभव है</li>
+                        <li><strong>डेटा रोज़ अपडेट करें</strong> - पुरानी जानकारी = गलत फैसले</li>
+                        <li><strong>टीम को भी ऐप दिखाएं</strong> - सबको पता हो क्या करना है</li>
+                        <li><strong>ट्रांसपोर्ट की तैयारी पहले से</strong> - 2 हफ्ते पहले बुक करें</li>
+                        <li><strong>बाहर वालों को समय पर बुलाएं</strong> - 1 हफ्ता पहले फोन करें</li>
+                        <li><strong>विरोधी से भी सम्मान</strong> - आज विरोधी, कल ज़रूरत पड़े</li>
+                        <li><strong>अपना स्वास्थ्य देखें</strong> - थके हुए अच्छे फैसले नहीं लेते</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Section 13: FAQ -->
+            <section class="section" id="faq">
+                <div class="section-header">
+                    <div class="section-icon">❓</div>
+                    <div class="section-title">
+                        <h2>13. अक्सर पूछे जाने वाले सवाल (FAQ)</h2>
+                        <span>सवाल-जवाब</span>
+                    </div>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <h4>Q: इंटरनेट नहीं है तो क्या होगा?</h4>
+                    <p><strong>जवाब:</strong> ऐप को इंटरनेट चाहिए। जहां नेटवर्क हो, वहां अपडेट करें।</p>
+
+                    <h4>Q: फोन खो गया तो डेटा जाएगा?</h4>
+                    <p><strong>जवाब:</strong> नहीं! डेटा क्लाउड पर सेव होता है। नए फोन में लॉगिन करें, सब वापस मिलेगा।</p>
+
+                    <h4>Q: कितने लोग एक साथ इस्तेमाल कर सकते हैं?</h4>
+                    <p><strong>जवाब:</strong> जितने चाहें। आप, आपकी टीम, सब अपने-अपने फोन से देख और अपडेट कर सकते हैं।</p>
+
+                    <h4>Q: क्या प्रतिद्वंदी देख सकता है?</h4>
+                    <p><strong>जवाब:</strong> नहीं! आपका डेटा सिर्फ़ आपके अकाउंट में है।</p>
+
+                    <h4>Q: परिवार/वोटर गलत भर गया, कैसे ठीक करें?</h4>
+                    <p><strong>जवाब:</strong> वोटर रोल में जाएं → खोजें → ✏️ (edit) बटन दबाएं → सही करें → सेव करें</p>
+
+                    <h4>Q: Demo Data कैसे हटाएं?</h4>
+                    <p><strong>जवाब:</strong> Dashboard पर "Demo Data Control" में "Clear Demo Data" बटन दबाएं।</p>
+
+                    <div class="info-box tip">
+                        <span class="info-box-icon">🙏</span>
+                        <div>
+                            <strong>शुभकामनाएं!</strong><br>
+                            यह सॉफ्टवेयर आपकी मेहनत को सही दिशा देगा। याद रखें - सॉफ्टवेयर टूल है, जादू नहीं। मेहनत आपको करनी है!<br><br>
+                            <strong>जीत आपकी होगी! 🏆</strong>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer style="text-align: center; padding: 2rem; color: var(--text-light); border-top: 1px solid var(--border); margin-top: 2rem;">
+                <p><strong>विजयपथ 2026</strong> - आपकी जीत का रास्ता</p>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem;">© 2026 VijayPath Election Suite</p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Back to top button -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+
+            // Back to top visibility
+            const backToTop = document.getElementById('backToTop');
+            if (winScroll > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+
+            // Update active TOC
+            updateActiveToc();
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // TOC active state
+        function updateActiveToc() {
+            const sections = document.querySelectorAll('.section');
+            const tocLinks = document.querySelectorAll('.toc-link');
+
+            let currentSection = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').slice(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    target.classList.add('highlight');
+                    setTimeout(() => target.classList.remove('highlight'), 2000);
+                }
+            });
+        });
+
+        // Section collapse
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.section-header')) {
+                const section = e.target.closest('.section');
+                section.classList.toggle('collapsed');
+            }
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+
+        const searchData = [
+            { title: 'परिचय - यह सॉफ्टवेयर क्या है?', section: 'intro', keywords: 'परिचय introduction software' },
+            { title: 'फायदे - इस सॉफ्टवेयर से क्या फायदा', section: 'benefits', keywords: 'फायदे benefits advantage' },
+            { title: 'डैशबोर्ड - विन मीटर', section: 'dashboard', keywords: 'डैशबोर्ड dashboard win meter जीत' },
+            { title: 'वोटर रोल - परिवार जोड़ना', section: 'voter-roll', keywords: 'वोटर voter परिवार family household' },
+            { title: 'एनालिटिक्स - स्विंग वोटर', section: 'analytics', keywords: 'एनालिटिक्स analytics swing स्विंग' },
+            { title: 'संसाधन - वॉलंटियर, गाड़ी, बजट', section: 'resources', keywords: 'संसाधन resources volunteer गाड़ी budget' },
+            { title: 'इवेंट - रैली, मीटिंग', section: 'events', keywords: 'इवेंट event rally रैली meeting' },
+            { title: 'प्लानर - दैनिक कार्यक्रम', section: 'planner', keywords: 'प्लानर planner daily schedule' },
+            { title: 'इन्फ्लुएंसर - प्रभावशाली व्यक्ति', section: 'influencers', keywords: 'इन्फ्लुएंसर influencer प्रभावशाली' },
+            { title: 'रणनीति - चुनाव जीतना', section: 'strategy', keywords: 'रणनीति strategy जीतना winning' },
+            { title: 'FAQ - अक्सर पूछे जाने वाले सवाल', section: 'faq', keywords: 'faq सवाल question help' }
+        ];
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length < 2) {
+                searchResults.classList.remove('active');
+                return;
+            }
+
+            const results = searchData.filter(item =>
+                item.title.toLowerCase().includes(query) ||
+                item.keywords.toLowerCase().includes(query)
+            );
+
+            if (results.length > 0) {
+                searchResults.innerHTML = results.map(r =>
+                    `<div class="search-result-item" onclick="goToSection('${r.section}')">${r.title}</div>`
+                ).join('');
+                searchResults.classList.add('active');
+            } else {
+                searchResults.innerHTML = '<div class="search-result-item">कोई परिणाम नहीं मिला</div>';
+                searchResults.classList.add('active');
+            }
+        });
+
+        searchInput.addEventListener('blur', () => {
+            setTimeout(() => searchResults.classList.remove('active'), 200);
+        });
+
+        function goToSection(sectionId) {
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                target.classList.add('highlight');
+                setTimeout(() => target.classList.remove('highlight'), 2000);
+                searchInput.value = '';
+                searchResults.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
