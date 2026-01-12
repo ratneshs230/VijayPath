@@ -163,19 +163,19 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
             ))}
           </div>
 
-          {/* Age Band - Scrollable Pills */}
+          {/* Age Band - Scrollable Pills with larger touch targets */}
           <div>
             <label className="block text-xs text-slate-400 mb-2">Age</label>
-            <div className="flex gap-2 overflow-x-auto pb-1">
+            <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
               {ageBands.map(band => (
                 <button
                   key={band}
                   type="button"
                   onClick={() => setFormData({ ...formData, ageBand: band })}
-                  className={`px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap transition-all ${
+                  className={`px-4 py-3 min-h-[44px] rounded-xl text-sm font-bold whitespace-nowrap transition-all ${
                     formData.ageBand === band
                       ? 'bg-orange-600 text-white'
-                      : 'bg-slate-700 text-slate-400 hover:bg-slate-600'
+                      : 'bg-slate-700 text-slate-400 hover:bg-slate-600 active:bg-slate-500'
                   }`}
                 >
                   {band}
@@ -184,13 +184,13 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
             </div>
           </div>
 
-          {/* Relation */}
+          {/* Relation - Mobile-friendly select */}
           <div>
             <label className="block text-xs text-slate-400 mb-2">Relation to Head</label>
             <select
               value={formData.relationToHead}
               onChange={(e) => setFormData({ ...formData, relationToHead: e.target.value as RelationType })}
-              className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-orange-500"
+              className="w-full px-4 py-3 min-h-[44px] bg-slate-700 border border-slate-600 rounded-xl text-white text-base focus:outline-none focus:border-orange-500"
             >
               {relations.map(rel => (
                 <option key={rel} value={rel}>{rel}</option>
@@ -198,10 +198,10 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
             </select>
           </div>
 
-          {/* Quick Tags */}
+          {/* Quick Tags - Mobile-friendly touch targets */}
           <div>
             <label className="block text-xs text-slate-400 mb-2">Status Tags</label>
-            <div className="flex flex-wrap gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {[
                 { key: 'isPresent', label: 'Present', icon: '🏠', active: formData.isPresent },
                 { key: 'workingOutside', label: 'Away', icon: '✈️', active: formData.workingOutside },
@@ -225,13 +225,13 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
                     }
                     setFormData({ ...formData, ...updates });
                   }}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
+                  className={`px-3 py-3 min-h-[44px] rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
                     tag.active
                       ? 'bg-orange-600 text-white'
-                      : 'bg-slate-700 text-slate-400 hover:bg-slate-600'
+                      : 'bg-slate-700 text-slate-400 hover:bg-slate-600 active:bg-slate-500'
                   }`}
                 >
-                  <span>{tag.icon}</span>
+                  <span className="text-lg">{tag.icon}</span>
                   <span>{tag.label}</span>
                 </button>
               ))}
@@ -262,23 +262,23 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
                 />
               </div>
 
-              {/* Voter Type */}
+              {/* Voter Type - Mobile-friendly grid */}
               <div>
                 <label className="block text-xs text-slate-400 mb-2">Voter Type</label>
-                <div className="flex gap-2 flex-wrap">
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                   {(['Confirmed', 'Likely', 'Swing', 'Opposition', 'Unknown'] as VoterType[]).map(type => (
                     <button
                       key={type}
                       type="button"
                       onClick={() => setFormData({ ...formData, voterType: type })}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                      className={`px-2 py-3 min-h-[44px] rounded-xl text-xs font-bold transition-all ${
                         formData.voterType === type
                           ? type === 'Confirmed' ? 'bg-green-600 text-white'
                             : type === 'Likely' ? 'bg-emerald-600 text-white'
                             : type === 'Swing' ? 'bg-amber-600 text-white'
                             : type === 'Opposition' ? 'bg-red-600 text-white'
                             : 'bg-slate-600 text-white'
-                          : 'bg-slate-700 text-slate-400 hover:bg-slate-600'
+                          : 'bg-slate-700 text-slate-400 hover:bg-slate-600 active:bg-slate-500'
                       }`}
                     >
                       {type}
@@ -287,7 +287,7 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
                 </div>
               </div>
 
-              {/* Turnout Probability */}
+              {/* Turnout Probability - Larger touch targets */}
               <div>
                 <label className="block text-xs text-slate-400 mb-2">Likely Turnout</label>
                 <div className="flex gap-2">
@@ -296,12 +296,12 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
                       key={prob}
                       type="button"
                       onClick={() => setFormData({ ...formData, likelyTurnout: prob })}
-                      className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${
+                      className={`flex-1 py-3 min-h-[44px] rounded-xl text-sm font-bold transition-all ${
                         formData.likelyTurnout === prob
                           ? prob === 'High' ? 'bg-green-600 text-white'
                             : prob === 'Medium' ? 'bg-amber-600 text-white'
                             : 'bg-red-600 text-white'
-                          : 'bg-slate-700 text-slate-400 hover:bg-slate-600'
+                          : 'bg-slate-700 text-slate-400 hover:bg-slate-600 active:bg-slate-500'
                       }`}
                     >
                       {prob}
@@ -324,26 +324,26 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
           )}
         </div>
 
-        {/* Actions */}
-        <div className="px-6 py-4 bg-slate-700/50 border-t border-slate-700 flex gap-3">
+        {/* Actions - Mobile-friendly buttons */}
+        <div className="px-4 sm:px-6 py-4 bg-slate-700/50 border-t border-slate-700 flex flex-col sm:flex-row gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-slate-400 hover:text-white transition-colors"
+            className="px-4 py-3 min-h-[44px] text-slate-400 hover:text-white transition-colors order-last sm:order-first"
             disabled={isSaving}
           >
             Skip
           </button>
-          <div className="flex-1 flex gap-2">
+          <div className="flex-1 flex flex-col sm:flex-row gap-2">
             <button
               onClick={handleSaveAndAdd}
-              className="flex-1 px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-500 transition-colors text-sm font-bold disabled:opacity-50"
+              className="flex-1 px-4 py-3 min-h-[44px] bg-slate-600 text-white rounded-xl hover:bg-slate-500 active:bg-slate-400 transition-colors text-sm font-bold disabled:opacity-50"
               disabled={isSaving || !formData.name}
             >
-              {isSaving ? '...' : 'Save & Add Another'}
+              {isSaving ? '...' : 'Save & Add'}
             </button>
             <button
               onClick={handleSave}
-              className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm font-bold disabled:opacity-50"
+              className="flex-1 px-4 py-3 min-h-[44px] bg-orange-600 text-white rounded-xl hover:bg-orange-700 active:bg-orange-800 transition-colors text-sm font-bold disabled:opacity-50"
               disabled={isSaving || !formData.name}
             >
               {isSaving ? 'Saving...' : voter ? 'Update' : 'Done'}

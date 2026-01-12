@@ -45,8 +45,8 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header Stats Row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* Header Stats Row - Single column on mobile for readability */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {[
           {
             label: 'Total Voters',
@@ -91,7 +91,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Win Meter - Hero Section */}
         <div className="lg:col-span-1">
           <WinMeter
@@ -113,7 +113,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Second Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Turnout Projection */}
         <TurnoutProjection
           highTurnoutVoters={dashboardMetrics.highTurnoutVoters}
@@ -186,7 +186,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Third Row - Action Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Quick Actions */}
         <QuickActionCards
           swingFamiliesCount={swingFamilies.length}
@@ -209,7 +209,7 @@ const Dashboard: React.FC = () => {
       <CampaignMetrics />
 
       {/* Quick Stats Footer */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div className="p-4 bg-gradient-to-r from-purple-600/20 to-purple-500/10 rounded-xl border border-purple-500/30">
           <div className="text-2xl font-bold text-purple-400">{dashboardMetrics.totalSwingVoters}</div>
           <div className="text-sm text-slate-400">Total Swing Voters</div>

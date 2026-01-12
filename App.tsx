@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AppProvider, useApp } from './src/context/AppContext';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
+import MobileNav from './components/MobileNav';
 import Login from './components/Login';
 import VoterRoll from './views/VoterRoll';
 import Analytics from './views/Analytics';
@@ -27,7 +28,7 @@ enum View {
 // Main app content (shown when authenticated)
 const AppContent: React.FC = () => {
   const [activeView, setActiveView] = useState<View>(View.DASHBOARD);
-  const { isLoading } = useApp();
+  const { isLoading, user, logout } = useApp();
 
   const renderView = () => {
     switch (activeView) {
@@ -58,10 +59,28 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-50 overflow-hidden">
-      <Sidebar activeView={activeView} setActiveView={setActiveView} />
+      {/* Mobile Navigation - only visible on mobile */}
+      <MobileNav
+        activeView={activeView}
+        setActiveView={(view) => setActiveView(view as View)}
+        userName={user?.email?.split('@')[0] || 'User'}
+        onLogout={logout}
+      />
+
+      {/* Desktop Sidebar - hidden on mobile */}
+      <div className="hidden md:block">
+        <Sidebar activeView={activeView} setActiveView={setActiveView} />
+      </div>
+
+      {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-auto">
-        <Header />
-        <main className="p-6">
+        {/* Desktop Header - hidden on mobile */}
+        <div className="hidden md:block">
+          <Header />
+        </div>
+
+        {/* Main content with mobile-friendly padding */}
+        <main className="p-4 md:p-6 pt-16 md:pt-6 pb-20 md:pb-6">
           {renderView()}
         </main>
       </div>

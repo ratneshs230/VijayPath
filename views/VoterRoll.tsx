@@ -340,8 +340,8 @@ const VoterRoll: React.FC = () => {
         </div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* Quick Stats - Single column on mobile */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         {[
           { label: 'Total Families', value: households.length, icon: '🏠', color: 'bg-blue-500/20 text-blue-400' },
           { label: 'Favorable', value: households.filter(h => h.familySentiment === 'Favorable').length, icon: '✅', color: 'bg-green-500/20 text-green-400' },
