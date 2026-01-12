@@ -238,13 +238,23 @@ const MohallaSetup: React.FC = () => {
 
       {/* Add/Edit Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-slate-800 rounded-xl p-6 w-full max-w-md shadow-2xl">
-            <h2 className="text-xl font-bold text-white mb-4">
-              {editingMohalla ? 'Edit Mohalla' : 'Add New Mohalla'}
-            </h2>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
+          <div className="bg-slate-800 rounded-2xl w-full max-w-md my-auto max-h-[95vh] sm:max-h-[90vh] flex flex-col shadow-2xl">
+            {/* Sticky Header */}
+            <div className="px-4 sm:px-6 py-4 border-b border-slate-700 flex justify-between items-center flex-shrink-0">
+              <h2 className="text-lg sm:text-xl font-bold text-white">
+                {editingMohalla ? 'Edit Mohalla' : 'Add New Mohalla'}
+              </h2>
+              <button
+                onClick={handleCloseModal}
+                className="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white text-xl rounded-lg hover:bg-slate-700"
+              >
+                ✕
+              </button>
+            </div>
 
-            <form onSubmit={handleSubmit}>
+            {/* Scrollable Content */}
+            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-6">
               <div className="space-y-4">
                 <div>
                   <label className="block text-slate-400 text-sm mb-1">
@@ -254,7 +264,7 @@ const MohallaSetup: React.FC = () => {
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
+                    className="w-full px-4 py-3 min-h-[44px] bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
                     placeholder="e.g., Purab Tola, Harijan Basti"
                     required
                   />
@@ -268,7 +278,7 @@ const MohallaSetup: React.FC = () => {
                     type="text"
                     value={formData.alternateNames}
                     onChange={(e) => setFormData({ ...formData, alternateNames: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
+                    className="w-full px-4 py-3 min-h-[44px] bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
                     placeholder="e.g., Yadav Mohalla, Bade Baba ka Purva"
                   />
                   <p className="text-slate-500 text-xs mt-1">
@@ -284,28 +294,30 @@ const MohallaSetup: React.FC = () => {
                     type="number"
                     value={formData.sortOrder}
                     onChange={(e) => setFormData({ ...formData, sortOrder: parseInt(e.target.value) || 0 })}
-                    className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
+                    className="w-full px-4 py-3 min-h-[44px] bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
                     min={0}
                   />
                 </div>
               </div>
-
-              <div className="flex justify-end gap-3 mt-6">
-                <button
-                  type="button"
-                  onClick={handleCloseModal}
-                  className="px-4 py-2 bg-slate-700 text-slate-300 rounded-lg hover:bg-slate-600 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
-                >
-                  {editingMohalla ? 'Save Changes' : 'Add Mohalla'}
-                </button>
-              </div>
             </form>
+
+            {/* Sticky Footer */}
+            <div className="flex gap-3 p-4 sm:px-6 border-t border-slate-700 flex-shrink-0">
+              <button
+                type="button"
+                onClick={handleCloseModal}
+                className="flex-1 px-4 py-3 min-h-[44px] bg-slate-700 text-slate-300 rounded-xl hover:bg-slate-600 active:bg-slate-500 transition-colors font-medium"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleSubmit}
+                className="flex-1 px-4 py-3 min-h-[44px] bg-orange-600 text-white rounded-xl hover:bg-orange-700 active:bg-orange-800 transition-colors font-medium"
+              >
+                {editingMohalla ? 'Save Changes' : 'Add Mohalla'}
+              </button>
+            </div>
           </div>
         </div>
       )}

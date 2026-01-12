@@ -63,22 +63,24 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="bg-slate-800 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-700 flex justify-between items-center">
-          <h3 className="text-xl font-bold text-white">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/50 backdrop-blur-sm overflow-y-auto">
+      <div className="bg-slate-800 rounded-2xl shadow-2xl w-full max-w-lg my-auto max-h-[95vh] sm:max-h-[90vh] flex flex-col">
+        {/* Sticky Header */}
+        <div className="px-4 sm:px-6 py-4 border-b border-slate-700 flex justify-between items-center flex-shrink-0">
+          <h3 className="text-lg sm:text-xl font-bold text-white">
             {household ? 'Edit Household' : 'Add New Household'}
           </h3>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white text-2xl"
+            className="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white text-2xl rounded-lg hover:bg-slate-700"
             disabled={isSaving}
           >
             ✕
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        {/* Scrollable Form Content */}
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
           {/* Family Head Section */}
           <div className="space-y-4">
             <h4 className="text-xs font-bold text-purple-500 uppercase tracking-wide">Family Head</h4>
@@ -268,25 +270,27 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
             </div>
           </div>
 
-          {/* Actions */}
-          <div className="flex gap-3 pt-4 border-t border-slate-700">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 px-4 py-2 bg-slate-700 text-slate-300 rounded-lg hover:bg-slate-600 transition-colors"
-              disabled={isSaving}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors disabled:opacity-50"
-              disabled={isSaving}
-            >
-              {isSaving ? 'Saving...' : household ? 'Update' : 'Add Household'}
-            </button>
-          </div>
         </form>
+
+        {/* Sticky Footer Actions */}
+        <div className="flex gap-3 p-4 sm:px-6 border-t border-slate-700 bg-slate-800 flex-shrink-0">
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 px-4 py-3 min-h-[44px] bg-slate-700 text-slate-300 rounded-xl hover:bg-slate-600 active:bg-slate-500 transition-colors font-medium"
+            disabled={isSaving}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="flex-1 px-4 py-3 min-h-[44px] bg-orange-600 text-white rounded-xl hover:bg-orange-700 active:bg-orange-800 transition-colors disabled:opacity-50 font-medium"
+            disabled={isSaving}
+          >
+            {isSaving ? 'Saving...' : household ? 'Update' : 'Add Household'}
+          </button>
+        </div>
       </div>
     </div>
   );

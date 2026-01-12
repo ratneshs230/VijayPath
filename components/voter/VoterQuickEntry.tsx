@@ -104,10 +104,10 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-        {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-700 flex justify-between items-center bg-slate-800">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/50 backdrop-blur-sm overflow-y-auto">
+      <div className="bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md my-auto max-h-[95vh] sm:max-h-[90vh] flex flex-col">
+        {/* Sticky Header */}
+        <div className="px-4 sm:px-6 py-4 border-b border-slate-700 flex justify-between items-center bg-slate-800 flex-shrink-0">
           <div>
             <h3 className="text-lg font-bold text-white">
               {voter ? 'Edit Voter' : 'Add Voter'}
@@ -120,14 +120,15 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white text-xl"
+            className="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white text-xl rounded-lg hover:bg-slate-700"
             disabled={isSaving}
           >
             ✕
           </button>
         </div>
 
-        <div className="p-6 space-y-5">
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
           {/* Name - Large Input for Visibility */}
           <div>
             <input
@@ -324,8 +325,8 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
           )}
         </div>
 
-        {/* Actions - Mobile-friendly buttons */}
-        <div className="px-4 sm:px-6 py-4 bg-slate-700/50 border-t border-slate-700 flex flex-col sm:flex-row gap-3">
+        {/* Sticky Footer Actions */}
+        <div className="px-4 sm:px-6 py-4 bg-slate-700/50 border-t border-slate-700 flex flex-col sm:flex-row gap-3 flex-shrink-0">
           <button
             onClick={onClose}
             className="px-4 py-3 min-h-[44px] text-slate-400 hover:text-white transition-colors order-last sm:order-first"

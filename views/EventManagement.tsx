@@ -45,14 +45,16 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, onSave, event,
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
-        <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-          <h3 className="text-xl font-bold text-gray-900">{event ? 'Edit Event' : 'Schedule New Event'}</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-2xl" disabled={isSaving}>✕</button>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg my-auto max-h-[95vh] sm:max-h-[90vh] flex flex-col animate-in zoom-in-95 duration-200">
+        {/* Sticky Header */}
+        <div className="px-4 sm:px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 flex-shrink-0">
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900">{event ? 'Edit Event' : 'Schedule New Event'}</h3>
+          <button onClick={onClose} className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-gray-600 text-2xl rounded-lg hover:bg-gray-100" disabled={isSaving}>✕</button>
         </div>
 
-        <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
           <div>
             <label className="block text-xs font-bold text-gray-400 uppercase mb-1">Event Title</label>
             <input
@@ -138,17 +140,18 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, onSave, event,
           </div>
         </div>
 
-        <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex gap-3">
+        {/* Sticky Footer */}
+        <div className="px-4 sm:px-6 py-4 bg-gray-50 border-t border-gray-100 flex gap-3 flex-shrink-0">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-2 text-sm font-bold text-gray-500 hover:text-gray-700 transition"
+            className="flex-1 px-4 py-3 min-h-[44px] text-sm font-bold text-gray-500 hover:text-gray-700 active:text-gray-900 transition rounded-xl"
             disabled={isSaving}
           >
             Cancel
           </button>
           <button
             onClick={() => onSave(formData as Omit<CampaignEvent, 'id'>)}
-            className="flex-1 px-4 py-2 bg-orange-600 text-white text-sm font-bold rounded-lg hover:bg-orange-700 transition shadow-lg shadow-orange-600/20 disabled:opacity-50"
+            className="flex-1 px-4 py-3 min-h-[44px] bg-orange-600 text-white text-sm font-bold rounded-xl hover:bg-orange-700 active:bg-orange-800 transition shadow-lg shadow-orange-600/20 disabled:opacity-50"
             disabled={isSaving}
           >
             {isSaving ? 'Saving...' : event ? 'Update Event' : 'Create Event'}
