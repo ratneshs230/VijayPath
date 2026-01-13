@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { useElectionAnalytics } from '../src/hooks/useElectionAnalytics';
+import { useLanguage } from '../src/i18n';
 
 interface SidebarProps {
   activeView: string;
@@ -10,6 +11,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { dashboardMetrics } = useElectionAnalytics();
+  const { t } = useLanguage();
 
   // Get win probability from analytics (with fallback)
   const winProbability = dashboardMetrics?.winProbabilityPercent ?? 0;
@@ -27,17 +29,17 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
   const circleOffset = 100 - winProbability;
 
   const menuItems = [
-    { id: 'DASHBOARD', label: 'Dashboard', icon: '📊' },
-    { id: 'VOTER_ROLL', label: 'Voter Roll', icon: '👥' },
-    { id: 'ANALYTICS', label: 'Voter Analytics', icon: '📈' },
-    { id: 'RESOURCES', label: 'Resources', icon: '🛠️' },
-    { id: 'PLANNER', label: 'Planner', icon: '📅' },
-    { id: 'EVENTS', label: 'Events', icon: '🎉' },
+    { id: 'DASHBOARD', label: t.nav.dashboard, icon: '📊' },
+    { id: 'VOTER_ROLL', label: t.nav.voterRoll, icon: '👥' },
+    { id: 'ANALYTICS', label: t.nav.analytics, icon: '📈' },
+    { id: 'RESOURCES', label: t.nav.resources, icon: '🛠️' },
+    { id: 'PLANNER', label: t.nav.planner, icon: '📅' },
+    { id: 'EVENTS', label: t.nav.events, icon: '🎉' },
   ];
 
   const adminItems = [
-    { id: 'MOHALLA_SETUP', label: 'Mohalla Setup', icon: '🏘️' },
-    { id: 'INFLUENCERS', label: 'Influencers', icon: '👤' },
+    { id: 'MOHALLA_SETUP', label: t.nav.mohallaSetup, icon: '🏘️' },
+    { id: 'INFLUENCERS', label: t.nav.influencers, icon: '👤' },
   ];
 
   return (
@@ -81,7 +83,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
         {/* Admin Section Divider */}
         <div className={`px-6 py-3 ${isCollapsed ? 'hidden' : ''}`}>
           <div className="border-t border-slate-700 pt-3">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Admin</span>
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{t.nav.admin}</span>
           </div>
         </div>
         {isCollapsed && <div className="border-t border-slate-700 mx-4 my-2" />}
@@ -115,7 +117,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
         <div className={`bg-slate-800 rounded-lg p-3 transition-all ${isCollapsed ? 'flex justify-center items-center' : ''}`}>
           {!isCollapsed ? (
             <>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Winning Probability</p>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.header.winningProbability}</p>
               <div className="mt-2 h-1.5 bg-slate-700 rounded-full overflow-hidden">
                 <div
                   className={`h-full ${barColor} transition-all duration-1000`}

@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { useLanguage, LanguageSwitch } from '../src/i18n';
 
 interface MobileNavProps {
   activeView: string;
@@ -13,30 +14,6 @@ interface MobileNavProps {
   userName?: string;
   onLogout?: () => void;
 }
-
-// Menu configuration
-const mainMenuItems = [
-  { id: 'DASHBOARD', label: 'Dashboard', icon: '📊', shortLabel: 'Home' },
-  { id: 'VOTER_ROLL', label: 'Voter Roll', icon: '👥', shortLabel: 'Voters' },
-  { id: 'ANALYTICS', label: 'Analytics', icon: '📈', shortLabel: 'Stats' },
-  { id: 'RESOURCES', label: 'Resources', icon: '🛠️', shortLabel: 'Resources' },
-  { id: 'PLANNER', label: 'Planner', icon: '📅', shortLabel: 'Planner' },
-  { id: 'EVENTS', label: 'Events', icon: '🎉', shortLabel: 'Events' },
-];
-
-const adminMenuItems = [
-  { id: 'MOHALLA_SETUP', label: 'Mohalla Setup', icon: '🏘️' },
-  { id: 'INFLUENCERS', label: 'Influencers', icon: '👤' },
-];
-
-// Bottom nav shows only 5 most important items
-const bottomNavItems = [
-  { id: 'DASHBOARD', label: 'Home', icon: '🏠' },
-  { id: 'VOTER_ROLL', label: 'Voters', icon: '👥' },
-  { id: 'ANALYTICS', label: 'Stats', icon: '📈' },
-  { id: 'PLANNER', label: 'Plan', icon: '📅' },
-  { id: 'MORE', label: 'More', icon: '☰' },
-];
 
 // Mobile Header with Hamburger
 export const MobileHeader: React.FC<{
@@ -63,8 +40,8 @@ export const MobileHeader: React.FC<{
           <span className="text-lg font-semibold">{title || 'VijayPath'}</span>
         </div>
 
-        {/* Placeholder for right side action */}
-        <div className="w-11 h-11" />
+        {/* Language Switch for mobile header */}
+        <LanguageSwitch variant="compact" />
       </div>
     </header>
   );
@@ -79,6 +56,23 @@ export const MobileDrawer: React.FC<{
   userName?: string;
   onLogout?: () => void;
 }> = ({ isOpen, onClose, activeView, setActiveView, userName, onLogout }) => {
+  const { t } = useLanguage();
+
+  // Menu items with translations
+  const mainMenuItems = [
+    { id: 'DASHBOARD', label: t.nav.dashboard, icon: '📊', shortLabel: t.nav.home },
+    { id: 'VOTER_ROLL', label: t.nav.voterRoll, icon: '👥', shortLabel: t.nav.voters },
+    { id: 'ANALYTICS', label: t.nav.analytics, icon: '📈', shortLabel: t.nav.stats },
+    { id: 'RESOURCES', label: t.nav.resources, icon: '🛠️', shortLabel: t.nav.resources },
+    { id: 'PLANNER', label: t.nav.planner, icon: '📅', shortLabel: t.nav.planner },
+    { id: 'EVENTS', label: t.nav.events, icon: '🎉', shortLabel: t.nav.events },
+  ];
+
+  const adminMenuItems = [
+    { id: 'MOHALLA_SETUP', label: t.nav.mohallaSetup, icon: '🏘️' },
+    { id: 'INFLUENCERS', label: t.nav.influencers, icon: '👤' },
+  ];
+
   // Close drawer on escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -119,7 +113,7 @@ export const MobileDrawer: React.FC<{
         <div className="p-4 border-b border-slate-800 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-orange-500">VijayPath<span className="text-white">2026</span></h1>
-            <p className="text-[10px] text-slate-400 uppercase tracking-widest">Pradhan Election Suite</p>
+            <p className="text-[10px] text-slate-400 uppercase tracking-widest">{t.auth.subtitle}</p>
           </div>
           <button
             onClick={onClose}
@@ -141,7 +135,7 @@ export const MobileDrawer: React.FC<{
               </div>
               <div>
                 <p className="text-white font-medium text-sm">{userName}</p>
-                <p className="text-slate-400 text-xs">Campaign Manager</p>
+                <p className="text-slate-400 text-xs">{t.header.campaignHQ}</p>
               </div>
             </div>
           </div>
@@ -166,7 +160,7 @@ export const MobileDrawer: React.FC<{
 
           {/* Admin Section */}
           <div className="px-4 py-3 mt-2 border-t border-slate-800">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Admin</span>
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{t.nav.admin}</span>
           </div>
           {adminMenuItems.map((item) => (
             <button
@@ -191,8 +185,7 @@ export const MobileDrawer: React.FC<{
               onClick={onLogout}
               className="w-full py-3 px-4 bg-red-600/20 text-red-400 rounded-xl font-medium hover:bg-red-600/30 transition-colors flex items-center justify-center gap-2"
             >
-              <span>🚪</span>
-              <span>Logout</span>
+              <span>{t.auth.logout}</span>
             </button>
           </div>
         )}
@@ -207,6 +200,16 @@ export const BottomNav: React.FC<{
   setActiveView: (view: string) => void;
   onMoreClick: () => void;
 }> = ({ activeView, setActiveView, onMoreClick }) => {
+  const { t } = useLanguage();
+
+  const bottomNavItems = [
+    { id: 'DASHBOARD', label: t.nav.home, icon: '🏠' },
+    { id: 'VOTER_ROLL', label: t.nav.voters, icon: '👥' },
+    { id: 'ANALYTICS', label: t.nav.stats, icon: '📈' },
+    { id: 'PLANNER', label: t.nav.plan, icon: '📅' },
+    { id: 'MORE', label: t.nav.more, icon: '☰' },
+  ];
+
   const handleClick = (id: string) => {
     if (id === 'MORE') {
       onMoreClick();
@@ -219,7 +222,7 @@ export const BottomNav: React.FC<{
   const isActiveInBottomNav = bottomNavItems.slice(0, -1).some(item => item.id === activeView);
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-800 border-t border-slate-700 shadow-lg" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
       <div className="flex items-stretch h-16">
         {bottomNavItems.map((item) => {
           const isActive = item.id === 'MORE'
@@ -232,8 +235,8 @@ export const BottomNav: React.FC<{
               onClick={() => handleClick(item.id)}
               className={`flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors min-h-[64px] ${
                 isActive
-                  ? 'text-orange-600 bg-orange-50'
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                  ? 'text-orange-500 bg-orange-600/10'
+                  : 'text-slate-400 hover:text-slate-300 hover:bg-slate-700'
               }`}
             >
               <span className="text-xl">{item.icon}</span>
@@ -255,11 +258,24 @@ const MobileNav: React.FC<MobileNavProps> = ({
   userName,
   onLogout
 }) => {
+  const { t } = useLanguage();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  // Menu items for getting current page title
+  const allMenuItems = [
+    { id: 'DASHBOARD', label: t.nav.dashboard },
+    { id: 'VOTER_ROLL', label: t.nav.voterRoll },
+    { id: 'ANALYTICS', label: t.nav.analytics },
+    { id: 'RESOURCES', label: t.nav.resources },
+    { id: 'PLANNER', label: t.nav.planner },
+    { id: 'EVENTS', label: t.nav.events },
+    { id: 'MOHALLA_SETUP', label: t.nav.mohallaSetup },
+    { id: 'INFLUENCERS', label: t.nav.influencers },
+  ];
+
   // Get current page title
-  const currentItem = [...mainMenuItems, ...adminMenuItems].find(item => item.id === activeView);
-  const pageTitle = currentItem?.label || 'Dashboard';
+  const currentItem = allMenuItems.find(item => item.id === activeView);
+  const pageTitle = currentItem?.label || t.nav.dashboard;
 
   return (
     <>
