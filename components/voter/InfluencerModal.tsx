@@ -67,7 +67,25 @@ const InfluencerModal: React.FC<InfluencerModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onSave(formData);
+    try {
+      await onSave(formData);
+      // Reset form to initial state after successful save
+      setFormData({
+        name: '',
+        influencerType: 'Family Head',
+        subType: '',
+        mohallaIds: [],
+        familiesInfluenced: [],
+        estimatedVoteControl: 0,
+        currentStance: 'Unknown',
+        canBeInfluenced: true,
+        mobile: '',
+        notes: ''
+      });
+      onClose();
+    } catch (error) {
+      console.error('Error saving influencer:', error);
+    }
   };
 
   const toggleMohalla = (mohallaId: string) => {

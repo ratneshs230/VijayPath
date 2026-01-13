@@ -265,6 +265,9 @@ export const subscribeToEnhancedVoters = (
     // Sort client-side
     voters.sort((a, b) => a.name.localeCompare(b.name));
     callback(voters);
+  }, (error) => {
+    console.error('Error subscribing to enhanced voters:', error);
+    callback([]);
   });
 };
 
@@ -289,6 +292,9 @@ export const subscribeToHouseholdVoters = (
       return a.name.localeCompare(b.name);
     });
     callback(voters);
+  }, (error) => {
+    console.error('Error subscribing to household voters:', error);
+    callback([]);
   });
 };
 
@@ -302,6 +308,9 @@ export const subscribeToMohallaVoters = (
     const voters = snapshot.docs.map(docToEnhancedVoter);
     voters.sort((a, b) => a.name.localeCompare(b.name));
     callback(voters);
+  }, (error) => {
+    console.error('Error subscribing to mohalla voters:', error);
+    callback([]);
   });
 };
 

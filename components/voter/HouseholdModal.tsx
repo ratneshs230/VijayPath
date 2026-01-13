@@ -57,7 +57,27 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onSave(formData);
+    try {
+      await onSave(formData);
+      // Reset form to initial state after successful save
+      setFormData({
+        mohallaId,
+        caste: '',
+        subCaste: '',
+        category: 'Gen',
+        houseType: 'Pucca',
+        economicMarker: 'APL',
+        familyInfluenceLevel: 0,
+        familySentiment: 'Dicey',
+        houseNumber: '',
+        landmark: '',
+        historicalRivalryNotes: ''
+      });
+      onClose();
+    } catch (error) {
+      console.error('Error saving household:', error);
+      // Error handling - could show toast notification here
+    }
   };
 
   if (!isOpen) return null;

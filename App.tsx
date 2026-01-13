@@ -31,7 +31,7 @@ const VALID_VIEWS = Object.values(View);
 // Main app content (shown when authenticated)
 const AppContent: React.FC = () => {
   const [activeView, setActiveView] = useState<View>(View.DASHBOARD);
-  const { isLoading, user, logout } = useApp();
+  const { isLoading, user, signOut } = useApp();
 
   // Listen to hash changes for navigation from other components
   useEffect(() => {
@@ -84,7 +84,7 @@ const AppContent: React.FC = () => {
         activeView={activeView}
         setActiveView={(view) => setActiveView(view as View)}
         userName={user?.email?.split('@')[0] || 'User'}
-        onLogout={logout}
+        onLogout={signOut}
       />
 
       {/* Desktop Sidebar - hidden on mobile */}
