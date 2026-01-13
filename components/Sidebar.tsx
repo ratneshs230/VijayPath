@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useElectionAnalytics } from '../src/hooks/useElectionAnalytics';
 
 interface SidebarProps {
   activeView: string;
@@ -8,6 +9,22 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const { dashboardMetrics } = useElectionAnalytics();
+
+  // Get win probability from analytics (with fallback)
+  const winProbability = dashboardMetrics?.winProbabilityPercent ?? 0;
+  const winBand = dashboardMetrics?.winProbabilityBand ?? 'Toss-up';
+
+  // Determine color based on probability band
+  const getProbabilityColor = () => {
+    if (winProbability >= 60) return 'bg-green-500 text-green-400';
+    if (winProbability >= 45) return 'bg-amber-500 text-amber-400';
+    return 'bg-red-500 text-red-400';
+  };
+  const [barColor, textColor] = getProbabilityColor().split(' ');
+
+  // Calculate stroke-dashoffset for circular progress (100 - percentage)
+  const circleOffset = 100 - winProbability;
 
   const menuItems = [
     { id: 'DASHBOARD', label: 'Dashboard', icon: '📊' },
@@ -100,17 +117,32 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
             <>
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Winning Probability</p>
               <div className="mt-2 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                <div className="h-full bg-green-500 w-[65%] transition-all duration-1000" />
+                <div
+                  className={`h-full ${barColor} transition-all duration-1000`}
+                  style={{ width: `${winProbability}%` }}
+                />
               </div>
-              <p className="text-right text-[10px] mt-1 font-bold text-green-400">65%</p>
+              <p className={`text-right text-[10px] mt-1 font-bold ${textColor}`}>
+                {Math.round(winProbability)}%
+              </p>
             </>
           ) : (
             <div className="relative w-10 h-10">
                <svg className="w-10 h-10 transform -rotate-90">
                 <circle cx="20" cy="20" r="16" stroke="currentColor" strokeWidth="4" fill="transparent" className="text-slate-700" />
-                <circle cx="20" cy="20" r="16" stroke="currentColor" strokeWidth="4" fill="transparent" strokeDasharray="100" strokeDashoffset="35" className="text-green-500" />
+                <circle
+                  cx="20" cy="20" r="16"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  fill="transparent"
+                  strokeDasharray="100"
+                  strokeDashoffset={circleOffset}
+                  className={barColor.replace('bg-', 'text-')}
+                />
               </svg>
-              <span className="absolute inset-0 flex items-center justify-center text-[8px] font-bold text-green-400">65%</span>
+              <span className={`absolute inset-0 flex items-center justify-center text-[8px] font-bold ${textColor}`}>
+                {Math.round(winProbability)}%
+              </span>
             </div>
           )}
         </div>

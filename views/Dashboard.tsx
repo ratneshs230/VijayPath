@@ -18,7 +18,7 @@ import {
 import DemoDataControl from '../components/DemoDataControl';
 
 const Dashboard: React.FC = () => {
-  const { stats } = useApp();
+  const { stats, influencers } = useApp();
   const {
     isLoading,
     dashboardMetrics,
@@ -40,8 +40,10 @@ const Dashboard: React.FC = () => {
     );
   }
 
-  // Calculate unconverted influencers (neutral stance)
-  const unconvertedInfluencers = 0; // Will be from influencers data if available
+  // Calculate unconverted influencers (neutral/unknown stance that can be influenced)
+  const unconvertedInfluencers = influencers.filter(
+    inf => inf.canBeInfluenced && (inf.currentStance === 'Neutral' || inf.currentStance === 'Unknown')
+  ).length;
 
   return (
     <div className="space-y-6">

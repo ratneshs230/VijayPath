@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { TURNOUT_PROBABILITIES } from '../../src/utils/analyticsTypes';
 
 interface TurnoutProjectionProps {
   highTurnoutVoters: number;
@@ -25,25 +26,26 @@ const TurnoutProjection: React.FC<TurnoutProjectionProps> = ({
     ? Math.round((expectedTurnout / totalVoters) * 100)
     : 0;
 
+  // Use centralized turnout probability constants
   const categories = [
     {
       label: 'High Turnout',
       count: highTurnoutVoters,
-      probability: '90%',
+      probability: `${Math.round(TURNOUT_PROBABILITIES.High * 100)}%`,
       color: 'bg-green-500',
       textColor: 'text-green-400'
     },
     {
       label: 'Medium Turnout',
       count: mediumTurnoutVoters,
-      probability: '60%',
+      probability: `${Math.round(TURNOUT_PROBABILITIES.Medium * 100)}%`,
       color: 'bg-amber-500',
       textColor: 'text-amber-400'
     },
     {
       label: 'Low Turnout',
       count: lowTurnoutVoters,
-      probability: '30%',
+      probability: `${Math.round(TURNOUT_PROBABILITIES.Low * 100)}%`,
       color: 'bg-red-500',
       textColor: 'text-red-400'
     }
