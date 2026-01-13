@@ -67,18 +67,18 @@ const AppContent: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-slate-900">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 font-medium">Loading campaign data...</p>
-          <p className="text-gray-400 text-sm mt-1">Setting up real-time sync</p>
+          <p className="text-slate-300 font-medium">Loading campaign data...</p>
+          <p className="text-slate-500 text-sm mt-1">Setting up real-time sync</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50 overflow-hidden">
+    <div className="flex min-h-screen bg-slate-900 overflow-hidden">
       {/* Mobile Navigation - only visible on mobile */}
       <MobileNav
         activeView={activeView}
@@ -93,7 +93,7 @@ const AppContent: React.FC = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-auto">
+      <div className="flex-1 flex flex-col min-w-0 overflow-auto bg-slate-900">
         {/* Desktop Header - hidden on mobile */}
         <div className="hidden md:block">
           <Header />
