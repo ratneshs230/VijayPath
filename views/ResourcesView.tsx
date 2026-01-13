@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Resource, ResourceType } from '../types';
 import { useResources } from '../src/hooks/useResources';
 import { useEvents } from '../src/hooks/useEvents';
+import { useLanguage } from '../src/i18n';
 import { validateResource, canDeleteResource, ResourceValidationResult } from '../src/utils/validation';
 
 interface ResourceModalProps {
@@ -160,6 +161,7 @@ const ResourceModal: React.FC<ResourceModalProps> = ({ isOpen, onClose, onSave, 
 };
 
 const ResourcesView: React.FC = () => {
+  const { t } = useLanguage();
   const { resources, resourceStats, addResource, updateResource, deleteResource, isLoading } = useResources();
   const { events } = useEvents();
   const [searchTerm, setSearchTerm] = useState('');
@@ -248,7 +250,7 @@ const ResourcesView: React.FC = () => {
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-gray-500">Loading resources...</p>
+          <p className="text-gray-500">{t.common.loading}</p>
         </div>
       </div>
     );
@@ -260,28 +262,28 @@ const ResourcesView: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Campaign Resources</h2>
-            <p className="text-sm text-gray-500">Inventory of assets available for deployment</p>
+            <h2 className="text-2xl font-bold text-gray-900 tracking-tight">{t.resources.title}</h2>
+            <p className="text-sm text-gray-500">{t.resources.subtitle}</p>
           </div>
           <div className="mt-6 flex gap-3">
             <button
               onClick={() => { setSelectedResource(null); setIsModalOpen(true); }}
               className="bg-orange-600 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-orange-700 transition shadow-lg shadow-orange-600/20 flex items-center"
             >
-              <span className="mr-2 text-xl">+</span> Add New Asset
+              <span className="mr-2 text-xl">+</span> {t.resources.addAsset}
             </button>
           </div>
         </div>
 
         <div className="bg-slate-900 p-6 rounded-2xl shadow-lg text-white">
           <div className="flex justify-between items-start mb-2">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Budget Utilization</span>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t.resources.budgetUtilization}</span>
             <span className={`text-xs font-bold ${resourceStats.budget.percentUsed > 80 ? 'text-red-400' : 'text-green-400'}`}>
-              {resourceStats.budget.percentUsed > 80 ? 'High' : 'Safe'}
+              {resourceStats.budget.percentUsed > 80 ? t.voter.high : t.resources.safe}
             </span>
           </div>
           <div className="text-2xl font-bold">₹{resourceStats.budget.remaining.toLocaleString()}</div>
-          <div className="text-xs text-slate-400 mt-1">Remaining out of ₹{resourceStats.budget.total.toLocaleString()}</div>
+          <div className="text-xs text-slate-400 mt-1">{t.resources.remaining} {t.resources.outOf} ₹{resourceStats.budget.total.toLocaleString()}</div>
           <div className="mt-4 h-2 bg-slate-800 rounded-full overflow-hidden">
             <div className="h-full bg-orange-500" style={{ width: `${resourceStats.budget.percentUsed}%` }} />
           </div>
@@ -289,11 +291,11 @@ const ResourcesView: React.FC = () => {
 
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
           <div className="flex justify-between items-start mb-2">
-            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Active Manpower</span>
+            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">{t.resources.activeManpower}</span>
             <span className="text-orange-500 text-xs font-bold">{resourceStats.manpower.percentUsed}%</span>
           </div>
           <div className="text-2xl font-bold text-gray-900">{resourceStats.manpower.active} / {resourceStats.manpower.total}</div>
-          <div className="text-xs text-gray-500 mt-1">Volunteers currently deployed</div>
+          <div className="text-xs text-gray-500 mt-1">{t.resources.volunteersDeployed}</div>
           <div className="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
             <div className="h-full bg-green-500" style={{ width: `${resourceStats.manpower.percentUsed}%` }} />
           </div>
@@ -403,13 +405,13 @@ const ResourcesView: React.FC = () => {
       {filteredResources.length === 0 && (
         <div className="bg-white p-20 rounded-2xl border border-dashed border-gray-200 text-center">
           <div className="text-6xl mb-4 grayscale opacity-20">🏗️</div>
-          <h3 className="text-xl font-bold text-gray-900">No assets found</h3>
-          <p className="text-gray-500 mt-2">Try adjusting your filters or search keywords.</p>
+          <h3 className="text-xl font-bold text-gray-900">{t.resources.noAssetsFound}</h3>
+          <p className="text-gray-500 mt-2">{t.resources.adjustFilters}</p>
           <button
             onClick={() => {setSearchTerm(''); setFilterType('All');}}
             className="mt-6 px-6 py-2 bg-slate-900 text-white rounded-xl font-bold text-sm"
           >
-            Clear Filters
+            {t.resources.clearFilters}
           </button>
         </div>
       )}

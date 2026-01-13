@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { useElectionAnalytics } from '../src/hooks/useElectionAnalytics';
 import { useApp } from '../src/context/AppContext';
+import { useLanguage } from '../src/i18n';
 import {
   SwingAnalysis,
   FamilyInsights,
@@ -17,6 +18,7 @@ type TabType = 'swing' | 'families' | 'actions' | 'demographics';
 
 const Analytics: React.FC = () => {
   const { stats } = useApp();
+  const { t } = useLanguage();
   const {
     isLoading,
     dashboardMetrics,
@@ -41,7 +43,7 @@ const Analytics: React.FC = () => {
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-slate-400">Loading analytics...</p>
+          <p className="text-slate-400">{t.common.loading}</p>
         </div>
       </div>
     );
@@ -52,25 +54,25 @@ const Analytics: React.FC = () => {
     return (
       <div className="bg-slate-800 rounded-2xl p-12 text-center">
         <div className="text-6xl mb-4">📊</div>
-        <h3 className="text-xl font-bold text-white mb-2">No Voter Data</h3>
+        <h3 className="text-xl font-bold text-white mb-2">{t.analytics.noData}</h3>
         <p className="text-slate-400 mb-4">
-          Add families and voters in the Voter Roll to see detailed analytics.
+          {t.analytics.addDataPrompt}
         </p>
         <button
           onClick={() => window.location.hash = 'VOTER_ROLL'}
           className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
         >
-          Go to Voter Roll
+          {t.dashboard.goToVoterRoll}
         </button>
       </div>
     );
   }
 
   const tabs = [
-    { key: 'swing', label: 'Swing Analysis', icon: '🎯', count: dashboardMetrics.totalSwingVoters },
-    { key: 'families', label: 'Families', icon: '🏠', count: familyMetrics.length },
-    { key: 'actions', label: 'Actions', icon: '⚡', count: topTargetsThisWeek.length },
-    { key: 'demographics', label: 'Demographics', icon: '📈', count: null }
+    { key: 'swing', label: t.analytics.swingAnalysis, icon: '🎯', count: dashboardMetrics.totalSwingVoters },
+    { key: 'families', label: t.analytics.familyInsights, icon: '🏠', count: familyMetrics.length },
+    { key: 'actions', label: t.analytics.actionLists, icon: '⚡', count: topTargetsThisWeek.length },
+    { key: 'demographics', label: t.analytics.demographics, icon: '📈', count: null }
   ];
 
   return (
@@ -79,9 +81,9 @@ const Analytics: React.FC = () => {
       <div className="bg-slate-800 rounded-2xl p-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h2 className="text-xl font-bold text-white">Deep Voter Analytics</h2>
+            <h2 className="text-xl font-bold text-white">{t.analytics.title}</h2>
             <p className="text-sm text-slate-400 mt-1">
-              Data-driven campaign optimization based on {enhancedVoters.length.toLocaleString()} voters
+              {t.analytics.subtitle} - {enhancedVoters.length.toLocaleString()} {t.dashboard.voters}
             </p>
           </div>
 
@@ -89,15 +91,15 @@ const Analytics: React.FC = () => {
           <div className="flex gap-4">
             <div className="text-center">
               <div className="text-xl font-bold text-purple-400">{dashboardMetrics.actionableSwing}</div>
-              <div className="text-xs text-slate-500">Actionable Swing</div>
+              <div className="text-xs text-slate-500">{t.dashboard.actionable}</div>
             </div>
             <div className="text-center">
               <div className="text-xl font-bold text-green-400">{dashboardMetrics.coveragePercent}%</div>
-              <div className="text-xs text-slate-500">Coverage</div>
+              <div className="text-xs text-slate-500">{t.dashboard.coverage}</div>
             </div>
             <div className="text-center">
               <div className="text-xl font-bold text-amber-400">{stats.daysToElection}</div>
-              <div className="text-xs text-slate-500">Days Left</div>
+              <div className="text-xs text-slate-500">{t.dashboard.daysLeft}</div>
             </div>
           </div>
         </div>
@@ -207,15 +209,15 @@ const Analytics: React.FC = () => {
           <div className="flex gap-6 text-center">
             <div>
               <div className="text-xl font-bold text-green-400">{dashboardMetrics.confirmedVotes + dashboardMetrics.likelyVotes}</div>
-              <div className="text-xs text-slate-500">Favorable</div>
+              <div className="text-xs text-slate-500">{t.dashboard.favorable}</div>
             </div>
             <div>
               <div className="text-xl font-bold text-purple-400">{dashboardMetrics.swingVotes}</div>
-              <div className="text-xs text-slate-500">Swing</div>
+              <div className="text-xs text-slate-500">{t.dashboard.swing}</div>
             </div>
             <div>
               <div className="text-xl font-bold text-red-400">{dashboardMetrics.oppositionVotes}</div>
-              <div className="text-xs text-slate-500">Opposition</div>
+              <div className="text-xs text-slate-500">{t.dashboard.opposition}</div>
             </div>
           </div>
         </div>

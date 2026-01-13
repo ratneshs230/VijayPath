@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useApp } from '../src/context/AppContext';
+import { useLanguage } from '../src/i18n';
 import { Influencer, InfluencerStance } from '../types';
 import InfluencerList from '../components/voter/InfluencerList';
 import InfluencerModal from '../components/voter/InfluencerModal';
@@ -7,6 +8,7 @@ import InfluencerModal from '../components/voter/InfluencerModal';
 type FilterStance = InfluencerStance | 'All';
 
 const InfluencersView: React.FC = () => {
+  const { t } = useLanguage();
   const { influencers, mohallas, addInfluencer, updateInfluencer, deleteInfluencer } = useApp();
 
   // Modal state
@@ -122,9 +124,9 @@ const InfluencersView: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-white">Influencer Network</h1>
+          <h1 className="text-2xl lg:text-3xl font-bold text-white">{t.influencer.title}</h1>
           <p className="text-slate-400 text-sm mt-1">
-            Track key influencers and their impact on voter sentiment
+            {t.influencer.subtitle}
           </p>
         </div>
         <button
@@ -132,7 +134,7 @@ const InfluencersView: React.FC = () => {
           className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-bold transition-colors flex items-center gap-2"
         >
           <span className="text-xl">+</span>
-          Add Influencer
+          {t.influencer.addInfluencer}
         </button>
       </div>
 
@@ -140,31 +142,31 @@ const InfluencersView: React.FC = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
         <div className="bg-slate-800 rounded-xl p-4 text-center">
           <div className="text-2xl font-bold text-white">{stats.total}</div>
-          <div className="text-xs text-slate-400 uppercase tracking-wide">Total</div>
+          <div className="text-xs text-slate-400 uppercase tracking-wide">{t.common.total}</div>
         </div>
         <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 text-center">
           <div className="text-2xl font-bold text-green-400">{stats.supportive}</div>
-          <div className="text-xs text-green-400/70 uppercase tracking-wide">Supportive</div>
+          <div className="text-xs text-green-400/70 uppercase tracking-wide">{t.influencer.supportive}</div>
         </div>
         <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4 text-center">
           <div className="text-2xl font-bold text-blue-400">{stats.neutral}</div>
-          <div className="text-xs text-blue-400/70 uppercase tracking-wide">Neutral</div>
+          <div className="text-xs text-blue-400/70 uppercase tracking-wide">{t.influencer.neutral}</div>
         </div>
         <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-center">
           <div className="text-2xl font-bold text-red-400">{stats.opposed}</div>
-          <div className="text-xs text-red-400/70 uppercase tracking-wide">Opposed</div>
+          <div className="text-xs text-red-400/70 uppercase tracking-wide">{t.influencer.opposed}</div>
         </div>
         <div className="bg-slate-500/10 border border-slate-500/20 rounded-xl p-4 text-center">
           <div className="text-2xl font-bold text-slate-400">{stats.unknown}</div>
-          <div className="text-xs text-slate-400/70 uppercase tracking-wide">Unknown</div>
+          <div className="text-xs text-slate-400/70 uppercase tracking-wide">{t.dashboard.unknown}</div>
         </div>
         <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-4 text-center">
           <div className="text-2xl font-bold text-orange-400">{stats.totalVoteControl}</div>
-          <div className="text-xs text-orange-400/70 uppercase tracking-wide">Votes Controlled</div>
+          <div className="text-xs text-orange-400/70 uppercase tracking-wide">{t.influencer.votesControlled}</div>
         </div>
         <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 text-center">
           <div className="text-2xl font-bold text-amber-400">{stats.convertible}</div>
-          <div className="text-xs text-amber-400/70 uppercase tracking-wide">Convertible</div>
+          <div className="text-xs text-amber-400/70 uppercase tracking-wide">{t.influencer.convertible}</div>
         </div>
       </div>
 
@@ -177,7 +179,7 @@ const InfluencersView: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by name or type..."
+              placeholder={t.influencer.searchPlaceholder}
               className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
             />
           </div>
@@ -219,7 +221,7 @@ const InfluencersView: React.FC = () => {
 
       {/* Results Count */}
       <div className="text-sm text-slate-400">
-        Showing {filteredInfluencers.length} of {influencers.length} influencers
+        {t.common.showing} {filteredInfluencers.length} {t.common.of} {influencers.length}
       </div>
 
       {/* Influencer List */}
@@ -250,7 +252,7 @@ const InfluencersView: React.FC = () => {
           <div className="bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md my-auto max-h-[95vh] sm:max-h-[90vh] flex flex-col">
             {/* Sticky Header */}
             <div className="px-4 sm:px-6 py-4 border-b border-slate-700 flex justify-between items-center flex-shrink-0">
-              <h3 className="text-lg font-bold text-white">Log Contact</h3>
+              <h3 className="text-lg font-bold text-white">{t.influencer.logContact}</h3>
               <button
                 onClick={() => setContactInfluencer(null)}
                 className="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white text-xl rounded-lg hover:bg-slate-700"
@@ -261,10 +263,10 @@ const InfluencersView: React.FC = () => {
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto p-4 sm:p-6">
               <p className="text-slate-300 mb-4">
-                Record a contact with <span className="font-bold text-white">{contactInfluencer.name}</span>?
+                {t.influencer.logContactConfirm} <span className="font-bold text-white">{contactInfluencer.name}</span>?
               </p>
               <p className="text-sm text-slate-400 mb-4">
-                This will update the "Last Contacted" timestamp to now.
+                {t.influencer.updateTimestamp}
               </p>
               {contactInfluencer.mobile && (
                 <div className="p-4 bg-slate-700/50 rounded-xl mb-4">
@@ -285,14 +287,14 @@ const InfluencersView: React.FC = () => {
                 className="flex-1 px-4 py-3 min-h-[44px] bg-slate-700 text-slate-300 rounded-xl hover:bg-slate-600 active:bg-slate-500 transition-colors font-medium"
                 disabled={isSaving}
               >
-                Cancel
+                {t.common.cancel}
               </button>
               <button
                 onClick={handleLogContact}
                 className="flex-1 px-4 py-3 min-h-[44px] bg-orange-600 text-white rounded-xl hover:bg-orange-700 active:bg-orange-800 transition-colors disabled:opacity-50 font-medium"
                 disabled={isSaving}
               >
-                {isSaving ? 'Saving...' : 'Log Contact'}
+                {isSaving ? t.common.loading : t.influencer.logContact}
               </button>
             </div>
           </div>

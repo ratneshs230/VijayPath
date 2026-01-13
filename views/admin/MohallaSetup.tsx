@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useApp } from '../../src/context/AppContext';
+import { useLanguage } from '../../src/i18n';
 import { Mohalla } from '../../types';
 
 const MohallaSetup: React.FC = () => {
+  const { t } = useLanguage();
   const { mohallas, addMohalla, updateMohalla, deleteMohalla, user, isLoading } = useApp();
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -100,7 +102,7 @@ const MohallaSetup: React.FC = () => {
   if (isLoading) {
     return (
       <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="text-slate-400">Loading...</div>
+        <div className="text-slate-400">{t.common.loading}</div>
       </div>
     );
   }
@@ -110,9 +112,9 @@ const MohallaSetup: React.FC = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">Mohalla Setup</h1>
+          <h1 className="text-2xl font-bold text-white">{t.mohallaSetup.title}</h1>
           <p className="text-slate-400 text-sm mt-1">
-            Configure the mohallas/tolas in your gram panchayat
+            {t.mohallaSetup.subtitle}
           </p>
         </div>
         <button
@@ -120,24 +122,24 @@ const MohallaSetup: React.FC = () => {
           className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors flex items-center gap-2"
         >
           <span>+</span>
-          Add Mohalla
+          {t.mohallaSetup.addMohalla}
         </button>
       </div>
 
       {/* Stats Card */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="bg-slate-800 rounded-xl p-4">
-          <div className="text-slate-400 text-xs uppercase tracking-wide">Total Mohallas</div>
+          <div className="text-slate-400 text-xs uppercase tracking-wide">{t.mohallaSetup.totalMohallas}</div>
           <div className="text-2xl font-bold text-white mt-1">{mohallas.length}</div>
         </div>
         <div className="bg-slate-800 rounded-xl p-4">
-          <div className="text-slate-400 text-xs uppercase tracking-wide">Total Households</div>
+          <div className="text-slate-400 text-xs uppercase tracking-wide">{t.mohallaSetup.totalHouseholds}</div>
           <div className="text-2xl font-bold text-white mt-1">
             {mohallas.reduce((sum, m) => sum + m.totalHouseholds, 0)}
           </div>
         </div>
         <div className="bg-slate-800 rounded-xl p-4">
-          <div className="text-slate-400 text-xs uppercase tracking-wide">Total Voters</div>
+          <div className="text-slate-400 text-xs uppercase tracking-wide">{t.mohallaSetup.totalVoters}</div>
           <div className="text-2xl font-bold text-white mt-1">
             {mohallas.reduce((sum, m) => sum + m.totalVoters, 0)}
           </div>
@@ -150,19 +152,19 @@ const MohallaSetup: React.FC = () => {
           <thead>
             <tr className="border-b border-slate-700">
               <th className="text-left px-4 py-3 text-slate-400 text-xs uppercase tracking-wide font-medium w-12">#</th>
-              <th className="text-left px-4 py-3 text-slate-400 text-xs uppercase tracking-wide font-medium">Mohalla Name</th>
-              <th className="text-left px-4 py-3 text-slate-400 text-xs uppercase tracking-wide font-medium">Alternate Names</th>
-              <th className="text-center px-4 py-3 text-slate-400 text-xs uppercase tracking-wide font-medium">Households</th>
-              <th className="text-center px-4 py-3 text-slate-400 text-xs uppercase tracking-wide font-medium">Voters</th>
-              <th className="text-center px-4 py-3 text-slate-400 text-xs uppercase tracking-wide font-medium w-32">Order</th>
-              <th className="text-right px-4 py-3 text-slate-400 text-xs uppercase tracking-wide font-medium w-24">Actions</th>
+              <th className="text-left px-4 py-3 text-slate-400 text-xs uppercase tracking-wide font-medium">{t.mohallaSetup.mohallaName}</th>
+              <th className="text-left px-4 py-3 text-slate-400 text-xs uppercase tracking-wide font-medium">{t.mohallaSetup.alternateNames}</th>
+              <th className="text-center px-4 py-3 text-slate-400 text-xs uppercase tracking-wide font-medium">{t.mohallaSetup.totalHouseholds}</th>
+              <th className="text-center px-4 py-3 text-slate-400 text-xs uppercase tracking-wide font-medium">{t.mohallaSetup.totalVoters}</th>
+              <th className="text-center px-4 py-3 text-slate-400 text-xs uppercase tracking-wide font-medium w-32">{t.mohallaSetup.order}</th>
+              <th className="text-right px-4 py-3 text-slate-400 text-xs uppercase tracking-wide font-medium w-24">{t.common.actions}</th>
             </tr>
           </thead>
           <tbody>
             {mohallas.length === 0 ? (
               <tr>
                 <td colSpan={7} className="px-4 py-8 text-center text-slate-500">
-                  No mohallas configured yet. Click "Add Mohalla" to get started.
+                  {t.mohallaSetup.noMohallasYet} {t.mohallaSetup.getStarted}
                 </td>
               </tr>
             ) : (
@@ -243,7 +245,7 @@ const MohallaSetup: React.FC = () => {
             {/* Sticky Header */}
             <div className="px-4 sm:px-6 py-4 border-b border-slate-700 flex justify-between items-center flex-shrink-0">
               <h2 className="text-lg sm:text-xl font-bold text-white">
-                {editingMohalla ? 'Edit Mohalla' : 'Add New Mohalla'}
+                {editingMohalla ? t.mohallaSetup.editMohalla : t.mohallaSetup.addMohalla}
               </h2>
               <button
                 onClick={handleCloseModal}
@@ -258,37 +260,37 @@ const MohallaSetup: React.FC = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-slate-400 text-sm mb-1">
-                    Mohalla Name <span className="text-red-400">*</span>
+                    {t.mohallaSetup.mohallaName} <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-3 min-h-[44px] bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
-                    placeholder="e.g., Purab Tola, Harijan Basti"
+                    placeholder={t.mohallaSetup.mohallaNamePlaceholder}
                     required
                   />
                 </div>
 
                 <div>
                   <label className="block text-slate-400 text-sm mb-1">
-                    Alternate Names (comma separated)
+                    {t.mohallaSetup.alternateNames}
                   </label>
                   <input
                     type="text"
                     value={formData.alternateNames}
                     onChange={(e) => setFormData({ ...formData, alternateNames: e.target.value })}
                     className="w-full px-4 py-3 min-h-[44px] bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
-                    placeholder="e.g., Yadav Mohalla, Bade Baba ka Purva"
+                    placeholder={t.mohallaSetup.alternateNamesPlaceholder}
                   />
                   <p className="text-slate-500 text-xs mt-1">
-                    Local names people use to refer to this area
+                    {t.mohallaSetup.alternateNamesHelp}
                   </p>
                 </div>
 
                 <div>
                   <label className="block text-slate-400 text-sm mb-1">
-                    Sort Order
+                    {t.mohallaSetup.sortOrder}
                   </label>
                   <input
                     type="number"
@@ -308,14 +310,14 @@ const MohallaSetup: React.FC = () => {
                 onClick={handleCloseModal}
                 className="flex-1 px-4 py-3 min-h-[44px] bg-slate-700 text-slate-300 rounded-xl hover:bg-slate-600 active:bg-slate-500 transition-colors font-medium"
               >
-                Cancel
+                {t.common.cancel}
               </button>
               <button
                 type="button"
                 onClick={handleSubmit}
                 className="flex-1 px-4 py-3 min-h-[44px] bg-orange-600 text-white rounded-xl hover:bg-orange-700 active:bg-orange-800 transition-colors font-medium"
               >
-                {editingMohalla ? 'Save Changes' : 'Add Mohalla'}
+                {editingMohalla ? t.mohallaSetup.saveChanges : t.mohallaSetup.addMohalla}
               </button>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { useApp } from '../src/context/AppContext';
+import { useLanguage } from '../src/i18n';
 import { Mohalla, Household, EnhancedVoter, FamilySentiment } from '../types';
 import HouseholdCard from '../components/voter/HouseholdCard';
 import HouseholdModal from '../components/voter/HouseholdModal';
@@ -9,6 +10,7 @@ import VoterQuickEntry from '../components/voter/VoterQuickEntry';
 // This will be replaced with proper EnhancedVoter service calls
 
 const VoterRoll: React.FC = () => {
+  const { t } = useLanguage();
   const {
     mohallas,
     households,
@@ -289,7 +291,7 @@ const VoterRoll: React.FC = () => {
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-gray-500">Loading voter data...</p>
+          <p className="text-gray-500">{t.common.loading}</p>
         </div>
       </div>
     );
@@ -301,9 +303,9 @@ const VoterRoll: React.FC = () => {
       <div className="bg-slate-800 p-6 rounded-2xl">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-white">Voter Roll</h2>
+            <h2 className="text-2xl font-bold text-white">{t.voterRoll.title}</h2>
             <p className="text-slate-400 text-sm mt-1">
-              {mohallas.length} Mohallas • {households.length} Households • {enhancedVoters.length} Voters
+              {mohallas.length} {t.voterRoll.mohallas} • {households.length} {t.voterRoll.households} • {enhancedVoters.length} {t.voterRoll.voters}
             </p>
           </div>
 
@@ -314,7 +316,7 @@ const VoterRoll: React.FC = () => {
               onChange={(e) => setSelectedMohallaId(e.target.value || null)}
               className="px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-orange-500"
             >
-              <option value="">All Mohallas</option>
+              <option value="">{t.voterRoll.allMohallas}</option>
               {mohallas.map(m => (
                 <option key={m.id} value={m.id}>{m.name}</option>
               ))}
@@ -327,7 +329,7 @@ const VoterRoll: React.FC = () => {
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
           <input
             type="text"
-            placeholder="Search by family name, caste, or house number..."
+            placeholder={t.voterRoll.searchPlaceholder}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
@@ -338,10 +340,10 @@ const VoterRoll: React.FC = () => {
       {/* Quick Stats - Single column on mobile */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         {[
-          { label: 'Total Families', value: households.length, icon: '🏠', color: 'bg-blue-500/20 text-blue-400' },
-          { label: 'Favorable', value: households.filter(h => h.familySentiment === 'Favorable').length, icon: '✅', color: 'bg-green-500/20 text-green-400' },
-          { label: 'Dicey', value: households.filter(h => h.familySentiment === 'Dicey').length, icon: '⚠️', color: 'bg-amber-500/20 text-amber-400' },
-          { label: 'Unfavorable', value: households.filter(h => h.familySentiment === 'Unfavorable').length, icon: '❌', color: 'bg-red-500/20 text-red-400' }
+          { label: t.voterRoll.totalFamilies, value: households.length, icon: '🏠', color: 'bg-blue-500/20 text-blue-400' },
+          { label: t.dashboard.favorable, value: households.filter(h => h.familySentiment === 'Favorable').length, icon: '✅', color: 'bg-green-500/20 text-green-400' },
+          { label: t.dashboard.dicey, value: households.filter(h => h.familySentiment === 'Dicey').length, icon: '⚠️', color: 'bg-amber-500/20 text-amber-400' },
+          { label: t.dashboard.unfavorable, value: households.filter(h => h.familySentiment === 'Unfavorable').length, icon: '❌', color: 'bg-red-500/20 text-red-400' }
         ].map((stat, i) => (
           <div key={i} className={`p-4 rounded-xl ${stat.color}`}>
             <div className="flex items-center gap-2">
@@ -359,15 +361,15 @@ const VoterRoll: React.FC = () => {
       {mohallas.length === 0 ? (
         <div className="bg-slate-800 rounded-2xl p-12 text-center">
           <div className="text-5xl mb-4">🏘️</div>
-          <h3 className="text-xl font-bold text-white mb-2">No Mohallas Configured</h3>
+          <h3 className="text-xl font-bold text-white mb-2">{t.voterRoll.noMohallasConfigured}</h3>
           <p className="text-slate-400 mb-4">
-            Start by setting up your mohallas/tolas in the Admin section.
+            {t.voterRoll.setupMohallas}
           </p>
           <button
             onClick={() => window.location.hash = 'MOHALLA_SETUP'}
             className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
           >
-            Go to Mohalla Setup
+            {t.voterRoll.goToMohallaSetup}
           </button>
         </div>
       ) : (
@@ -423,7 +425,7 @@ const VoterRoll: React.FC = () => {
                       }}
                       className="px-3 py-1.5 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors"
                     >
-                      + Add Family
+                      + {t.voterRoll.addFamily}
                     </button>
 
                     <span className={`text-slate-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`}>
@@ -437,12 +439,12 @@ const VoterRoll: React.FC = () => {
                   <div className="p-4 pt-0 grid grid-cols-1 lg:grid-cols-2 gap-4">
                     {mohallaHouseholds.length === 0 ? (
                       <div className="col-span-2 p-8 text-center text-slate-500 border-2 border-dashed border-slate-700 rounded-xl">
-                        <p>No families in this mohalla yet.</p>
+                        <p>{t.voterRoll.noFamiliesYet}</p>
                         <button
                           onClick={() => handleAddHousehold(mohalla.id)}
                           className="mt-2 text-orange-400 hover:text-orange-300"
                         >
-                          Add the first family
+                          {t.voterRoll.addFirstFamily}
                         </button>
                       </div>
                     ) : (

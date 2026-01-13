@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CampaignEvent, ResourceType, EventStatus, EventType } from '../types';
 import { useEvents } from '../src/hooks/useEvents';
 import { useResources } from '../src/hooks/useResources';
+import { useLanguage } from '../src/i18n';
 
 interface EventModalProps {
   isOpen: boolean;
@@ -163,6 +164,7 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, onSave, event,
 };
 
 const EventManagement: React.FC = () => {
+  const { t } = useLanguage();
   const { events, eventStats, addEvent, updateEvent, deleteEvent, getResourceAvailability, isLoading } = useEvents();
   const { resources } = useResources();
   const [showAddMenu, setShowAddMenu] = useState<string | null>(null);
@@ -272,7 +274,7 @@ const EventManagement: React.FC = () => {
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-gray-500">Loading events...</p>
+          <p className="text-gray-500">{t.common.loading}</p>
         </div>
       </div>
     );
@@ -282,14 +284,14 @@ const EventManagement: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Event & Rally Management</h2>
-          <p className="text-sm text-gray-500">Execution HQ for on-ground campaign activities</p>
+          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">{t.events.title}</h2>
+          <p className="text-sm text-gray-500">{t.events.subtitle}</p>
         </div>
         <button
           onClick={() => { setSelectedEvent(null); setIsModalOpen(true); }}
           className="bg-orange-600 text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-orange-600/20 hover:bg-orange-700 transition flex items-center"
         >
-          <span className="mr-2 text-xl">+</span> Schedule Event
+          <span className="mr-2 text-xl">+</span> {t.events.scheduleEvent}
         </button>
       </div>
 
@@ -318,30 +320,30 @@ const EventManagement: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <div className="bg-gray-50 p-3 rounded-xl text-center border border-gray-100">
-                  <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Date</p>
+                  <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">{t.events.date}</p>
                   <p className="font-bold text-gray-900">{event.date}</p>
                 </div>
                 <div className="bg-gray-50 p-3 rounded-xl text-center border border-gray-100">
-                  <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Time</p>
+                  <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">{t.events.time}</p>
                   <p className="font-bold text-gray-900">{event.time}</p>
                 </div>
               </div>
 
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-3">
-                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Allocated Assets</p>
+                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest">{t.events.allocatedAssets}</p>
                   <div className="relative">
                     <button
                       onClick={() => setShowAddMenu(showAddMenu === event.id ? null : event.id)}
                       className="bg-white border border-orange-100 text-orange-600 px-2 py-1 rounded text-[10px] font-black hover:bg-orange-50 transition flex items-center shadow-sm"
                     >
-                      + DEPLOY ASSET
+                      + {t.events.deployAsset}
                     </button>
 
                     {showAddMenu === event.id && (
                       <div className="absolute right-0 mt-2 w-72 bg-white border border-gray-200 rounded-xl shadow-2xl z-50 py-3 animate-in fade-in zoom-in-95 duration-150">
                         <div className="px-4 pb-2 border-b border-gray-50 flex justify-between items-center mb-2">
-                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Available Inventory</p>
+                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t.events.availableInventory}</p>
                         </div>
                         <div className="max-h-64 overflow-y-auto">
                           {resources.filter(r => !event.assignedResources.includes(r.id)).map(res => {
@@ -371,7 +373,7 @@ const EventManagement: React.FC = () => {
                             );
                           })}
                           {resources.filter(r => !event.assignedResources.includes(r.id)).length === 0 && (
-                            <p className="px-4 py-4 text-xs text-gray-400 italic text-center">No additional resources available</p>
+                            <p className="px-4 py-4 text-xs text-gray-400 italic text-center">{t.events.noAdditionalResources}</p>
                           )}
                         </div>
                       </div>
@@ -400,16 +402,16 @@ const EventManagement: React.FC = () => {
                   ) : (
                     <div className="w-full py-6 border-2 border-dashed border-gray-100 rounded-xl flex flex-col items-center justify-center text-gray-300">
                       <span className="text-2xl mb-1">🏗️</span>
-                      <p className="text-[10px] font-bold uppercase tracking-widest">No logistics assigned</p>
+                      <p className="text-[10px] font-bold uppercase tracking-widest">{t.events.noLogisticsAssigned}</p>
                     </div>
                   )}
                 </div>
               </div>
 
               <div className="mb-6 p-4 bg-slate-50 rounded-xl border-l-4 border-slate-900 group-hover:bg-slate-100 transition-colors">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Execution Brief</p>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{t.events.executionBrief}</p>
                 <p className="text-sm text-slate-600 leading-relaxed font-medium">
-                  {event.description || 'No description provided.'}
+                  {event.description || t.events.noDescription}
                 </p>
               </div>
 
@@ -442,8 +444,8 @@ const EventManagement: React.FC = () => {
           <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4 group-hover:bg-orange-50 transition-colors">
             <span className="text-4xl group-hover:scale-125 transition-transform">📅</span>
           </div>
-          <p className="font-black uppercase tracking-widest text-sm">Plan Next Ground Action</p>
-          <p className="text-xs mt-1 font-medium opacity-60">Add Rally, Meeting, or Pheri</p>
+          <p className="font-black uppercase tracking-widest text-sm">{t.events.planNextAction}</p>
+          <p className="text-xs mt-1 font-medium opacity-60">{t.events.addRallyMeeting}</p>
         </div>
       </div>
 

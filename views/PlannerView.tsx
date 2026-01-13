@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TIME_SLOTS, PLANNER_TRACKS } from '../constants';
 import { PlannerTask } from '../types';
 import { usePlanner } from '../src/hooks/usePlanner';
+import { useLanguage } from '../src/i18n';
 import { validateTask, TaskValidationResult } from '../src/utils/validation';
 
 interface TaskModalProps {
@@ -167,6 +168,7 @@ const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, onSave, task, in
 };
 
 const PlannerView: React.FC = () => {
+  const { t } = useLanguage();
   const {
     tasks,
     plannerStats,
@@ -243,7 +245,7 @@ const PlannerView: React.FC = () => {
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-gray-500">Loading planner...</p>
+          <p className="text-gray-500">{t.common.loading}</p>
         </div>
       </div>
     );
@@ -253,7 +255,7 @@ const PlannerView: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-100 gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">Campaign Day Planner</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">{t.planner.title}</h2>
           <p className="text-sm text-gray-500">{formattedDate}</p>
         </div>
 
@@ -279,7 +281,7 @@ const PlannerView: React.FC = () => {
             }`}
             disabled={isToday}
           >
-            📅 Today
+            📅 {t.planner.today}
           </button>
         </div>
       </div>
@@ -354,21 +356,21 @@ const PlannerView: React.FC = () => {
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
           <div className="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-2xl">🔥</div>
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase">Critical Tasks</p>
+            <p className="text-xs font-bold text-gray-400 uppercase">{t.planner.criticalTasks}</p>
             <p className="text-xl font-black">{plannerStats.criticalTasks}</p>
           </div>
         </div>
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
           <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-2xl">📊</div>
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase">Track Diversity</p>
-            <p className="text-xl font-black">3 Streams</p>
+            <p className="text-xs font-bold text-gray-400 uppercase">{t.planner.trackDiversity}</p>
+            <p className="text-xl font-black">3 {t.planner.streams}</p>
           </div>
         </div>
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
           <div className="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-2xl">⚡</div>
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase">Capacity Used</p>
+            <p className="text-xs font-bold text-gray-400 uppercase">{t.planner.capacityUsed}</p>
             <p className="text-xl font-black">{plannerStats.capacityUsed}%</p>
           </div>
         </div>

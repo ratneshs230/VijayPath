@@ -6,6 +6,7 @@
 import React from 'react';
 import { useElectionAnalytics } from '../src/hooks/useElectionAnalytics';
 import { useApp } from '../src/context/AppContext';
+import { useLanguage } from '../src/i18n';
 import {
   WinMeter,
   SupportBreakdown,
@@ -19,6 +20,7 @@ import DemoDataControl from '../components/DemoDataControl';
 
 const Dashboard: React.FC = () => {
   const { stats, influencers } = useApp();
+  const { t } = useLanguage();
   const {
     isLoading,
     dashboardMetrics,
@@ -34,7 +36,7 @@ const Dashboard: React.FC = () => {
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-slate-400">Loading election analytics...</p>
+          <p className="text-slate-400">{t.common.loading}</p>
         </div>
       </div>
     );
@@ -51,33 +53,33 @@ const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {[
           {
-            label: 'Total Voters',
+            label: t.dashboard.totalVoters,
             value: enhancedVoters.length.toLocaleString(),
             icon: '🗳️',
-            sub: `${dashboardMetrics.totalPresentVoters} present`,
+            sub: `${dashboardMetrics.totalPresentVoters} ${t.dashboard.present}`,
             color: 'bg-blue-500/10 text-blue-400'
           },
           {
-            label: 'Families Tracked',
+            label: t.dashboard.familiesTracked,
             value: dashboardMetrics.totalHouseholds.toLocaleString(),
             icon: '🏠',
-            sub: `${dashboardMetrics.surveyedHouseholds} surveyed`,
+            sub: `${dashboardMetrics.surveyedHouseholds} ${t.dashboard.surveyed}`,
             color: 'bg-green-500/10 text-green-400'
           },
           {
-            label: 'Support Score',
+            label: t.dashboard.supportScore,
             value: `${dashboardMetrics.voteSharePercent}%`,
             icon: '📊',
-            sub: `${dashboardMetrics.confirmedVotes + dashboardMetrics.likelyVotes} confirmed+likely`,
+            sub: `${dashboardMetrics.confirmedVotes + dashboardMetrics.likelyVotes} ${t.dashboard.confirmedLikely}`,
             color: dashboardMetrics.voteSharePercent >= 50
               ? 'bg-green-500/10 text-green-400'
               : 'bg-amber-500/10 text-amber-400'
           },
           {
-            label: 'Days to Election',
+            label: t.dashboard.daysToElection,
             value: stats.daysToElection.toString(),
             icon: '⏳',
-            sub: stats.daysToElection > 100 ? 'Early Phase' : stats.daysToElection > 30 ? 'Campaign Phase' : 'Final Push',
+            sub: stats.daysToElection > 100 ? t.dashboard.earlyPhase : stats.daysToElection > 30 ? t.dashboard.campaignPhase : t.dashboard.finalPush,
             color: stats.daysToElection <= 30 ? 'bg-red-500/10 text-red-400' : 'bg-slate-500/10 text-slate-400'
           }
         ].map((card, idx) => (
@@ -139,15 +141,15 @@ const Dashboard: React.FC = () => {
         {/* Voter Type Breakdown */}
         <div className="bg-slate-800 rounded-2xl p-6">
           <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wide mb-4">
-            Voter Classification
+            {t.dashboard.voterClassification}
           </h3>
           <div className="space-y-3">
             {[
-              { label: 'Confirmed', count: dashboardMetrics.confirmedVotes, color: 'bg-green-500', percent: (dashboardMetrics.confirmedVotes / enhancedVoters.length * 100) || 0 },
-              { label: 'Likely', count: dashboardMetrics.likelyVotes, color: 'bg-emerald-500', percent: (dashboardMetrics.likelyVotes / enhancedVoters.length * 100) || 0 },
-              { label: 'Swing', count: dashboardMetrics.swingVotes, color: 'bg-amber-500', percent: (dashboardMetrics.swingVotes / enhancedVoters.length * 100) || 0 },
-              { label: 'Opposition', count: dashboardMetrics.oppositionVotes, color: 'bg-red-500', percent: (dashboardMetrics.oppositionVotes / enhancedVoters.length * 100) || 0 },
-              { label: 'Unknown', count: dashboardMetrics.unknownVotes, color: 'bg-slate-500', percent: (dashboardMetrics.unknownVotes / enhancedVoters.length * 100) || 0 }
+              { label: t.dashboard.confirmed, count: dashboardMetrics.confirmedVotes, color: 'bg-green-500', percent: (dashboardMetrics.confirmedVotes / enhancedVoters.length * 100) || 0 },
+              { label: t.dashboard.likely, count: dashboardMetrics.likelyVotes, color: 'bg-emerald-500', percent: (dashboardMetrics.likelyVotes / enhancedVoters.length * 100) || 0 },
+              { label: t.dashboard.swing, count: dashboardMetrics.swingVotes, color: 'bg-amber-500', percent: (dashboardMetrics.swingVotes / enhancedVoters.length * 100) || 0 },
+              { label: t.dashboard.opposition, count: dashboardMetrics.oppositionVotes, color: 'bg-red-500', percent: (dashboardMetrics.oppositionVotes / enhancedVoters.length * 100) || 0 },
+              { label: t.dashboard.unknown, count: dashboardMetrics.unknownVotes, color: 'bg-slate-500', percent: (dashboardMetrics.unknownVotes / enhancedVoters.length * 100) || 0 }
             ].map(item => (
               <div key={item.label}>
                 <div className="flex justify-between items-center mb-1">
@@ -167,20 +169,20 @@ const Dashboard: React.FC = () => {
           {/* Sentiment Summary */}
           <div className="mt-6 pt-4 border-t border-slate-700">
             <div className="text-xs text-slate-500 uppercase tracking-wide mb-3">
-              Family Sentiment
+              {t.dashboard.familySentiment}
             </div>
             <div className="flex gap-2">
               <div className="flex-1 text-center p-2 bg-green-500/10 rounded-lg">
                 <div className="text-lg font-bold text-green-400">{dashboardMetrics.favorableHouseholds}</div>
-                <div className="text-xs text-slate-500">Favorable</div>
+                <div className="text-xs text-slate-500">{t.dashboard.favorable}</div>
               </div>
               <div className="flex-1 text-center p-2 bg-amber-500/10 rounded-lg">
                 <div className="text-lg font-bold text-amber-400">{dashboardMetrics.diceyHouseholds}</div>
-                <div className="text-xs text-slate-500">Dicey</div>
+                <div className="text-xs text-slate-500">{t.dashboard.dicey}</div>
               </div>
               <div className="flex-1 text-center p-2 bg-red-500/10 rounded-lg">
                 <div className="text-lg font-bold text-red-400">{dashboardMetrics.unfavorableHouseholds}</div>
-                <div className="text-xs text-slate-500">Against</div>
+                <div className="text-xs text-slate-500">{t.dashboard.against}</div>
               </div>
             </div>
           </div>
@@ -214,23 +216,23 @@ const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div className="p-4 bg-gradient-to-r from-purple-600/20 to-purple-500/10 rounded-xl border border-purple-500/30">
           <div className="text-2xl font-bold text-purple-400">{dashboardMetrics.totalSwingVoters}</div>
-          <div className="text-sm text-slate-400">Total Swing Voters</div>
-          <div className="text-xs text-purple-300 mt-1">{dashboardMetrics.actionableSwing} actionable</div>
+          <div className="text-sm text-slate-400">{t.dashboard.totalSwingVoters}</div>
+          <div className="text-xs text-purple-300 mt-1">{dashboardMetrics.actionableSwing} {t.dashboard.actionable}</div>
         </div>
         <div className="p-4 bg-gradient-to-r from-blue-600/20 to-blue-500/10 rounded-xl border border-blue-500/30">
           <div className="text-2xl font-bold text-blue-400">{dashboardMetrics.transportRequiredCount}</div>
-          <div className="text-sm text-slate-400">Need Transport</div>
-          <div className="text-xs text-blue-300 mt-1">Elderly/sick voters</div>
+          <div className="text-sm text-slate-400">{t.dashboard.needTransportAssistance}</div>
+          <div className="text-xs text-blue-300 mt-1">{t.dashboard.elderlyVoters}</div>
         </div>
         <div className="p-4 bg-gradient-to-r from-amber-600/20 to-amber-500/10 rounded-xl border border-amber-500/30">
           <div className="text-2xl font-bold text-amber-400">{dashboardMetrics.awayVotersCount}</div>
-          <div className="text-sm text-slate-400">Away Voters</div>
-          <div className="text-xs text-amber-300 mt-1">Migration tracking</div>
+          <div className="text-sm text-slate-400">{t.dashboard.awayVoters}</div>
+          <div className="text-xs text-amber-300 mt-1">{t.dashboard.migrationTracking}</div>
         </div>
         <div className="p-4 bg-gradient-to-r from-green-600/20 to-green-500/10 rounded-xl border border-green-500/30">
           <div className="text-2xl font-bold text-green-400">{dashboardMetrics.top20StrongestFamilies.length}</div>
-          <div className="text-sm text-slate-400">Strong Families</div>
-          <div className="text-xs text-green-300 mt-1">Top supporters</div>
+          <div className="text-sm text-slate-400">{t.dashboard.strongFamilies}</div>
+          <div className="text-xs text-green-300 mt-1">{t.dashboard.topSupporters}</div>
         </div>
       </div>
 
@@ -239,16 +241,16 @@ const Dashboard: React.FC = () => {
         <div className="space-y-6">
           <div className="bg-slate-800 rounded-2xl p-12 text-center">
             <div className="text-6xl mb-4">📊</div>
-            <h3 className="text-xl font-bold text-white mb-2">No Voter Data Yet</h3>
+            <h3 className="text-xl font-bold text-white mb-2">{t.dashboard.noDataYet}</h3>
             <p className="text-slate-400 mb-6">
-              Start adding families and voters in the Voter Roll, or load demo data to explore the analytics.
+              {t.dashboard.startAddingFamilies}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => window.location.hash = 'VOTER_ROLL'}
                 className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
               >
-                Go to Voter Roll
+                {t.dashboard.goToVoterRoll}
               </button>
             </div>
           </div>
