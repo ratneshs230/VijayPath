@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '../../src/i18n';
 import { EnhancedVoter, AgeBand, RelationType, VoterType, TurnoutProbability } from '../../types';
 
 interface VoterQuickEntryProps {
@@ -31,6 +32,7 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
   isSaving,
   householdHeadName
 }) => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState<Partial<EnhancedVoter>>({
     name: '',
     gender: 'Male',
@@ -110,11 +112,11 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
         <div className="px-4 sm:px-6 py-4 border-b border-slate-700 flex justify-between items-center bg-slate-800 flex-shrink-0">
           <div>
             <h3 className="text-lg font-bold text-white">
-              {voter ? 'Edit Voter' : 'Add Voter'}
+              {voter ? t.voter.editVoter : t.voter.addVoter}
             </h3>
             {householdHeadName && (
               <p className="text-xs text-slate-400">
-                {householdHeadName} Family
+                {householdHeadName} {t.dashboard.families}
               </p>
             )}
           </div>
@@ -136,7 +138,7 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white text-lg placeholder-slate-400 focus:outline-none focus:border-orange-500"
-              placeholder="Voter Name"
+              placeholder={t.voter.namePlaceholder}
               autoFocus
             />
           </div>
@@ -166,7 +168,7 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
 
           {/* Age Band - Scrollable Pills with larger touch targets */}
           <div>
-            <label className="block text-xs text-slate-400 mb-2">Age</label>
+            <label className="block text-xs text-slate-400 mb-2">{t.voter.ageBand}</label>
             <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
               {ageBands.map(band => (
                 <button
@@ -187,7 +189,7 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
 
           {/* Relation - Mobile-friendly select */}
           <div>
-            <label className="block text-xs text-slate-400 mb-2">Relation to Head</label>
+            <label className="block text-xs text-slate-400 mb-2">{t.voter.relationToHead}</label>
             <select
               value={formData.relationToHead}
               onChange={(e) => setFormData({ ...formData, relationToHead: e.target.value as RelationType })}
@@ -201,14 +203,14 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
 
           {/* Quick Tags - Mobile-friendly touch targets */}
           <div>
-            <label className="block text-xs text-slate-400 mb-2">Status Tags</label>
+            <label className="block text-xs text-slate-400 mb-2">{t.survey.statusTags}</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {[
-                { key: 'isPresent', label: 'Present', icon: '🏠', active: formData.isPresent },
-                { key: 'workingOutside', label: 'Away', icon: '✈️', active: formData.workingOutside },
-                { key: 'isStudent', label: 'Student', icon: '📚', active: formData.isStudent },
-                { key: 'isElderlySick', label: 'Elderly/Sick', icon: '🩺', active: formData.isElderlySick },
-                { key: 'seasonalMigrant', label: 'Seasonal', icon: '🌾', active: formData.seasonalMigrant }
+                { key: 'isPresent', label: t.voter.isPresent, icon: '🏠', active: formData.isPresent },
+                { key: 'workingOutside', label: t.survey.away, icon: '✈️', active: formData.workingOutside },
+                { key: 'isStudent', label: t.voter.student, icon: '📚', active: formData.isStudent },
+                { key: 'isElderlySick', label: t.voter.elderlySick, icon: '🩺', active: formData.isElderlySick },
+                { key: 'seasonalMigrant', label: t.voter.seasonalMigrant, icon: '🌾', active: formData.seasonalMigrant }
               ].map(tag => (
                 <button
                   key={tag.key}
@@ -245,7 +247,7 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
             onClick={() => setShowAdvanced(!showAdvanced)}
             className="w-full py-2 text-xs text-slate-400 hover:text-white transition-colors flex items-center justify-center gap-1"
           >
-            {showAdvanced ? '▼' : '▶'} Political Intel & Contact
+            {showAdvanced ? '▼' : '▶'} {t.survey.politicalIntelContact}
           </button>
 
           {/* Advanced Fields */}
@@ -253,19 +255,19 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
             <div className="space-y-4 pt-2 border-t border-slate-700">
               {/* Mobile */}
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Mobile</label>
+                <label className="block text-xs text-slate-400 mb-1">{t.voter.mobile}</label>
                 <input
                   type="tel"
                   value={formData.mobile}
                   onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
                   className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
-                  placeholder="10-digit mobile"
+                  placeholder={t.voter.mobilePlaceholder}
                 />
               </div>
 
               {/* Voter Type - Mobile-friendly grid */}
               <div>
-                <label className="block text-xs text-slate-400 mb-2">Voter Type</label>
+                <label className="block text-xs text-slate-400 mb-2">{t.voter.voterType}</label>
                 <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                   {(['Confirmed', 'Likely', 'Swing', 'Opposition', 'Unknown'] as VoterType[]).map(type => (
                     <button
@@ -290,7 +292,7 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
 
               {/* Turnout Probability - Larger touch targets */}
               <div>
-                <label className="block text-xs text-slate-400 mb-2">Likely Turnout</label>
+                <label className="block text-xs text-slate-400 mb-2">{t.voter.likelyTurnout}</label>
                 <div className="flex gap-2">
                   {(['High', 'Medium', 'Low'] as TurnoutProbability[]).map(prob => (
                     <button
@@ -313,12 +315,12 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
 
               {/* Notes */}
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Notes</label>
+                <label className="block text-xs text-slate-400 mb-1">{t.voter.notes}</label>
                 <textarea
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500 h-16 resize-none text-sm"
-                  placeholder="Any specific notes..."
+                  placeholder={t.voter.notesPlaceholder}
                 />
               </div>
             </div>
@@ -332,7 +334,7 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
             className="px-4 py-3 min-h-[44px] text-slate-400 hover:text-white transition-colors order-last sm:order-first"
             disabled={isSaving}
           >
-            Skip
+            {t.survey.skip}
           </button>
           <div className="flex-1 flex flex-col sm:flex-row gap-2">
             <button
@@ -340,14 +342,14 @@ const VoterQuickEntry: React.FC<VoterQuickEntryProps> = ({
               className="flex-1 px-4 py-3 min-h-[44px] bg-slate-600 text-white rounded-xl hover:bg-slate-500 active:bg-slate-400 transition-colors text-sm font-bold disabled:opacity-50"
               disabled={isSaving || !formData.name}
             >
-              {isSaving ? '...' : 'Save & Add'}
+              {isSaving ? '...' : t.survey.saveAndAdd}
             </button>
             <button
               onClick={handleSave}
               className="flex-1 px-4 py-3 min-h-[44px] bg-orange-600 text-white rounded-xl hover:bg-orange-700 active:bg-orange-800 transition-colors text-sm font-bold disabled:opacity-50"
               disabled={isSaving || !formData.name}
             >
-              {isSaving ? 'Saving...' : voter ? 'Update' : 'Done'}
+              {isSaving ? t.household.saving : voter ? t.common.update : t.survey.done}
             </button>
           </div>
         </div>

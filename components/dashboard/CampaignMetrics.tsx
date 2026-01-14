@@ -4,11 +4,13 @@
  */
 
 import React from 'react';
+import { useLanguage } from '../../src/i18n';
 import { useResources } from '../../src/hooks/useResources';
 import { useEvents } from '../../src/hooks/useEvents';
 import { usePlanner } from '../../src/hooks/usePlanner';
 
 const CampaignMetrics: React.FC = () => {
+  const { t } = useLanguage();
   const { resourceStats, isLoading: resourcesLoading } = useResources();
   const { events, eventStats, isLoading: eventsLoading } = useEvents();
   const { plannerStats, isLoading: plannerLoading } = usePlanner();
@@ -41,14 +43,14 @@ const CampaignMetrics: React.FC = () => {
       <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-slate-900 to-slate-800">
         <h3 className="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-2">
           <span className="text-orange-400">{'>'}</span>
-          Campaign Operations
+          {t.dashboard.campaignOperations}
         </h3>
       </div>
 
       <div className="p-6 space-y-6">
         {/* Resource Utilization */}
         <div>
-          <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Resource Utilization</h4>
+          <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{t.dashboard.resourceUtilization}</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Budget */}
             <div className="bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl p-4 border border-emerald-100">
@@ -61,14 +63,14 @@ const CampaignMetrics: React.FC = () => {
                     ? 'bg-amber-100 text-amber-700'
                     : 'bg-green-100 text-green-700'
                 }`}>
-                  {resourceStats.budget.percentUsed}% used
+                  {resourceStats.budget.percentUsed}% {t.dashboard.used}
                 </span>
               </div>
               <p className="text-lg font-bold text-gray-900">
                 ₹{resourceStats.budget.remaining.toLocaleString()}
               </p>
               <p className="text-xs text-gray-500">
-                Remaining of ₹{resourceStats.budget.total.toLocaleString()}
+                {t.resources.remaining} ₹{resourceStats.budget.total.toLocaleString()} {t.resources.outOf}
               </p>
               <div className="mt-2 h-1.5 bg-emerald-100 rounded-full overflow-hidden">
                 <div
@@ -85,13 +87,13 @@ const CampaignMetrics: React.FC = () => {
               <div className="flex items-center justify-between mb-2">
                 <span className="text-2xl">👥</span>
                 <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
-                  {resourceStats.manpower.percentUsed}% deployed
+                  {resourceStats.manpower.percentUsed}% {t.dashboard.deployed}
                 </span>
               </div>
               <p className="text-lg font-bold text-gray-900">
                 {resourceStats.manpower.active} / {resourceStats.manpower.total}
               </p>
-              <p className="text-xs text-gray-500">Volunteers active</p>
+              <p className="text-xs text-gray-500">{t.dashboard.volunteersActive}</p>
               <div className="mt-2 h-1.5 bg-blue-100 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-blue-500 rounded-full transition-all"
@@ -105,13 +107,13 @@ const CampaignMetrics: React.FC = () => {
               <div className="flex items-center justify-between mb-2">
                 <span className="text-2xl">🚗</span>
                 <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">
-                  {resourceStats.vehicles.percentUsed}% in use
+                  {resourceStats.vehicles.percentUsed}% {t.dashboard.inUse}
                 </span>
               </div>
               <p className="text-lg font-bold text-gray-900">
                 {resourceStats.vehicles.active} / {resourceStats.vehicles.total}
               </p>
-              <p className="text-xs text-gray-500">Vehicles deployed</p>
+              <p className="text-xs text-gray-500">{t.dashboard.vehiclesDeployed}</p>
               <div className="mt-2 h-1.5 bg-orange-100 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-orange-500 rounded-full transition-all"
@@ -124,45 +126,45 @@ const CampaignMetrics: React.FC = () => {
 
         {/* Events Overview */}
         <div>
-          <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Event Status</h4>
+          <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{t.dashboard.eventStatus}</h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div className="bg-amber-50 rounded-xl p-3 border border-amber-100 text-center">
               <p className="text-2xl font-black text-amber-600">{upcomingEvents}</p>
-              <p className="text-xs font-medium text-amber-700">Upcoming</p>
+              <p className="text-xs font-medium text-amber-700">{t.dashboard.upcoming}</p>
             </div>
             <div className="bg-blue-50 rounded-xl p-3 border border-blue-100 text-center">
               <p className="text-2xl font-black text-blue-600">{activeEvents}</p>
-              <p className="text-xs font-medium text-blue-700">Active</p>
+              <p className="text-xs font-medium text-blue-700">{t.events.active}</p>
             </div>
             <div className="bg-green-50 rounded-xl p-3 border border-green-100 text-center">
               <p className="text-2xl font-black text-green-600">{completedEvents}</p>
-              <p className="text-xs font-medium text-green-700">Completed</p>
+              <p className="text-xs font-medium text-green-700">{t.events.completed}</p>
             </div>
             <div className="bg-slate-50 rounded-xl p-3 border border-slate-200 text-center">
               <p className="text-2xl font-black text-slate-600">{events.length}</p>
-              <p className="text-xs font-medium text-slate-600">Total Events</p>
+              <p className="text-xs font-medium text-slate-600">{t.dashboard.totalEvents}</p>
             </div>
           </div>
         </div>
 
         {/* Today's Schedule */}
         <div>
-          <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Today's Schedule</h4>
+          <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{t.dashboard.todaysSchedule}</h4>
           <div className="flex items-center gap-4 bg-slate-50 rounded-xl p-4 border border-slate-200">
             <div className="w-14 h-14 bg-slate-900 rounded-xl flex items-center justify-center text-2xl">
               📅
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-1">
-                <span className="text-lg font-black text-gray-900">{plannerStats.totalTasks} activities</span>
+                <span className="text-lg font-black text-gray-900">{plannerStats.totalTasks} {t.dashboard.activities}</span>
                 {plannerStats.criticalTasks > 0 && (
                   <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700">
-                    {plannerStats.criticalTasks} critical
+                    {plannerStats.criticalTasks} {t.status.critical}
                   </span>
                 )}
               </div>
               <p className="text-xs text-gray-500">
-                Capacity used: {plannerStats.capacityUsed}% across all tracks
+                {t.planner.capacityUsed}: {plannerStats.capacityUsed}% {t.dashboard.acrossTracks}
               </p>
             </div>
             <div className="text-right">

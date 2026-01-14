@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from 'react';
+import { useLanguage } from '../src/i18n';
 import { seedAllDemoData, clearDemoData, checkDemoDataExists } from '../src/firebase/services/seedDemoData';
 import { getDemoDataSummary } from '../src/data/demoData';
 
@@ -12,6 +13,7 @@ interface DemoDataControlProps {
 }
 
 const DemoDataControl: React.FC<DemoDataControlProps> = ({ onDataChanged }) => {
+  const { t } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error' | 'info'; text: string } | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -44,7 +46,7 @@ const DemoDataControl: React.FC<DemoDataControlProps> = ({ onDataChanged }) => {
   };
 
   const handleClearDemoData = async () => {
-    if (!confirm('Are you sure you want to clear all demo data? This cannot be undone.')) {
+    if (!confirm(t.demoData.clearConfirm)) {
       return;
     }
 
@@ -81,9 +83,9 @@ const DemoDataControl: React.FC<DemoDataControlProps> = ({ onDataChanged }) => {
         <div className="flex items-center gap-3">
           <span className="text-2xl">🧪</span>
           <div className="text-left">
-            <div className="font-medium text-white">Demo Data</div>
+            <div className="font-medium text-white">{t.demoData.title}</div>
             <div className="text-xs text-slate-400">
-              Load sample voter data for testing
+              {t.demoData.description}
             </div>
           </div>
         </div>
@@ -104,29 +106,29 @@ const DemoDataControl: React.FC<DemoDataControlProps> = ({ onDataChanged }) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div className="p-3 bg-slate-800/50 rounded-lg text-center">
               <div className="text-xl font-bold text-indigo-400">{summary.mohallas}</div>
-              <div className="text-xs text-slate-500">Mohallas</div>
+              <div className="text-xs text-slate-500">{t.demoData.mohallas}</div>
             </div>
             <div className="p-3 bg-slate-800/50 rounded-lg text-center">
               <div className="text-xl font-bold text-purple-400">{summary.households}</div>
-              <div className="text-xs text-slate-500">Families</div>
+              <div className="text-xs text-slate-500">{t.demoData.families}</div>
             </div>
             <div className="p-3 bg-slate-800/50 rounded-lg text-center">
               <div className="text-xl font-bold text-pink-400">{summary.voters}</div>
-              <div className="text-xs text-slate-500">Voters</div>
+              <div className="text-xs text-slate-500">{t.demoData.voters}</div>
             </div>
             <div className="p-3 bg-slate-800/50 rounded-lg text-center">
               <div className="text-xl font-bold text-amber-400">{summary.influencers}</div>
-              <div className="text-xs text-slate-500">Influencers</div>
+              <div className="text-xs text-slate-500">{t.demoData.influencers}</div>
             </div>
           </div>
 
           {/* Sentiment Distribution */}
           <div className="p-3 bg-slate-800/50 rounded-lg">
-            <div className="text-xs text-slate-500 mb-2">Family Sentiment Distribution</div>
+            <div className="text-xs text-slate-500 mb-2">{t.demoData.sentimentDistribution}</div>
             <div className="flex gap-4 text-sm">
-              <span className="text-green-400">{summary.favorable} Favorable</span>
-              <span className="text-amber-400">{summary.dicey} Dicey</span>
-              <span className="text-red-400">{summary.unfavorable} Unfavorable</span>
+              <span className="text-green-400">{summary.favorable} {t.dashboard.favorable}</span>
+              <span className="text-amber-400">{summary.dicey} {t.dashboard.dicey}</span>
+              <span className="text-red-400">{summary.unfavorable} {t.dashboard.unfavorable}</span>
             </div>
           </div>
 
@@ -151,12 +153,12 @@ const DemoDataControl: React.FC<DemoDataControlProps> = ({ onDataChanged }) => {
               {isLoading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white"></div>
-                  Loading...
+                  {t.demoData.loading}
                 </>
               ) : (
                 <>
                   <span>📥</span>
-                  Load Demo Data
+                  {t.demoData.loadDemoData}
                 </>
               )}
             </button>
@@ -166,14 +168,13 @@ const DemoDataControl: React.FC<DemoDataControlProps> = ({ onDataChanged }) => {
               className="px-4 py-2 bg-red-600/20 text-red-400 border border-red-500/30 rounded-lg hover:bg-red-600/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
             >
               <span>🗑️</span>
-              Clear
+              {t.demoData.clearDemoData}
             </button>
           </div>
 
           {/* Info */}
           <div className="text-xs text-slate-500">
-            Demo data includes realistic UP village voter profiles for testing the analytics dashboard.
-            Data will be saved to your Firebase database.
+            {t.demoData.demoDataNote}
           </div>
         </div>
       )}

@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { useLanguage } from '../../src/i18n';
 import { MohallaMetrics } from '../../src/utils/analyticsTypes';
 
 interface SupportBreakdownProps {
@@ -15,6 +16,7 @@ const SupportBreakdown: React.FC<SupportBreakdownProps> = ({
   mohallaMetrics,
   onMohallaClick
 }) => {
+  const { t } = useLanguage();
   // Sort by total households descending for visibility
   const sortedMohallas = [...mohallaMetrics]
     .filter(m => m.totalHouseholds > 0)
@@ -24,10 +26,10 @@ const SupportBreakdown: React.FC<SupportBreakdownProps> = ({
     return (
       <div className="bg-slate-800 rounded-2xl p-6">
         <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wide mb-4">
-          Mohalla Support Breakdown
+          {t.dashboard.mohallaBreakdown}
         </h3>
         <div className="text-center py-8 text-slate-500">
-          No mohalla data available
+          {t.dashboard.noMohallaData}
         </div>
       </div>
     );
@@ -36,19 +38,19 @@ const SupportBreakdown: React.FC<SupportBreakdownProps> = ({
   return (
     <div className="bg-slate-800 rounded-2xl p-6">
       <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wide mb-4">
-        Mohalla Support Breakdown
+        {t.dashboard.mohallaBreakdown}
       </h3>
 
       {/* Legend */}
       <div className="flex gap-4 mb-4 text-xs">
         <span className="flex items-center gap-1">
-          <span className="w-3 h-3 rounded bg-green-500"></span> Favorable
+          <span className="w-3 h-3 rounded bg-green-500"></span> {t.dashboard.favorable}
         </span>
         <span className="flex items-center gap-1">
-          <span className="w-3 h-3 rounded bg-amber-500"></span> Dicey
+          <span className="w-3 h-3 rounded bg-amber-500"></span> {t.dashboard.dicey}
         </span>
         <span className="flex items-center gap-1">
-          <span className="w-3 h-3 rounded bg-red-500"></span> Unfavorable
+          <span className="w-3 h-3 rounded bg-red-500"></span> {t.dashboard.unfavorable}
         </span>
       </div>
 
@@ -72,12 +74,12 @@ const SupportBreakdown: React.FC<SupportBreakdownProps> = ({
                   <span className="text-sm font-medium text-white">{mohalla.mohallaName}</span>
                   {mohalla.isUnderSurveyed && (
                     <span className="text-[10px] px-1.5 py-0.5 bg-amber-500/20 text-amber-400 rounded">
-                      Low Coverage
+                      {t.dashboard.lowCoverage}
                     </span>
                   )}
                 </div>
                 <div className="text-xs text-slate-500">
-                  {mohalla.totalHouseholds} families • {mohalla.totalVoters} voters
+                  {mohalla.totalHouseholds} {t.dashboard.families} • {mohalla.totalVoters} {t.dashboard.voters}
                 </div>
               </div>
 
@@ -115,7 +117,7 @@ const SupportBreakdown: React.FC<SupportBreakdownProps> = ({
               {/* Swing Opportunity Indicator */}
               {mohalla.actionableSwing > 0 && (
                 <div className="mt-1 text-[10px] text-purple-400">
-                  {mohalla.actionableSwing} actionable swing voters
+                  {mohalla.actionableSwing} {t.dashboard.actionableSwingVoters}
                 </div>
               )}
             </div>

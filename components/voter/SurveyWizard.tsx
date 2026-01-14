@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useLanguage } from '../../src/i18n';
 import { Mohalla, Household, EnhancedVoter, FamilySentiment } from '../../types';
 import HouseholdModal from './HouseholdModal';
 import VoterQuickEntry from './VoterQuickEntry';
@@ -29,6 +30,7 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
   onMarkSurveyed,
   currentUserId
 }) => {
+  const { t } = useLanguage();
   // Survey state
   const [step, setStep] = useState<SurveyStep>('select_mohalla');
   const [selectedMohallaId, setSelectedMohallaId] = useState<string | null>(null);
@@ -200,7 +202,7 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
       {/* Left Panel - Progress */}
       <div className="w-80 bg-slate-800 border-r border-slate-700 p-4 overflow-y-auto hidden lg:block">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-white">Survey Mode</h2>
+          <h2 className="text-lg font-bold text-white">{t.survey.surveyMode}</h2>
           <button
             onClick={() => { resetWizard(); onClose(); }}
             className="text-slate-400 hover:text-white"
@@ -229,7 +231,7 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
                   onClick={() => setStep('select_mohalla')}
                   className={`${step === 'select_mohalla' ? 'text-orange-400 font-bold' : 'text-slate-400 hover:text-white'}`}
                 >
-                  Mohalla
+                  {t.survey.selectMohalla}
                 </button>
                 {selectedMohalla && (
                   <>
@@ -267,8 +269,8 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
           {/* Step 1: Select Mohalla */}
           {step === 'select_mohalla' && (
             <div className="max-w-2xl mx-auto">
-              <h3 className="text-2xl font-bold text-white mb-2">Select Mohalla</h3>
-              <p className="text-slate-400 mb-6">Choose the mohalla/tola you're surveying</p>
+              <h3 className="text-2xl font-bold text-white mb-2">{t.survey.selectMohalla}</h3>
+              <p className="text-slate-400 mb-6">{t.survey.chooseTheMohalla}</p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {mohallas.map(mohalla => {
@@ -288,7 +290,7 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
                             {mohalla.name}
                           </div>
                           <div className="text-xs text-slate-400">
-                            {surveyed}/{mohallaHH.length} families surveyed
+                            {surveyed}/{mohallaHH.length} {t.survey.familiesSurveyed}
                           </div>
                         </div>
                         {surveyed === mohallaHH.length && mohallaHH.length > 0 && (
@@ -313,27 +315,27 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
             <div className="max-w-2xl mx-auto">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h3 className="text-2xl font-bold text-white">Select Family</h3>
-                  <p className="text-slate-400">{unSurveyedHouseholds.length} families remaining in {selectedMohalla?.name}</p>
+                  <h3 className="text-2xl font-bold text-white">{t.survey.selectFamily}</h3>
+                  <p className="text-slate-400">{unSurveyedHouseholds.length} {t.survey.familiesRemaining} {selectedMohalla?.name}</p>
                 </div>
                 <button
                   onClick={() => setShowHouseholdModal(true)}
                   className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
                 >
-                  + New Family
+                  + {t.survey.newFamily}
                 </button>
               </div>
 
               {unSurveyedHouseholds.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="text-5xl mb-4">🎉</div>
-                  <h4 className="text-xl font-bold text-white mb-2">All Done!</h4>
-                  <p className="text-slate-400 mb-4">All families in this mohalla have been surveyed.</p>
+                  <h4 className="text-xl font-bold text-white mb-2">{t.survey.allDone}</h4>
+                  <p className="text-slate-400 mb-4">{t.survey.allFamiliesSurveyed}</p>
                   <button
                     onClick={() => setStep('select_mohalla')}
                     className="text-orange-400 hover:text-orange-300"
                   >
-                    Choose another mohalla
+                    {t.survey.chooseAnotherMohalla}
                   </button>
                 </div>
               ) : (
@@ -347,7 +349,7 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
                       <div className="flex items-center justify-between">
                         <div>
                           <div className="font-bold text-white group-hover:text-orange-400">
-                            {household.headName || 'Unknown Family'}
+                            {household.headName || t.survey.unknownFamily}
                           </div>
                           <div className="text-xs text-slate-400 flex items-center gap-2 mt-1">
                             <span>{household.caste} ({household.category})</span>
@@ -375,7 +377,7 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
             <div className="max-w-2xl mx-auto">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h3 className="text-2xl font-bold text-white">Add Family Members</h3>
+                  <h3 className="text-2xl font-bold text-white">{t.survey.addFamilyMembers}</h3>
                   <p className="text-slate-400">
                     {selectedHousehold.headName || selectedHousehold.displayId} • {selectedHousehold.caste}
                   </p>
@@ -384,19 +386,19 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
                   onClick={() => { setEditingVoterIndex(null); setShowVoterModal(true); }}
                   className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
                 >
-                  + Add Voter
+                  + {t.voter.addVoter}
                 </button>
               </div>
 
               {householdVoters.length === 0 ? (
                 <div className="text-center py-12 bg-slate-800/50 rounded-xl border-2 border-dashed border-slate-700">
                   <div className="text-4xl mb-4">👥</div>
-                  <p className="text-slate-400 mb-4">No voters added yet</p>
+                  <p className="text-slate-400 mb-4">{t.survey.noVotersAddedYet}</p>
                   <button
                     onClick={() => setShowVoterModal(true)}
                     className="text-orange-400 hover:text-orange-300"
                   >
-                    Add the first voter
+                    {t.survey.addTheFirstVoter}
                   </button>
                 </div>
               ) : (
@@ -446,14 +448,14 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
                   onClick={() => setStep('select_household')}
                   className="px-4 py-2 bg-slate-700 text-slate-300 rounded-lg hover:bg-slate-600 transition-colors"
                 >
-                  ← Back
+                  ← {t.common.back}
                 </button>
                 <button
                   onClick={handleProceedToSentiment}
                   disabled={householdVoters.length === 0}
                   className="flex-1 px-4 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Continue to Sentiment →
+                  {t.survey.continueToSentiment} →
                 </button>
               </div>
             </div>
@@ -462,15 +464,15 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
           {/* Step 4: Capture Sentiment */}
           {step === 'capture_sentiment' && selectedHousehold && (
             <div className="max-w-lg mx-auto">
-              <h3 className="text-2xl font-bold text-white mb-2">Family Sentiment</h3>
+              <h3 className="text-2xl font-bold text-white mb-2">{t.household.familySentiment}</h3>
               <p className="text-slate-400 mb-6">
-                {selectedHousehold.headName || selectedHousehold.displayId} • {householdVoters.length} voters
+                {selectedHousehold.headName || selectedHousehold.displayId} • {householdVoters.length} {t.dashboard.voters}
               </p>
 
               <div className="space-y-6">
                 {/* Sentiment Selection */}
                 <div>
-                  <label className="block text-sm font-bold text-slate-400 mb-3">Overall Sentiment</label>
+                  <label className="block text-sm font-bold text-slate-400 mb-3">{t.survey.overallSentiment}</label>
                   <div className="grid grid-cols-3 gap-3">
                     {([
                       { value: 'Favorable', icon: '✅', color: 'bg-green-600 border-green-500' },
@@ -496,7 +498,7 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
                 {/* Influence Level */}
                 <div>
                   <label className="block text-sm font-bold text-slate-400 mb-3">
-                    Influence Level <span className="font-normal">(0-5)</span>
+                    {t.household.influenceLevel}
                   </label>
                   <div className="flex gap-2">
                     {[0, 1, 2, 3, 4, 5].map(level => (
@@ -514,20 +516,20 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
                     ))}
                   </div>
                   <p className="text-xs text-slate-500 mt-2">
-                    5 = Very influential, 0 = No influence
+                    5 = {t.survey.veryInfluential}, 0 = {t.survey.noInfluence}
                   </p>
                 </div>
 
                 {/* Notes */}
                 <div>
                   <label className="block text-sm font-bold text-slate-400 mb-2">
-                    Notes <span className="font-normal">(optional)</span>
+                    {t.common.notes} <span className="font-normal">({t.common.optional})</span>
                   </label>
                   <textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-orange-500 h-24 resize-none"
-                    placeholder="Any additional notes about this family..."
+                    placeholder={t.voter.notesPlaceholder}
                   />
                 </div>
               </div>
@@ -537,14 +539,14 @@ const SurveyWizard: React.FC<SurveyWizardProps> = ({
                   onClick={() => setStep('add_voters')}
                   className="px-4 py-2 bg-slate-700 text-slate-300 rounded-lg hover:bg-slate-600 transition-colors"
                 >
-                  ← Back
+                  ← {t.common.back}
                 </button>
                 <button
                   onClick={handleCompleteSurvey}
                   disabled={isSaving}
                   className="flex-1 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-bold disabled:opacity-50"
                 >
-                  {isSaving ? 'Saving...' : '✓ Complete & Next House'}
+                  {isSaving ? t.household.saving : `✓ ${t.survey.completeAndNext}`}
                 </button>
               </div>
             </div>

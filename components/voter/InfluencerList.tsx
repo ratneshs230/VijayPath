@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../../src/i18n';
 import { Influencer, InfluencerStance, Mohalla } from '../../types';
 
 interface InfluencerListProps {
@@ -40,15 +41,17 @@ const InfluencerList: React.FC<InfluencerListProps> = ({
   onDelete,
   onRecordContact
 }) => {
+  const { t } = useLanguage();
+
   const getMohallaName = (mohallaId: string) => {
-    return mohallas.find(m => m.id === mohallaId)?.name || 'Unknown';
+    return mohallas.find(m => m.id === mohallaId)?.name || t.dashboard.unknown;
   };
 
   const formatLastContact = (timestamp: any) => {
-    if (!timestamp) return 'Never';
+    if (!timestamp) return t.common.none;
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
     const days = Math.floor((Date.now() - date.getTime()) / (1000 * 60 * 60 * 24));
-    if (days === 0) return 'Today';
+    if (days === 0) return t.planner.today;
     if (days === 1) return 'Yesterday';
     if (days < 7) return `${days} days ago`;
     if (days < 30) return `${Math.floor(days / 7)} weeks ago`;
@@ -59,8 +62,8 @@ const InfluencerList: React.FC<InfluencerListProps> = ({
     return (
       <div className="text-center py-12 bg-slate-800/50 rounded-xl">
         <div className="text-5xl mb-4">👤</div>
-        <h3 className="text-xl font-bold text-white mb-2">No Influencers Yet</h3>
-        <p className="text-slate-400">Add your first influencer to start tracking</p>
+        <h3 className="text-xl font-bold text-white mb-2">{t.common.noResults}</h3>
+        <p className="text-slate-400">{t.influencer.addInfluencer}</p>
       </div>
     );
   }
@@ -99,15 +102,15 @@ const InfluencerList: React.FC<InfluencerListProps> = ({
           <div className="grid grid-cols-3 gap-2 mb-3">
             <div className="bg-slate-800/50 rounded-lg p-2 text-center">
               <div className="text-lg font-bold text-white">{influencer.estimatedVoteControl}</div>
-              <div className="text-[10px] text-slate-400 uppercase">Voters</div>
+              <div className="text-[10px] text-slate-400 uppercase">{t.dashboard.voters}</div>
             </div>
             <div className="bg-slate-800/50 rounded-lg p-2 text-center">
               <div className="text-lg font-bold text-white">{influencer.familiesInfluenced?.length || 0}</div>
-              <div className="text-[10px] text-slate-400 uppercase">Families</div>
+              <div className="text-[10px] text-slate-400 uppercase">{t.dashboard.families}</div>
             </div>
             <div className="bg-slate-800/50 rounded-lg p-2 text-center">
               <div className="text-lg font-bold text-white">{influencer.mohallaIds?.length || 0}</div>
-              <div className="text-[10px] text-slate-400 uppercase">Mohallas</div>
+              <div className="text-[10px] text-slate-400 uppercase">{t.voterRoll.mohallas}</div>
             </div>
           </div>
 
@@ -130,11 +133,11 @@ const InfluencerList: React.FC<InfluencerListProps> = ({
           {/* Contact & Convertible */}
           <div className="flex items-center justify-between text-xs mb-3">
             <div className="text-slate-400">
-              Last contact: <span className="text-slate-300">{formatLastContact(influencer.lastContactedAt)}</span>
+              {t.influencer.lastContacted}: <span className="text-slate-300">{formatLastContact(influencer.lastContactedAt)}</span>
             </div>
             {influencer.canBeInfluenced && influencer.currentStance !== 'Supportive' && (
               <span className="px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded">
-                Convertible
+                {t.influencer.convertible}
               </span>
             )}
           </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '../../src/i18n';
 import { Household, SocialCategory, HouseType, EconomicMarker, FamilySentiment } from '../../types';
 
 interface HouseholdModalProps {
@@ -18,6 +19,7 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
   mohallaId,
   isSaving
 }) => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState<Partial<Household>>({
     mohallaId,
     caste: '',
@@ -88,7 +90,7 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
         {/* Sticky Header */}
         <div className="px-4 sm:px-6 py-4 border-b border-slate-700 flex justify-between items-center flex-shrink-0">
           <h3 className="text-lg sm:text-xl font-bold text-white">
-            {household ? 'Edit Household' : 'Add New Household'}
+            {household ? t.household.editHousehold : t.household.addNew}
           </h3>
           <button
             onClick={onClose}
@@ -103,51 +105,51 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
           {/* Family Head Section */}
           <div className="space-y-4">
-            <h4 className="text-xs font-bold text-purple-500 uppercase tracking-wide">Family Head</h4>
+            <h4 className="text-xs font-bold text-purple-500 uppercase tracking-wide">{t.household.familyHead}</h4>
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Head of Family Name</label>
+              <label className="block text-xs text-slate-400 mb-1">{t.household.headName}</label>
               <input
                 type="text"
                 value={formData.headName || ''}
                 onChange={(e) => setFormData({ ...formData, headName: e.target.value })}
                 className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
-                placeholder="e.g., Ramesh Singh (can add later with first voter)"
+                placeholder={t.household.headNamePlaceholder}
               />
               <p className="text-slate-500 text-xs mt-1">
-                This will be auto-filled when you add the first voter as "Self"
+                {t.household.autoFillNote}
               </p>
             </div>
           </div>
 
           {/* Social Profile Section */}
           <div className="space-y-4">
-            <h4 className="text-xs font-bold text-orange-500 uppercase tracking-wide">Social Profile</h4>
+            <h4 className="text-xs font-bold text-orange-500 uppercase tracking-wide">{t.household.socialProfile}</h4>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Caste *</label>
+                <label className="block text-xs text-slate-400 mb-1">{t.household.caste} *</label>
                 <input
                   type="text"
                   value={formData.caste}
                   onChange={(e) => setFormData({ ...formData, caste: e.target.value })}
                   className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
-                  placeholder="e.g., Thakur, Yadav"
+                  placeholder={t.household.castePlaceholder}
                   required
                 />
               </div>
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Sub-Caste</label>
+                <label className="block text-xs text-slate-400 mb-1">{t.household.subCaste}</label>
                 <input
                   type="text"
                   value={formData.subCaste}
                   onChange={(e) => setFormData({ ...formData, subCaste: e.target.value })}
                   className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
-                  placeholder="Optional"
+                  placeholder={t.common.optional}
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Category *</label>
+              <label className="block text-xs text-slate-400 mb-1">{t.household.category} *</label>
               <div className="flex gap-2">
                 {(['Gen', 'OBC', 'SC', 'ST'] as SocialCategory[]).map(cat => (
                   <button
@@ -169,10 +171,10 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
 
           {/* Economic Section */}
           <div className="space-y-4">
-            <h4 className="text-xs font-bold text-blue-500 uppercase tracking-wide">Economic Profile</h4>
+            <h4 className="text-xs font-bold text-blue-500 uppercase tracking-wide">{t.household.economicProfile}</h4>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs text-slate-400 mb-1">House Type</label>
+                <label className="block text-xs text-slate-400 mb-1">{t.household.houseType}</label>
                 <div className="flex gap-2">
                   {(['Kutcha', 'Pucca', 'Mixed'] as HouseType[]).map(type => (
                     <button
@@ -191,7 +193,7 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
                 </div>
               </div>
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Economic Marker</label>
+                <label className="block text-xs text-slate-400 mb-1">{t.household.economicMarker}</label>
                 <select
                   value={formData.economicMarker}
                   onChange={(e) => setFormData({ ...formData, economicMarker: e.target.value as EconomicMarker })}
@@ -208,26 +210,26 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
 
           {/* Location Section */}
           <div className="space-y-4">
-            <h4 className="text-xs font-bold text-green-500 uppercase tracking-wide">Location</h4>
+            <h4 className="text-xs font-bold text-green-500 uppercase tracking-wide">{t.household.location}</h4>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs text-slate-400 mb-1">House Number</label>
+                <label className="block text-xs text-slate-400 mb-1">{t.household.houseNumber}</label>
                 <input
                   type="text"
                   value={formData.houseNumber}
                   onChange={(e) => setFormData({ ...formData, houseNumber: e.target.value })}
                   className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
-                  placeholder="e.g., 45, 12A"
+                  placeholder={t.household.houseNumberPlaceholder}
                 />
               </div>
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Landmark</label>
+                <label className="block text-xs text-slate-400 mb-1">{t.household.landmark}</label>
                 <input
                   type="text"
                   value={formData.landmark}
                   onChange={(e) => setFormData({ ...formData, landmark: e.target.value })}
                   className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
-                  placeholder="Near temple, behind school"
+                  placeholder={t.household.landmarkPlaceholder}
                 />
               </div>
             </div>
@@ -235,10 +237,10 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
 
           {/* Political Section */}
           <div className="space-y-4">
-            <h4 className="text-xs font-bold text-red-500 uppercase tracking-wide">Political Intelligence</h4>
+            <h4 className="text-xs font-bold text-red-500 uppercase tracking-wide">{t.household.politicalIntelligence}</h4>
 
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Family Sentiment</label>
+              <label className="block text-xs text-slate-400 mb-1">{t.household.familySentiment}</label>
               <div className="flex gap-2">
                 {(['Favorable', 'Dicey', 'Unfavorable'] as FamilySentiment[]).map(sentiment => (
                   <button
@@ -260,7 +262,7 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Influence Level (0-5)</label>
+              <label className="block text-xs text-slate-400 mb-1">{t.household.influenceLevel}</label>
               <div className="flex gap-2">
                 {[0, 1, 2, 3, 4, 5].map(level => (
                   <button
@@ -280,12 +282,12 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Historical Notes (Rivalries, etc.)</label>
+              <label className="block text-xs text-slate-400 mb-1">{t.household.historicalNotes}</label>
               <textarea
                 value={formData.historicalRivalryNotes}
                 onChange={(e) => setFormData({ ...formData, historicalRivalryNotes: e.target.value })}
                 className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500 h-20 resize-none"
-                placeholder="Any past disputes, family rivalries, or sensitive information..."
+                placeholder={t.household.historicalNotesPlaceholder}
               />
             </div>
           </div>
@@ -300,7 +302,7 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
             className="flex-1 px-4 py-3 min-h-[44px] bg-slate-700 text-slate-300 rounded-xl hover:bg-slate-600 active:bg-slate-500 transition-colors font-medium"
             disabled={isSaving}
           >
-            Cancel
+            {t.common.cancel}
           </button>
           <button
             type="button"
@@ -308,7 +310,7 @@ const HouseholdModal: React.FC<HouseholdModalProps> = ({
             className="flex-1 px-4 py-3 min-h-[44px] bg-orange-600 text-white rounded-xl hover:bg-orange-700 active:bg-orange-800 transition-colors disabled:opacity-50 font-medium"
             disabled={isSaving}
           >
-            {isSaving ? 'Saving...' : household ? 'Update' : 'Add Household'}
+            {isSaving ? t.household.saving : household ? t.household.updateHousehold : t.household.addHousehold}
           </button>
         </div>
       </div>

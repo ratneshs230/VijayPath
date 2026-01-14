@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { useLanguage } from '../../src/i18n';
 import { FamilyMetrics, MohallaMetrics } from '../../src/utils/analyticsTypes';
 
 interface QuickActionCardsProps {
@@ -27,10 +28,12 @@ const QuickActionCards: React.FC<QuickActionCardsProps> = ({
   onViewInfluencers,
   onViewTransport
 }) => {
+  const { t } = useLanguage();
+
   return (
     <div className="bg-slate-800 rounded-2xl p-6">
       <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wide mb-4">
-        Quick Actions
+        {t.dashboard.quickActions}
       </h3>
 
       {/* Action Cards Grid */}
@@ -43,13 +46,13 @@ const QuickActionCards: React.FC<QuickActionCardsProps> = ({
           <div className="flex justify-between items-center">
             <div>
               <div className="text-2xl font-bold text-purple-400">{swingFamiliesCount}</div>
-              <div className="text-sm text-slate-400">Swing Families to Target</div>
+              <div className="text-sm text-slate-400">{t.dashboard.swingFamiliesToTarget}</div>
             </div>
             <div className="text-3xl">🎯</div>
           </div>
           {swingFamiliesCount > 0 && (
             <div className="mt-2 text-xs text-purple-300">
-              Priority outreach needed this week
+              {t.dashboard.priorityOutreach}
             </div>
           )}
         </div>
@@ -62,13 +65,13 @@ const QuickActionCards: React.FC<QuickActionCardsProps> = ({
           <div className="flex justify-between items-center">
             <div>
               <div className="text-2xl font-bold text-orange-400">{unconvertedInfluencersCount}</div>
-              <div className="text-sm text-slate-400">Neutral Influencers</div>
+              <div className="text-sm text-slate-400">{t.dashboard.neutralInfluencers}</div>
             </div>
             <div className="text-3xl">👥</div>
           </div>
           {unconvertedInfluencersCount > 0 && (
             <div className="mt-2 text-xs text-orange-300">
-              Potential vote multipliers if converted
+              {t.dashboard.potentialMultipliers}
             </div>
           )}
         </div>
@@ -81,13 +84,13 @@ const QuickActionCards: React.FC<QuickActionCardsProps> = ({
           <div className="flex justify-between items-center">
             <div>
               <div className="text-2xl font-bold text-blue-400">{transportNeededCount}</div>
-              <div className="text-sm text-slate-400">Need Transport Assistance</div>
+              <div className="text-sm text-slate-400">{t.dashboard.needTransportAssistance}</div>
             </div>
             <div className="text-3xl">🚗</div>
           </div>
           {transportNeededCount > 0 && (
             <div className="mt-2 text-xs text-blue-300">
-              Elderly/sick voters for polling day
+              {t.dashboard.elderlyVoters}
             </div>
           )}
         </div>
@@ -97,7 +100,7 @@ const QuickActionCards: React.FC<QuickActionCardsProps> = ({
       {highSupportLowTurnout.length > 0 && (
         <div className="mb-4">
           <div className="text-xs text-slate-500 uppercase tracking-wide mb-2">
-            GOTV Focus: High Support, Low Turnout
+            {t.dashboard.gotvFocus}
           </div>
           <div className="space-y-2">
             {highSupportLowTurnout.slice(0, 3).map(family => (
@@ -119,7 +122,7 @@ const QuickActionCards: React.FC<QuickActionCardsProps> = ({
       {topSwingMohallas.length > 0 && (
         <div>
           <div className="text-xs text-slate-500 uppercase tracking-wide mb-2">
-            Top Swing Opportunity Areas
+            {t.dashboard.topSwingAreas}
           </div>
           <div className="space-y-2">
             {topSwingMohallas.slice(0, 3).map((mohalla, index) => (
@@ -132,7 +135,7 @@ const QuickActionCards: React.FC<QuickActionCardsProps> = ({
                   <span className="text-sm text-slate-300">{mohalla.mohallaName}</span>
                 </div>
                 <div className="text-xs text-purple-400">
-                  {mohalla.actionableSwing} swing voters
+                  {mohalla.actionableSwing} {t.dashboard.swingVoters}
                 </div>
               </div>
             ))}

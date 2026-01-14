@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { useLanguage } from '../../src/i18n';
 
 interface CoverageMetricsProps {
   totalHouseholds: number;
@@ -24,6 +25,8 @@ const CoverageMetrics: React.FC<CoverageMetricsProps> = ({
   taggingPercent,
   freshnessPercent
 }) => {
+  const { t } = useLanguage();
+
   const getStatusColor = (percent: number): string => {
     if (percent >= 80) return 'text-green-400';
     if (percent >= 50) return 'text-amber-400';
@@ -38,23 +41,23 @@ const CoverageMetrics: React.FC<CoverageMetricsProps> = ({
 
   const metrics = [
     {
-      label: 'Survey Coverage',
+      label: t.dashboard.surveyCoverage,
       value: `${coveragePercent}%`,
-      detail: `${surveyedHouseholds} / ${totalHouseholds} families`,
+      detail: `${surveyedHouseholds} / ${totalHouseholds} ${t.dashboard.families}`,
       percent: coveragePercent,
       icon: '🏠'
     },
     {
-      label: 'Voter Tagging',
+      label: t.dashboard.voterTagging,
       value: `${taggingPercent}%`,
-      detail: `${taggedVoters} / ${totalVoters} voters tagged`,
+      detail: `${taggedVoters} / ${totalVoters} ${t.dashboard.votersTagged}`,
       percent: taggingPercent,
       icon: '🏷️'
     },
     {
-      label: 'Data Freshness',
+      label: t.dashboard.dataFreshness,
       value: `${freshnessPercent}%`,
-      detail: 'Updated in last 14 days',
+      detail: t.dashboard.updatedRecently,
       percent: freshnessPercent,
       icon: '📅'
     }
@@ -66,7 +69,7 @@ const CoverageMetrics: React.FC<CoverageMetricsProps> = ({
     <div className="bg-slate-800 rounded-2xl p-6">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wide">
-          Coverage & Data Quality
+          {t.dashboard.coverageQuality}
         </h3>
         <div className={`text-lg font-bold ${getStatusColor(overallScore)}`}>
           {overallScore}%
@@ -76,8 +79,8 @@ const CoverageMetrics: React.FC<CoverageMetricsProps> = ({
       {/* Overall Score Indicator */}
       <div className="mb-6">
         <div className="flex justify-between text-xs text-slate-500 mb-1">
-          <span>Overall Data Quality</span>
-          <span>{overallScore >= 80 ? 'Good' : overallScore >= 50 ? 'Needs Work' : 'Critical'}</span>
+          <span>{t.dashboard.overallDataQuality}</span>
+          <span>{overallScore >= 80 ? t.dashboard.good : overallScore >= 50 ? t.dashboard.needsWork : t.status.critical}</span>
         </div>
         <div className="h-3 bg-slate-700 rounded-full overflow-hidden">
           <div
@@ -116,7 +119,7 @@ const CoverageMetrics: React.FC<CoverageMetricsProps> = ({
         <div className="mt-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
           <div className="flex items-center gap-2 text-sm text-red-400">
             <span>⚠️</span>
-            <span>Survey coverage is low. Prioritize door-to-door data collection.</span>
+            <span>{t.dashboard.lowCoverageWarning}</span>
           </div>
         </div>
       )}

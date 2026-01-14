@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { useLanguage } from '../../src/i18n';
 import { RiskAlert, FamilyMetrics, MohallaMetrics } from '../../src/utils/analyticsTypes';
 
 interface DangerPocketsProps {
@@ -37,6 +38,7 @@ const DangerPockets: React.FC<DangerPocketsProps> = ({
   underSurveyedMohallas,
   onAlertClick
 }) => {
+  const { t } = useLanguage();
   const hasAlerts = riskAlerts.length > 0 || dangerPockets.length > 0 ||
     weakPockets.length > 0 || underSurveyedMohallas.length > 0;
 
@@ -44,13 +46,13 @@ const DangerPockets: React.FC<DangerPocketsProps> = ({
     return (
       <div className="bg-slate-800 rounded-2xl p-6">
         <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wide mb-4">
-          Risk Alerts
+          {t.dashboard.riskAlerts}
         </h3>
         <div className="text-center py-6">
           <div className="text-4xl mb-2">✅</div>
-          <div className="text-green-400 font-medium">No Critical Alerts</div>
+          <div className="text-green-400 font-medium">{t.dashboard.noCriticalAlerts}</div>
           <div className="text-sm text-slate-500 mt-1">
-            All areas are covered and tracked
+            {t.dashboard.allAreasCovered}
           </div>
         </div>
       </div>
@@ -61,11 +63,11 @@ const DangerPockets: React.FC<DangerPocketsProps> = ({
     <div className="bg-slate-800 rounded-2xl p-6">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wide">
-          Risk Alerts
+          {t.dashboard.riskAlerts}
         </h3>
         {riskAlerts.filter(a => a.severity === 'high').length > 0 && (
           <span className="px-2 py-1 bg-red-500/20 text-red-400 text-xs rounded-full font-medium">
-            {riskAlerts.filter(a => a.severity === 'high').length} Critical
+            {riskAlerts.filter(a => a.severity === 'high').length} {t.status.critical}
           </span>
         )}
       </div>
@@ -98,20 +100,20 @@ const DangerPockets: React.FC<DangerPocketsProps> = ({
           <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-red-400">
-                🔴 Danger Pockets
+                🔴 {t.dashboard.dangerPockets}
               </span>
-              <span className="text-xs text-red-300">{dangerPockets.length} families</span>
+              <span className="text-xs text-red-300">{dangerPockets.length} {t.dashboard.families}</span>
             </div>
             <div className="space-y-1">
               {dangerPockets.slice(0, 3).map(family => (
                 <div key={family.householdId} className="text-xs text-slate-400 flex justify-between">
                   <span>{family.headName}</span>
-                  <span className="text-red-400">Influence: {family.familyInfluenceLevel}★</span>
+                  <span className="text-red-400">{t.dashboard.influence}: {family.familyInfluenceLevel}★</span>
                 </div>
               ))}
               {dangerPockets.length > 3 && (
                 <div className="text-xs text-slate-500">
-                  +{dangerPockets.length - 3} more...
+                  +{dangerPockets.length - 3} {t.dashboard.more}...
                 </div>
               )}
             </div>
@@ -123,15 +125,15 @@ const DangerPockets: React.FC<DangerPocketsProps> = ({
           <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-amber-400">
-                📋 Under-surveyed Areas
+                📋 {t.dashboard.underSurveyed}
               </span>
-              <span className="text-xs text-amber-300">{underSurveyedMohallas.length} mohallas</span>
+              <span className="text-xs text-amber-300">{underSurveyedMohallas.length} {t.voterRoll.mohallas}</span>
             </div>
             <div className="space-y-1">
               {underSurveyedMohallas.slice(0, 3).map(mohalla => (
                 <div key={mohalla.mohallaId} className="text-xs text-slate-400 flex justify-between">
                   <span>{mohalla.mohallaName}</span>
-                  <span className="text-amber-400">{Math.round(mohalla.coveragePercent)}% covered</span>
+                  <span className="text-amber-400">{Math.round(mohalla.coveragePercent)}% {t.dashboard.covered}</span>
                 </div>
               ))}
             </div>
@@ -143,13 +145,13 @@ const DangerPockets: React.FC<DangerPocketsProps> = ({
           <div className="p-3 bg-slate-700/50 border border-slate-600 rounded-lg">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-slate-300">
-                ⚠️ Weak Pockets
+                ⚠️ {t.dashboard.weakPockets}
               </span>
-              <span className="text-xs text-slate-400">{weakPockets.length} families</span>
+              <span className="text-xs text-slate-400">{weakPockets.length} {t.dashboard.families}</span>
             </div>
             <div className="text-xs text-slate-500">
               {weakPockets.slice(0, 3).map(f => f.headName).join(', ')}
-              {weakPockets.length > 3 && ` +${weakPockets.length - 3} more`}
+              {weakPockets.length > 3 && ` +${weakPockets.length - 3} ${t.dashboard.more}`}
             </div>
           </div>
         )}
@@ -159,7 +161,7 @@ const DangerPockets: React.FC<DangerPocketsProps> = ({
       {riskAlerts.length > 5 && (
         <div className="mt-4 text-center">
           <button className="text-sm text-orange-400 hover:text-orange-300 transition-colors">
-            View all {riskAlerts.length} alerts →
+            {t.dashboard.viewAllAlerts} {riskAlerts.length} →
           </button>
         </div>
       )}

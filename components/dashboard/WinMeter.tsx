@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { useLanguage } from '../../src/i18n';
 import { WinProbabilityBand } from '../../src/utils/analyticsTypes';
 
 interface WinMeterProps {
@@ -50,6 +51,7 @@ const WinMeter: React.FC<WinMeterProps> = ({
   voteSharePercent,
   daysToElection
 }) => {
+  const { t } = useLanguage();
   // Calculate rotation for gauge needle (0% = -90deg, 100% = 90deg)
   const needleRotation = -90 + (probabilityPercent / 100) * 180;
 
@@ -62,14 +64,14 @@ const WinMeter: React.FC<WinMeterProps> = ({
         {/* Header */}
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wide">Win Probability</h3>
+            <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wide">{t.dashboard.winProbability}</h3>
             <div className={`text-4xl font-bold ${getBandColor(probabilityBand)} mt-1`}>
               {probabilityPercent}%
             </div>
           </div>
           {daysToElection !== undefined && (
             <div className="text-right">
-              <div className="text-xs text-slate-500">Days to Election</div>
+              <div className="text-xs text-slate-500">{t.dashboard.daysToElection}</div>
               <div className="text-2xl font-bold text-white">{daysToElection}</div>
             </div>
           )}
@@ -165,24 +167,24 @@ const WinMeter: React.FC<WinMeterProps> = ({
         <div className="grid grid-cols-3 gap-4">
           <div className="text-center p-3 bg-slate-700/50 rounded-xl">
             <div className="text-2xl font-bold text-white">{expectedVotes.toLocaleString()}</div>
-            <div className="text-xs text-slate-400">Expected Votes</div>
+            <div className="text-xs text-slate-400">{t.dashboard.expectedVotes}</div>
           </div>
           <div className="text-center p-3 bg-slate-700/50 rounded-xl">
             <div className="text-2xl font-bold text-white">{totalPresentVoters.toLocaleString()}</div>
-            <div className="text-xs text-slate-400">Present Voters</div>
+            <div className="text-xs text-slate-400">{t.dashboard.presentVoters}</div>
           </div>
           <div className="text-center p-3 bg-slate-700/50 rounded-xl">
             <div className="text-2xl font-bold text-white">{voteSharePercent}%</div>
-            <div className="text-xs text-slate-400">Vote Share</div>
+            <div className="text-xs text-slate-400">{t.dashboard.voteShare}</div>
           </div>
         </div>
 
         {/* Band Legend */}
         <div className="mt-4 flex justify-center gap-4 text-xs text-slate-500">
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500"></span> Critical</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-500"></span> Competitive</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> Comfortable</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500"></span> Strong</span>
+          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500"></span> {t.status.critical}</span>
+          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-500"></span> {t.status.competitive}</span>
+          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> {t.status.comfortable}</span>
+          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500"></span> {t.status.strong}</span>
         </div>
       </div>
     </div>

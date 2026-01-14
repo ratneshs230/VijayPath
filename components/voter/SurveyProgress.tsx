@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../../src/i18n';
 import { Mohalla, Household } from '../../types';
 
 interface SurveyProgressProps {
@@ -14,6 +15,7 @@ const SurveyProgress: React.FC<SurveyProgressProps> = ({
   currentMohallaId,
   currentHouseholdId
 }) => {
+  const { t } = useLanguage();
   // Calculate overall progress
   const totalHouseholds = households.length;
   const surveyedHouseholds = households.filter(h => h.surveyedAt).length;
@@ -47,9 +49,9 @@ const SurveyProgress: React.FC<SurveyProgressProps> = ({
       {/* Overall Progress */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-bold text-white">Survey Progress</span>
+          <span className="text-sm font-bold text-white">{t.survey.surveyProgress}</span>
           <span className="text-sm text-slate-400">
-            {surveyedHouseholds}/{totalHouseholds} families
+            {surveyedHouseholds}/{totalHouseholds} {t.dashboard.families}
           </span>
         </div>
         <div className="h-3 bg-slate-700 rounded-full overflow-hidden">
@@ -59,9 +61,9 @@ const SurveyProgress: React.FC<SurveyProgressProps> = ({
           />
         </div>
         <div className="flex items-center justify-between mt-1">
-          <span className="text-xs text-slate-500">{overallProgress}% complete</span>
+          <span className="text-xs text-slate-500">{overallProgress}% {t.survey.complete}</span>
           <span className="text-xs text-slate-500">
-            {totalHouseholds - surveyedHouseholds} remaining
+            {totalHouseholds - surveyedHouseholds} {t.survey.remaining}
           </span>
         </div>
       </div>
@@ -70,21 +72,21 @@ const SurveyProgress: React.FC<SurveyProgressProps> = ({
       <div className="grid grid-cols-3 gap-2">
         <div className="bg-green-500/10 rounded-lg p-2 text-center">
           <div className="text-lg font-bold text-green-400">{sentimentCounts.favorable}</div>
-          <div className="text-[10px] text-green-400/70 uppercase">Favorable</div>
+          <div className="text-[10px] text-green-400/70 uppercase">{t.dashboard.favorable}</div>
         </div>
         <div className="bg-amber-500/10 rounded-lg p-2 text-center">
           <div className="text-lg font-bold text-amber-400">{sentimentCounts.dicey}</div>
-          <div className="text-[10px] text-amber-400/70 uppercase">Dicey</div>
+          <div className="text-[10px] text-amber-400/70 uppercase">{t.dashboard.dicey}</div>
         </div>
         <div className="bg-red-500/10 rounded-lg p-2 text-center">
           <div className="text-lg font-bold text-red-400">{sentimentCounts.unfavorable}</div>
-          <div className="text-[10px] text-red-400/70 uppercase">Unfavorable</div>
+          <div className="text-[10px] text-red-400/70 uppercase">{t.dashboard.unfavorable}</div>
         </div>
       </div>
 
       {/* Mohalla Progress List */}
       <div className="space-y-2">
-        <div className="text-xs font-bold text-slate-400 uppercase tracking-wide">By Mohalla</div>
+        <div className="text-xs font-bold text-slate-400 uppercase tracking-wide">{t.survey.byMohalla}</div>
         {mohallaProgress.map(({ mohalla, surveyed, total, progress, isComplete }) => (
           <div
             key={mohalla.id}
@@ -123,13 +125,13 @@ const SurveyProgress: React.FC<SurveyProgressProps> = ({
       <div className="pt-2 border-t border-slate-700">
         <div className="grid grid-cols-2 gap-2 text-xs">
           <div className="flex justify-between text-slate-400">
-            <span>Total Voters:</span>
+            <span>{t.dashboard.totalVoters}:</span>
             <span className="text-white font-bold">
               {households.reduce((sum, h) => sum + h.totalVoters, 0)}
             </span>
           </div>
           <div className="flex justify-between text-slate-400">
-            <span>Avg/Family:</span>
+            <span>{t.survey.avgPerFamily}:</span>
             <span className="text-white font-bold">
               {totalHouseholds > 0
                 ? (households.reduce((sum, h) => sum + h.totalVoters, 0) / totalHouseholds).toFixed(1)

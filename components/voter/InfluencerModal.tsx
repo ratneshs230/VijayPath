@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '../../src/i18n';
 import { Influencer, InfluencerType, InfluencerStance, Mohalla } from '../../types';
 
 interface InfluencerModalProps {
@@ -33,6 +34,7 @@ const InfluencerModal: React.FC<InfluencerModalProps> = ({
   mohallas,
   isSaving
 }) => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState<Partial<Influencer>>({
     name: '',
     influencerType: 'Family Head',
@@ -105,7 +107,7 @@ const InfluencerModal: React.FC<InfluencerModalProps> = ({
         {/* Sticky Header */}
         <div className="px-4 sm:px-6 py-4 border-b border-slate-700 flex justify-between items-center flex-shrink-0">
           <h3 className="text-lg sm:text-xl font-bold text-white">
-            {influencer ? 'Edit Influencer' : 'Add Influencer'}
+            {influencer ? t.influencer.editInfluencer : t.influencer.addInfluencer}
           </h3>
           <button
             onClick={onClose}
@@ -120,20 +122,20 @@ const InfluencerModal: React.FC<InfluencerModalProps> = ({
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
           {/* Name */}
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Name *</label>
+            <label className="block text-xs text-slate-400 mb-1">{t.common.name} *</label>
             <input
               type="text"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
-              placeholder="Influencer name"
+              placeholder={t.common.name}
               required
             />
           </div>
 
           {/* Type */}
           <div>
-            <label className="block text-xs text-slate-400 mb-2">Type *</label>
+            <label className="block text-xs text-slate-400 mb-2">{t.common.type} *</label>
             <div className="grid grid-cols-2 gap-2">
               {influencerTypes.map(type => (
                 <button
@@ -154,19 +156,19 @@ const InfluencerModal: React.FC<InfluencerModalProps> = ({
 
           {/* Sub-type */}
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Sub-type (optional)</label>
+            <label className="block text-xs text-slate-400 mb-1">{t.influencer.subType} ({t.common.optional})</label>
             <input
               type="text"
               value={formData.subType}
               onChange={(e) => setFormData({ ...formData, subType: e.target.value })}
               className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
-              placeholder="e.g., Hanuman Mandir Priest, BDC Member"
+              placeholder={t.influencer.subTypePlaceholder}
             />
           </div>
 
           {/* Stance */}
           <div>
-            <label className="block text-xs text-slate-400 mb-2">Current Stance</label>
+            <label className="block text-xs text-slate-400 mb-2">{t.influencer.currentStance}</label>
             <div className="flex gap-2">
               {stances.map(stance => (
                 <button
@@ -203,14 +205,14 @@ const InfluencerModal: React.FC<InfluencerModalProps> = ({
                   }`}
                 />
               </div>
-              <span className="text-sm text-slate-300">Can be converted/influenced</span>
+              <span className="text-sm text-slate-300">{t.influencer.canBeConverted}</span>
             </label>
           </div>
 
           {/* Estimated Vote Control */}
           <div>
             <label className="block text-xs text-slate-400 mb-1">
-              Estimated Voters Influenced
+              {t.influencer.estimatedControl}
             </label>
             <input
               type="number"
@@ -224,7 +226,7 @@ const InfluencerModal: React.FC<InfluencerModalProps> = ({
 
           {/* Mohallas */}
           <div>
-            <label className="block text-xs text-slate-400 mb-2">Active in Mohallas</label>
+            <label className="block text-xs text-slate-400 mb-2">{t.influencer.activeInMohallas}</label>
             <div className="flex flex-wrap gap-2">
               {mohallas.map(mohalla => (
                 <button
@@ -245,24 +247,24 @@ const InfluencerModal: React.FC<InfluencerModalProps> = ({
 
           {/* Mobile */}
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Mobile (optional)</label>
+            <label className="block text-xs text-slate-400 mb-1">{t.voter.mobile} ({t.common.optional})</label>
             <input
               type="tel"
               value={formData.mobile}
               onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
               className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
-              placeholder="10-digit mobile"
+              placeholder={t.voter.mobilePlaceholder}
             />
           </div>
 
           {/* Notes */}
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Notes</label>
+            <label className="block text-xs text-slate-400 mb-1">{t.common.notes}</label>
             <textarea
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-orange-500 h-20 resize-none"
-              placeholder="Any additional notes about this influencer..."
+              placeholder={t.voter.notesPlaceholder}
             />
           </div>
         </form>
@@ -275,14 +277,14 @@ const InfluencerModal: React.FC<InfluencerModalProps> = ({
             className="flex-1 px-4 py-3 min-h-[44px] bg-slate-700 text-slate-300 rounded-xl hover:bg-slate-600 active:bg-slate-500 transition-colors font-medium"
             disabled={isSaving}
           >
-            Cancel
+            {t.common.cancel}
           </button>
           <button
             onClick={handleSubmit}
             className="flex-1 px-4 py-3 min-h-[44px] bg-orange-600 text-white rounded-xl hover:bg-orange-700 active:bg-orange-800 transition-colors disabled:opacity-50 font-medium"
             disabled={isSaving || !formData.name}
           >
-            {isSaving ? 'Saving...' : influencer ? 'Update' : 'Add Influencer'}
+            {isSaving ? t.household.saving : influencer ? t.common.update : t.influencer.addInfluencer}
           </button>
         </div>
       </div>

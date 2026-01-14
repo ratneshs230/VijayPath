@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../../src/i18n';
 import { Household, EnhancedVoter, FamilySentiment } from '../../types';
 
 interface HouseholdCardProps {
@@ -50,6 +51,7 @@ const HouseholdCard: React.FC<HouseholdCardProps> = ({
   isExpanded = true,
   onToggleExpand
 }) => {
+  const { t } = useLanguage();
   const presentVoters = voters.filter(v => v.isPresent);
   const awayVoters = voters.filter(v => !v.isPresent);
 
@@ -64,7 +66,7 @@ const HouseholdCard: React.FC<HouseholdCardProps> = ({
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               <span className="font-bold text-white">
-                {household.headName || 'Unknown Head'}
+                {household.headName || t.dashboard.unknown}
               </span>
               <span className="text-xs text-slate-400">
                 ({household.caste}-{household.category})
@@ -190,7 +192,7 @@ const HouseholdCard: React.FC<HouseholdCardProps> = ({
               onClick={() => onAddVoter(household.id)}
               className="p-2 rounded-lg border-2 border-dashed border-slate-600 hover:border-orange-500 cursor-pointer transition-colors flex items-center justify-center min-h-[52px]"
             >
-              <span className="text-slate-500 hover:text-orange-400 text-sm">+ Add</span>
+              <span className="text-slate-500 hover:text-orange-400 text-sm">+ {t.common.add}</span>
             </div>
           </div>
 
@@ -208,14 +210,14 @@ const HouseholdCard: React.FC<HouseholdCardProps> = ({
                   onClick={(e) => { e.stopPropagation(); onDeleteHousehold(household); }}
                   className="text-xs text-red-400 hover:text-red-300 transition-colors"
                 >
-                  Delete
+                  {t.common.delete}
                 </button>
               )}
               <button
                 onClick={(e) => { e.stopPropagation(); onEditHousehold(household); }}
                 className="text-xs text-slate-400 hover:text-orange-400 transition-colors"
               >
-                Edit Family
+                {t.common.edit}
               </button>
             </div>
           </div>
